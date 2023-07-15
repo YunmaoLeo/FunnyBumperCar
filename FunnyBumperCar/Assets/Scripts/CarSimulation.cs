@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 
 public class CarSimulation : MonoBehaviour
 {
     [SerializeField] private Transform wheelConnectionTransform;
     [SerializeField] private Transform wheelsTransform;
     [SerializeField] private float wheelRadius = 1f;
+    [SerializeField] private float wheelWidth = 0.25f;
     [SerializeField] private float springStrength = 1200f;
     [SerializeField] private float springDamping = 200f;
     [SerializeField] private float suspensionRestDist = 1.2f;
@@ -20,9 +20,12 @@ public class CarSimulation : MonoBehaviour
     [SerializeField] [Range(0f,1f)]private float tireGripFactor = 0.7f;
     [SerializeField] private float tireMass = 100f;
     [SerializeField] [Range(0.01f, 1f)]private float raycastPrecision = 0.1f;
+    [SerializeField] [Range(0.1f, 1f)] private float widthRaycastPrecision = 0.2f;
     [SerializeField] [Range(0.1f, 1f)] private float frictionCoefficient = 0.1f;
     [SerializeField] private float engineTorque = 100f;
     [SerializeField] private float brakeForce = 50f;
+
+    [SerializeField] private bool drawRaycastDebugLine = true;
     
     private Rigidbody carRigidbody;
     private BoxCollider carFrameCollider;
@@ -67,37 +70,57 @@ public class CarSimulation : MonoBehaviour
             float minRayCastDistance = Single.MaxValue;
             bool raycastResult = false;
             RaycastHit raycastHit;
-            for (float i = 0; i < 1; i+= raycastPrecision)
+            for (float i = 0; i <= 1; i+= raycastPrecision)
             {
-                var rayOrigin = origin + wheelConnectTransform.forward * ((i - 0.5f) * 2 * wheelRadius);
-                var rayDirection = direction;
-                var rayRadius = Math.Sqrt(Math.Pow(wheelRadius, 2f) -
-                                          Math.Pow((i - 0.5f) * 2 * wheelRadius, 2));
-                var rayMaxDistance = springMaxLength + rayRadius;
-
-                var unitRayResult = Physics.Raycast(rayOrigin, rayDirection, out raycastHit, (float)rayMaxDistance);
-                Debug.DrawLine(rayOrigin, rayOrigin + direction * (float)rayMaxDistance, Color.green);
-                if (unitRayResult)
+                for (float k = 0; k<=1; k+=widthRaycastPrecision)
                 {
-                    var defaultColor = Color.red;
-                    if (raycastHit.distance - rayRadius < springMinLength)
+                    
+                    var rayOrigin = origin + wheelConnectTransform.forward * ((i - 0.5f) * 2 * wheelRadius) + wheelConnectTransform.right * ((k-0.5f) * wheelWidth);
+                    var rayDirection = direction;
+                    var rayRadius = Math.Sqrt(Math.Pow(wheelRadius, 2f) -
+                                              Math.Pow((i - 0.5f) * 2 * wheelRadius, 2));
+                    var rayMaxDistance = springMaxLength + rayRadius;
+
+                    var unitRayResult = Physics.Raycast(rayOrigin, rayDirection, out raycastHit, (float)rayMaxDistance);
+                    if (drawRaycastDebugLine)
                     {
-                        defaultColor = Color.yellow;
+                        Debug.DrawLine(rayOrigin, rayOrigin + direction * (float)rayMaxDistance, Color.green);
                     }
-                    float rayPointOffset = (float)Math.Max(raycastHit.distance - rayRadius, springMinLength);
-                    if (minRayCastDistance > rayPointOffset)
+
+                    if (unitRayResult)
                     {
-                        minRayCastDistance = rayPointOffset;
+                        var defaultColor = Color.red;
+                        if (raycastHit.distance - rayRadius < springMinLength)
+                        {
+                            defaultColor = Color.yellow;
+                        }
+
+                        float rayPointOffset = (float)(raycastHit.distance - rayRadius);
+                        // float rayPointOffset = (float)Math.Max(raycastHit.distance - rayRadius, springMinLength);
+                        if (minRayCastDistance > rayPointOffset)
+                        {
+                            minRayCastDistance = rayPointOffset;
+                        }
+
+                        if (drawRaycastDebugLine)
+                        {
+                            Debug.DrawLine(rayOrigin, rayOrigin + rayDirection * (raycastHit.distance), defaultColor);
+                        }
+
+                        raycastResult = true;
                     }
-                    Debug.DrawLine(rayOrigin, rayOrigin + rayDirection * (raycastHit.distance), defaultColor);
-                    raycastResult = true;
                 }
+
+
             }
             
             // var raycastResult = Physics.Raycast(origin, direction, out RaycastHit raycastHit, maxDistance);
-            
-            
-            Debug.DrawLine(wheelConnectTransform.position, wheelConnectTransform.position - wheelConnectTransform.up * (minRayCastDistance), Color.blue); 
+
+            if (drawRaycastDebugLine)
+            {
+                Debug.DrawLine(wheelConnectTransform.position, wheelConnectTransform.position - wheelConnectTransform.up * (minRayCastDistance), Color.blue);
+            }
+
             
             Vector3 wheelNewPosition;
             Quaternion newQuaternion;
@@ -129,7 +152,7 @@ public class CarSimulation : MonoBehaviour
 
                 Vector3 wheelPosOffset =
                     // -wheelConnectTransform.up * (Math.Min(minRayCastDistance - wheelRadius, springDefaultLength));
-                    -carRigidbody.transform.up * minRayCastDistance;
+                    -carRigidbody.transform.up * Math.Max(minRayCastDistance, springMinLength);
 
                     wheelNewPosition = connectPointPos +wheelPosOffset;
 
@@ -147,11 +170,11 @@ public class CarSimulation : MonoBehaviour
                 var steeringForce = steeringDirection * (tireMass * desiredAccel);
                 Debug.Log("Add Tire Steering force of " + wheelTransform.name + " with force: " + steeringForce);
                 carRigidbody.AddForceAtPosition(steeringForce, wheelPosition);
-                Debug.DrawLine(wheelPosition, wheelPosition + steeringForce / carRigidbody.mass / 2f, Color.red);
+                Debug.DrawLine(wheelPosition, wheelPosition + steeringForce / carRigidbody.mass, Color.red, 0f, false);
                 
                 if (wheelTransform.CompareTag("CannotSteer"))
                 {
-                    newQuaternion = Quaternion.Euler( new Vector3(0, carRigidbody.rotation.eulerAngles.y, 0));
+                    newQuaternion = Quaternion.Euler( new Vector3(0, carRigidbody.rotation.eulerAngles.y, carRigidbody.rotation.eulerAngles.z));
                     wheelTransform.DORotateQuaternion(newQuaternion, 0.02f);
                 }
                 
@@ -170,10 +193,12 @@ public class CarSimulation : MonoBehaviour
                     {
                         float carSpeed = Vector3.Dot(carRigidbody.transform.forward, carRigidbody.velocity);
                         carRigidbody.AddForceAtPosition(forwardDir * engineTorque, wheelPosition);
+                        Debug.DrawLine(wheelPosition, wheelPosition + forwardDir * engineTorque / carRigidbody.mass / 2f, Color.magenta);
                     }
                     else
                     {
                         carRigidbody.AddForceAtPosition(-forwardDir * brakeForce, wheelPosition);
+                        Debug.DrawLine(wheelPosition, wheelPosition - forwardDir * engineTorque / carRigidbody.mass / 2f, Color.magenta);
                     }
                 }
                 
@@ -182,35 +207,28 @@ public class CarSimulation : MonoBehaviour
                 {
                     int directionControl = wheelForwardVelocity > 0 ? 1 : -1;
                     var frictionForce = Vector3.Dot(suspensionForceOnSpring,Vector3.down) * frictionCoefficient;
-                    carRigidbody.AddForceAtPosition(directionControl * wheelTransform.forward * frictionForce, wheelTransform.position);
+                    carRigidbody.AddForceAtPosition(wheelTransform.forward * (directionControl * frictionForce), wheelTransform.position);
                     Debug.DrawLine(wheelPosition,
                         wheelPosition + wheelTransform.forward * -frictionForce / carRigidbody.mass / 2f, Color.black);
                 }
                 
+                //update wheel position;
+                wheelTransform.position = wheelNewPosition;
+                
             }
             else
             {
-                wheelNewPosition = origin + -transform.up * springDefaultLength;
-                wheelTransform.DORotateQuaternion(carRigidbody.transform.rotation, 0.02f);
+                // wheelNewPosition = origin + -transform.up * springDefaultLength;
+                // wheelTransform.DORotateQuaternion(carRigidbody.transform.rotation, 0.02f);
             }
-
-            //update wheel position;
-            wheelTransform.position = wheelNewPosition;
-            // wheelTransform.position = new Vector3(wheelNewPosition.x, wheelTransform.position.y, wheelNewPosition.z);
-            // wheelTransform.DOMoveY(wheelNewPosition.y, 0.02f);
 
             if (wheelTransform.GetComponent<WheelVisual>())
             {
                 wheelTransform.GetComponent<WheelVisual>().WorldVelocity =
                     Vector3.Dot(carRigidbody.GetPointVelocity(wheelTransform.position), wheelTransform.forward);
             }
-            // //update wheel rotation
 
-            // if (wheelTransform.CompareTag("CannotSteer"))
-            // {
-            //     newQuaternion = Quaternion.Euler( new Vector3(0, carRigidbody.rotation.eulerAngles.y, 0));
-            //     wheelTransform.DORotateQuaternion(newQuaternion, 0.02f);
-            // }
+            carRigidbody.AddForceAtPosition(tireMass * 10f * Vector3.down, wheelConnectTransform.position);
         }
     }
 

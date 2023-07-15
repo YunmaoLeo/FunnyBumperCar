@@ -40,8 +40,8 @@ public class TestingCarMovingController : MonoBehaviour
             if (inputVector.x == 0)
             {
                 Quaternion newQuaternion = Quaternion.Euler(carRigidbodyYawRotationEuler);
-                
-                tire.DORotateQuaternion(newQuaternion, 0.02f);
+                tire.rotation = newQuaternion;
+                // tire.DORotateQuaternion(newQuaternion, 0.02f);
                 // tire.rotation = newQuaternion;
             }
 
