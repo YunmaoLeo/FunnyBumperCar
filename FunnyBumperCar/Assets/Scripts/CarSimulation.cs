@@ -1,48 +1,86 @@
 using System;
 using System.Collections.Generic;
-using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CarSimulation : MonoBehaviour
 {
-    [SerializeField] private Transform wheelConnectionTransform;
-    [SerializeField] private Transform wheelsTransform;
-    [SerializeField] private float wheelRadius = 1f;
-    [SerializeField] private float wheelWidth = 0.25f;
-    [SerializeField] private float springStrength = 1200f;
-    [SerializeField] private float springDamping = 200f;
-    [SerializeField] private float suspensionRestDist = 1.2f;
-    [SerializeField] private float springDefaultLength = 1f;
-    [SerializeField] private float springMaxLength = 1.5f;
-    [SerializeField] private float springMinLength = 0.5f;
     [SerializeField] private float fixedDeltaTime = 0.005f;
+    
+    [SerializeField] private float maxEngineVelocity;
+    [SerializeField] private float maxEngineVelocityCoefficient = 5f;
+    [SerializeField] private float engineMaxTorque = 100f;
 
-    [SerializeField] [Range(0f,1f)]private float tireGripFactor = 0.7f;
-    [SerializeField] private float tireMass = 100f;
-    [SerializeField] [Range(0.01f, 1f)]private float raycastPrecision = 0.1f;
-    [SerializeField] [Range(0.1f, 1f)] private float widthRaycastPrecision = 0.2f;
-    [SerializeField] [Range(0.1f, 1f)] private float frictionCoefficient = 0.1f;
-    [SerializeField] private float engineTorque = 100f;
-    [SerializeField] private float brakeForce = 50f;
+    [SerializeField] private TireDriveMode tireDriveMode;
+    [SerializeField] private TireSteerMode tireSteerMode;
 
-    [SerializeField] private bool drawRaycastDebugLine = true;
+    [SerializeField] private float steerRotateTime = 0.2f;
+    [SerializeField] private AnimationCurve engineTorqueCurve;
+
+    [SerializeField] public Transform FrontLeftTire;
+    [SerializeField] public Transform FrontRightTire;
+    [SerializeField] public Transform BackLeftTire;
+    [SerializeField] public Transform BackRightTire;
+
+    [SerializeField] public Transform FrontLeftTireConnectionPoint;
+    [SerializeField] public Transform FrontRightTireConnectionPoint;
+    [SerializeField] public Transform BackLeftTireConnectionPoint;
+    [SerializeField] public Transform BackRightTireConnectionPoint;
+
+    private Dictionary<TireLocation, Transform> tireConnectPointsMap = new Dictionary<TireLocation, Transform>();
+    private Dictionary<TireLocation, TirePhysics> tiresMap = new Dictionary<TireLocation, TirePhysics>();
+    private Dictionary<TireLocation, bool> tiresAbleToSteerMap = new Dictionary<TireLocation, bool>();
+    private Dictionary<TireLocation, bool> tiresAbleToDriveMap = new Dictionary<TireLocation, bool>();
+
+    private float totalTireMass;
     
     private Rigidbody carRigidbody;
-    private BoxCollider carFrameCollider;
-    private List<Transform> wheelConnectTransforms = new List<Transform>();
-    private List<Transform> wheelTransforms = new List<Transform>();
-    
+
     private GameInputActions gameInputActions;
 
     private Vector3 carFrameSize;
 
+    [Serializable]
+    public enum TireDriveMode
+    {
+        FrontDrive,
+        RearDrive,
+        FourDrive
+    }
+
+    [Serializable]
+    public enum TireSteerMode
+    {
+        FrontSteer,
+        RearSteer,
+        FourSteer
+    }
+
+    [Serializable]
+    public enum TireLocation
+    {
+        FrontLeft = 0,
+        FrontRight = 1,
+        BackLeft = 2,
+        BackRight = 3
+    }
+
+    private void OnEnable()
+    {
+        InitializeTires();
+        maxEngineVelocity = engineMaxTorque / (carRigidbody.mass + totalTireMass) * maxEngineVelocityCoefficient;
+    }
+
     private void Awake()
     {
-        carFrameCollider = GetComponent<BoxCollider>();
-        carRigidbody = GetComponent<Rigidbody>(); 
+        carRigidbody = GetComponent<Rigidbody>();
         gameInputActions = new GameInputActions();
         gameInputActions.Player.Enable();
-        AssignWheelTransformsToArray();
+
+        InitializeTires();
+
+        //precompute max engine velocity
+        maxEngineVelocity = engineMaxTorque / (carRigidbody.mass + totalTireMass) * maxEngineVelocityCoefficient;
     }
 
     private void Update()
@@ -52,195 +90,89 @@ public class CarSimulation : MonoBehaviour
     private void FixedUpdate()
     {
         Time.fixedDeltaTime = fixedDeltaTime;
-        HandleWheelsSuspensionForce();
+        CarTireSimulation();
     }
 
-    private void HandleWheelsSuspensionForce()
+    private void CarTireSimulation()
     {
-        for (int index = 0; index < wheelConnectTransforms.Count; index++)
+        Vector2 inputVector = gameInputActions.Player.Move.ReadValue<Vector2>();
+        for (int i = (int)TireLocation.FrontLeft; i <= (int)TireLocation.BackRight; i++)
         {
-            var wheelConnectTransform = wheelConnectTransforms[index];
-            var wheelTransform = wheelTransforms[index];
-            var wheelPosition = wheelTransform.position;
-            //raycast to detect a support ground or object
-            var origin = wheelConnectTransform.position;
-            var direction = -wheelConnectTransform.up;
-            var maxDistance = springMaxLength + wheelRadius;
+            TireLocation tireLocation = (TireLocation)i;
+
+            var tirePhysicsComponent = tiresMap[tireLocation];
+            var tireConnectPoint = tireConnectPointsMap[tireLocation];
+            var ableToDrive = tiresAbleToDriveMap[tireLocation];
+            var ableToSteer = tiresAbleToSteerMap[tireLocation];
+
+            bool isAssistSteerTire = tireLocation == TireLocation.BackLeft || tireLocation == TireLocation.BackRight;
+
+            bool raycastResult = tirePhysicsComponent.SteerRaycast(tireConnectPoint, out float minRaycastDistance);
+
+            tirePhysicsComponent.HandleTireVisual(carRigidbody);
             
-            float minRayCastDistance = Single.MaxValue;
-            bool raycastResult = false;
-            RaycastHit raycastHit;
-            for (float i = 0; i <= 1; i+= raycastPrecision)
+            if (ableToSteer)
             {
-                for (float k = 0; k<=1; k+=widthRaycastPrecision)
-                {
-                    
-                    var rayOrigin = origin + wheelConnectTransform.forward * ((i - 0.5f) * 2 * wheelRadius) + wheelConnectTransform.right * ((k-0.5f) * wheelWidth);
-                    var rayDirection = direction;
-                    var rayRadius = Math.Sqrt(Math.Pow(wheelRadius, 2f) -
-                                              Math.Pow((i - 0.5f) * 2 * wheelRadius, 2));
-                    var rayMaxDistance = springMaxLength + rayRadius;
-
-                    var unitRayResult = Physics.Raycast(rayOrigin, rayDirection, out raycastHit, (float)rayMaxDistance);
-                    if (drawRaycastDebugLine)
-                    {
-                        Debug.DrawLine(rayOrigin, rayOrigin + direction * (float)rayMaxDistance, Color.green);
-                    }
-
-                    if (unitRayResult)
-                    {
-                        var defaultColor = Color.red;
-                        if (raycastHit.distance - rayRadius < springMinLength)
-                        {
-                            defaultColor = Color.yellow;
-                        }
-
-                        float rayPointOffset = (float)(raycastHit.distance - rayRadius);
-                        // float rayPointOffset = (float)Math.Max(raycastHit.distance - rayRadius, springMinLength);
-                        if (minRayCastDistance > rayPointOffset)
-                        {
-                            minRayCastDistance = rayPointOffset;
-                        }
-
-                        if (drawRaycastDebugLine)
-                        {
-                            Debug.DrawLine(rayOrigin, rayOrigin + rayDirection * (raycastHit.distance), defaultColor);
-                        }
-
-                        raycastResult = true;
-                    }
-                }
-
-
+                tirePhysicsComponent.SteerTireRotation(inputVector.x, transform, steerRotateTime, isAssistSteerTire);
             }
             
-            // var raycastResult = Physics.Raycast(origin, direction, out RaycastHit raycastHit, maxDistance);
-
-            if (drawRaycastDebugLine)
+            if (!raycastResult)
             {
-                Debug.DrawLine(wheelConnectTransform.position, wheelConnectTransform.position - wheelConnectTransform.up * (minRayCastDistance), Color.blue);
+                continue;
             }
 
+            tirePhysicsComponent.SimulateSuspensionSystem(tireConnectPoint, carRigidbody, minRaycastDistance, out Vector3 suspensionForceOnSpring);
             
-            Vector3 wheelNewPosition;
-            Quaternion newQuaternion;
+            tirePhysicsComponent.SimulateSteeringForces(carRigidbody, maxEngineVelocity);
+            
+            tirePhysicsComponent.SimulateFriction(carRigidbody, suspensionForceOnSpring);
 
-            //Suspension Force = (Spring Offset Length * Spring Strength) - (Spring Velocity * Damping阻尼)
-            if (raycastResult)
+            if (ableToDrive)
             {
-                var springDirection = wheelConnectTransform.up;
-                var connectPointPos = wheelConnectTransform.position;
-                var wheelWorldVelocity = carRigidbody.GetPointVelocity(connectPointPos);
-
-                suspensionRestDist = springDefaultLength + wheelRadius;
-
-                float offset = suspensionRestDist - minRayCastDistance;
-                Debug.Log("offset distance:" + offset);
-
-                float springVelocity = Vector3.Dot(springDirection, wheelWorldVelocity);
-
-                float suspensionForce = (offset * springStrength) - (springVelocity * springDamping);
-
-                Debug.Log("Suspension force: " + suspensionForce);
-                Debug.DrawLine(wheelPosition,
-                    wheelPosition + springDirection * suspensionForce / carRigidbody.mass / 2f, Color.blue);
-
-                var suspensionForceOnSpring = springDirection * suspensionForce;
-                carRigidbody.AddForceAtPosition(suspensionForceOnSpring,
-                    wheelTransform.position);
-
-
-                Vector3 wheelPosOffset =
-                    // -wheelConnectTransform.up * (Math.Min(minRayCastDistance - wheelRadius, springDefaultLength));
-                    -carRigidbody.transform.up * Math.Max(minRayCastDistance, springMinLength);
-
-                    wheelNewPosition = connectPointPos +wheelPosOffset;
-
-                Vector3 steeringDirection = wheelTransform.right;
-
-                Vector3 wheelVelocity = carRigidbody.GetPointVelocity(wheelPosition);
-                float wheelForwardVelocity = Vector3.Dot(wheelVelocity, wheelTransform.forward);
-
-                float steeringVelocity = Vector3.Dot(wheelVelocity, steeringDirection);
-
-                float expectedVelChange = -steeringVelocity * tireGripFactor;
-
-                float desiredAccel = expectedVelChange / Time.fixedDeltaTime;
-
-                var steeringForce = steeringDirection * (tireMass * desiredAccel);
-                Debug.Log("Add Tire Steering force of " + wheelTransform.name + " with force: " + steeringForce);
-                carRigidbody.AddForceAtPosition(steeringForce, wheelPosition);
-                Debug.DrawLine(wheelPosition, wheelPosition + steeringForce / carRigidbody.mass, Color.red, 0f, false);
-                
-                if (wheelTransform.CompareTag("CannotSteer"))
-                {
-                    newQuaternion = Quaternion.Euler( new Vector3(0, carRigidbody.rotation.eulerAngles.y, carRigidbody.rotation.eulerAngles.z));
-                    wheelTransform.DORotateQuaternion(newQuaternion, 0.02f);
-                }
-                
-                
-                //handle accelerating and braking
-                Vector2 inputVector = gameInputActions.Player.Move.ReadValue<Vector2>();
-                Debug.Log("inputVectorValue: " + inputVector);
-                if (inputVector.y == 0)
-                {
-                    
-                }
-                else
-                {
-                    Vector3 forwardDir = wheelTransform.forward;
-                    if (inputVector.y > 0)
-                    {
-                        float carSpeed = Vector3.Dot(carRigidbody.transform.forward, carRigidbody.velocity);
-                        carRigidbody.AddForceAtPosition(forwardDir * engineTorque, wheelPosition);
-                        Debug.DrawLine(wheelPosition, wheelPosition + forwardDir * engineTorque / carRigidbody.mass / 2f, Color.magenta);
-                    }
-                    else
-                    {
-                        carRigidbody.AddForceAtPosition(-forwardDir * brakeForce, wheelPosition);
-                        Debug.DrawLine(wheelPosition, wheelPosition - forwardDir * engineTorque / carRigidbody.mass / 2f, Color.magenta);
-                    }
-                }
-                
-                //handle friction
-                if (wheelForwardVelocity != 0f)
-                {
-                    int directionControl = wheelForwardVelocity > 0 ? 1 : -1;
-                    var frictionForce = Vector3.Dot(suspensionForceOnSpring,Vector3.down) * frictionCoefficient;
-                    carRigidbody.AddForceAtPosition(wheelTransform.forward * (directionControl * frictionForce), wheelTransform.position);
-                    Debug.DrawLine(wheelPosition,
-                        wheelPosition + wheelTransform.forward * -frictionForce / carRigidbody.mass / 2f, Color.black);
-                }
-                
-                //update wheel position;
-                wheelTransform.position = wheelNewPosition;
-                
+                float engineTorque = 0f;
+                engineTorque = engineTorqueCurve.Evaluate(Math.Abs(Vector3.Dot(carRigidbody.velocity, carRigidbody.transform.forward) / maxEngineVelocity)) *
+                               engineMaxTorque;
+                tirePhysicsComponent.SimulateAccelerating(inputVector.y, carRigidbody, engineTorque);
             }
-            else
-            {
-                // wheelNewPosition = origin + -transform.up * springDefaultLength;
-                // wheelTransform.DORotateQuaternion(carRigidbody.transform.rotation, 0.02f);
-            }
-
-            if (wheelTransform.GetComponent<WheelVisual>())
-            {
-                wheelTransform.GetComponent<WheelVisual>().WorldVelocity =
-                    Vector3.Dot(carRigidbody.GetPointVelocity(wheelTransform.position), wheelTransform.forward);
-            }
-
-            carRigidbody.AddForceAtPosition(tireMass * 10f * Vector3.down, wheelConnectTransform.position);
         }
     }
 
-    private void AssignWheelTransformsToArray()
+    private void InitializeTires()
     {
-        //initialize _wheels
-        var wheelCount = wheelConnectionTransform.childCount;
+        ClearTireConfigMaps();
 
-        for (int index = 0; index < wheelCount; index++)
+        tiresMap.Add(TireLocation.FrontLeft, FrontLeftTire.GetComponent<TirePhysics>());
+        tiresMap.Add(TireLocation.FrontRight, FrontRightTire.GetComponent<TirePhysics>());
+        tiresMap.Add(TireLocation.BackLeft, BackLeftTire.GetComponent<TirePhysics>());
+        tiresMap.Add(TireLocation.BackRight, BackRightTire.GetComponent<TirePhysics>());
+
+        tireConnectPointsMap.Add(TireLocation.FrontLeft, FrontLeftTireConnectionPoint);
+        tireConnectPointsMap.Add(TireLocation.FrontRight, FrontRightTireConnectionPoint);
+        tireConnectPointsMap.Add(TireLocation.BackLeft, BackLeftTireConnectionPoint);
+        tireConnectPointsMap.Add(TireLocation.BackRight, BackRightTireConnectionPoint);
+
+        tiresAbleToDriveMap.Add(TireLocation.FrontLeft, tireDriveMode != TireDriveMode.RearDrive);
+        tiresAbleToDriveMap.Add(TireLocation.FrontRight, tireDriveMode != TireDriveMode.RearDrive);
+        tiresAbleToDriveMap.Add(TireLocation.BackLeft, tireDriveMode != TireDriveMode.FrontDrive);
+        tiresAbleToDriveMap.Add(TireLocation.BackRight, tireDriveMode != TireDriveMode.FrontDrive);
+
+        tiresAbleToSteerMap.Add(TireLocation.FrontLeft, tireSteerMode != TireSteerMode.RearSteer);
+        tiresAbleToSteerMap.Add(TireLocation.FrontRight, tireSteerMode != TireSteerMode.RearSteer);
+        tiresAbleToSteerMap.Add(TireLocation.BackLeft, tireSteerMode != TireSteerMode.FrontSteer);
+        tiresAbleToSteerMap.Add(TireLocation.BackRight, tireSteerMode != TireSteerMode.FrontSteer);
+
+        totalTireMass = 0f;
+        foreach (var pair in tiresMap)
         {
-            wheelConnectTransforms.Add(wheelConnectionTransform.GetChild(index));
-            wheelTransforms.Add(wheelsTransform.GetChild(index));
+            totalTireMass += pair.Value.Mass;
         }
+    }
+
+    private void ClearTireConfigMaps()
+    {
+        tiresMap.Clear();
+        tireConnectPointsMap.Clear();
+        tiresAbleToDriveMap.Clear();
+        tiresAbleToSteerMap.Clear();
     }
 }

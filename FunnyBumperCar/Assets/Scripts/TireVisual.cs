@@ -4,16 +4,27 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class WheelVisual : MonoBehaviour
+public class TireVisual : MonoBehaviour
 {
     [SerializeField] private float radius = 0.3f;
-    [SerializeField] private Transform wheelMeshTransform;
     private float worldVelocity;
+    private Transform wheelMeshTransform;
+
+    private void Awake()
+    {
+        wheelMeshTransform = transform.GetChild(0);
+    }
 
     public float  WorldVelocity
     {
         get => worldVelocity;
         set => worldVelocity = value;
+    }
+
+    public float Radius
+    {
+        get => radius;
+        set => radius = value;
     }
 
     private void FixedUpdate()
