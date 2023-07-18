@@ -22,6 +22,8 @@ public class CarSimulation : MonoBehaviour
     [SerializeField] public Transform backLeftTirePrefab;
     [SerializeField] public Transform backRightTirePrefab;
 
+    [SerializeField] public Transform CenterOfMass;
+    
     private Transform frontLeftTire;
     private Transform frontRightTire;
     private Transform backLeftTire;
@@ -96,6 +98,8 @@ public class CarSimulation : MonoBehaviour
     private void Awake()
     {
         carRigidbody = GetComponent<Rigidbody>();
+        carRigidbody.centerOfMass = CenterOfMass.localPosition;
+        
         InitializeTires();
         
 
