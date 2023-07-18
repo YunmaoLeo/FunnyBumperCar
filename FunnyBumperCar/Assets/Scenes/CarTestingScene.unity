@@ -282,7 +282,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 284373369}
-  m_LocalRotation: {x: 0.11194889, y: -0.7602798, z: 0.13613015, w: 0.6252286}
+  m_LocalRotation: {x: 0.1119489, y: -0.7602798, z: 0.13613021, w: 0.6252285}
   m_LocalPosition: {x: 4.596668, y: 5.0060005, z: 34.05524}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1365,7 +1365,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 960122604}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 28.21
+    FieldOfView: 10.94
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -1389,7 +1389,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177083877}
-  m_LocalRotation: {x: 0.21581969, y: 0.39047158, z: -0.09469378, w: 0.8899365}
+  m_LocalRotation: {x: 0.21581969, y: 0.39047158, z: -0.09469379, w: 0.8899365}
   m_LocalPosition: {x: -26.060001, y: 21.2, z: 11.069989}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1652,7 +1652,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 28.21
+  field of view: 10.94
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1677,7 +1677,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1720410759}
-  m_LocalRotation: {x: 0.21581969, y: 0.39047158, z: -0.09469378, w: 0.8899365}
+  m_LocalRotation: {x: 0.21581969, y: 0.39047158, z: -0.09469379, w: 0.8899365}
   m_LocalPosition: {x: -26.060001, y: 21.2, z: 11.069989}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2054,6 +2054,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CARRERA_CarFrame
+      objectReference: {fileID: 0}
+    - target: {fileID: 2142469186497459610, guid: 3e311c140b59f3742b55cd28226c0afb,
+        type: 3}
+      propertyPath: maxAngle
+      value: 91
+      objectReference: {fileID: 0}
+    - target: {fileID: 2142469186497459610, guid: 3e311c140b59f3742b55cd28226c0afb,
+        type: 3}
+      propertyPath: forceMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2142469186497459610, guid: 3e311c140b59f3742b55cd28226c0afb,
+        type: 3}
+      propertyPath: dragForceCoefficient
+      value: 0.002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e311c140b59f3742b55cd28226c0afb, type: 3}

@@ -31,6 +31,11 @@ public class CarSimulation : MonoBehaviour
     [SerializeField] public Transform FrontRightTireConnectionPoint;
     [SerializeField] public Transform BackLeftTireConnectionPoint;
     [SerializeField] public Transform BackRightTireConnectionPoint;
+    
+    [SerializeField] private float carFlipOverMaxForceCoefficient = 30f;
+    [SerializeField] private float carFlipOverMinForceCoefficient = 4f;
+    [SerializeField] private float carFlipOverDragAngleLimitation = 120;
+    [SerializeField] private float carFlipOverAngularVelocityLimitation = 1f;
 
     private Dictionary<TireLocation, Transform> tireConnectPointsMap = new Dictionary<TireLocation, Transform>();
     private Dictionary<TireLocation, TirePhysics> tiresMap = new Dictionary<TireLocation, TirePhysics>();
@@ -102,6 +107,7 @@ public class CarSimulation : MonoBehaviour
 
     private void CarTireSimulation()
     {
+        bool NotAllTiresContactToGround = false;
         for (int i = (int)TireLocation.FrontLeft; i <= (int)TireLocation.BackRight; i++)
         {
             TireLocation tireLocation = (TireLocation)i;
@@ -124,6 +130,7 @@ public class CarSimulation : MonoBehaviour
             
             if (!raycastResult)
             {
+                NotAllTiresContactToGround = true;
                 continue;
             }
 
@@ -141,6 +148,45 @@ public class CarSimulation : MonoBehaviour
                 tirePhysicsComponent.SimulateAccelerating(CarDriveSignal, carRigidbody, engineTorque);
             }
         }
+
+        if (NotAllTiresContactToGround)
+        {
+            RecoverCarWhenFlippedOver();
+        }
+    }
+
+    private void RecoverCarWhenFlippedOver()
+    {
+        if (carRigidbody.angularVelocity.magnitude > carFlipOverAngularVelocityLimitation)
+        {
+            return;
+        }
+        var angle = Mathf.Abs(Vector3.Angle(-transform.up, Vector3.up));
+        if (angle < carFlipOverDragAngleLimitation)
+        {
+            var carFlipOverDragForceCoefficient = angle / carFlipOverDragAngleLimitation * carFlipOverMaxForceCoefficient + carFlipOverMinForceCoefficient;
+            Vector3 dragForce = -transform.up * (carRigidbody.mass * carFlipOverDragForceCoefficient);
+            if (TireRotateSignal < 0f)
+            {
+                AddForceAndDrawLine(frontRightTire.transform.position, dragForce, Color.cyan);
+                AddForceAndDrawLine(backRightTire.transform.position, dragForce, Color.cyan);
+                AddForceAndDrawLine(frontLeftTire.transform.position, -dragForce, Color.cyan);
+                AddForceAndDrawLine(backLeftTire.transform.position, -dragForce, Color.cyan);
+            }
+            else if (TireRotateSignal > 0f)
+            {
+                AddForceAndDrawLine(frontLeftTire.transform.position, dragForce, Color.cyan);
+                AddForceAndDrawLine(backLeftTire.transform.position, dragForce, Color.cyan);
+                AddForceAndDrawLine(frontRightTire.transform.position, -dragForce, Color.cyan);
+                AddForceAndDrawLine(backRightTire.transform.position, -dragForce, Color.cyan);
+            }
+        }
+    }
+    private void AddForceAndDrawLine(Vector3 startPoint, Vector3 force, Color color, ForceMode forceMode = ForceMode.Force)
+    {
+        carRigidbody.AddForceAtPosition(force, startPoint, forceMode);
+        Debug.DrawLine(startPoint,
+            startPoint + force / carRigidbody.mass / 2f, color);
     }
 
     private void InitializeTires()
