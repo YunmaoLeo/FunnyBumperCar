@@ -17,10 +17,15 @@ public class CarSimulation : MonoBehaviour
     [SerializeField] private float steerRotateTime = 0.2f;
     [SerializeField] private AnimationCurve engineTorqueCurve;
 
-    [SerializeField] public Transform FrontLeftTire;
-    [SerializeField] public Transform FrontRightTire;
-    [SerializeField] public Transform BackLeftTire;
-    [SerializeField] public Transform BackRightTire;
+    [SerializeField] public Transform frontLeftTirePrefab;
+    [SerializeField] public Transform frontRightTirePrefab;
+    [SerializeField] public Transform backLeftTirePrefab;
+    [SerializeField] public Transform backRightTirePrefab;
+
+    private Transform frontLeftTire;
+    private Transform frontRightTire;
+    private Transform backLeftTire;
+    private Transform backRightTire;
 
     [SerializeField] public Transform FrontLeftTireConnectionPoint;
     [SerializeField] public Transform FrontRightTireConnectionPoint;
@@ -35,10 +40,14 @@ public class CarSimulation : MonoBehaviour
     private float totalTireMass;
     
     private Rigidbody carRigidbody;
-
-    private GameInputActions gameInputActions;
-
+    
     private Vector3 carFrameSize;
+
+    [SerializeField] private Transform WheelsTransform;
+    
+    public float TireRotateSignal { get; set; }
+
+    public float CarDriveSignal { get; set; }
 
     [Serializable]
     public enum TireDriveMode
@@ -74,10 +83,8 @@ public class CarSimulation : MonoBehaviour
     private void Awake()
     {
         carRigidbody = GetComponent<Rigidbody>();
-        gameInputActions = new GameInputActions();
-        gameInputActions.Player.Enable();
-
         InitializeTires();
+        
 
         //precompute max engine velocity
         maxEngineVelocity = engineMaxTorque / (carRigidbody.mass + totalTireMass) * maxEngineVelocityCoefficient;
@@ -95,7 +102,6 @@ public class CarSimulation : MonoBehaviour
 
     private void CarTireSimulation()
     {
-        Vector2 inputVector = gameInputActions.Player.Move.ReadValue<Vector2>();
         for (int i = (int)TireLocation.FrontLeft; i <= (int)TireLocation.BackRight; i++)
         {
             TireLocation tireLocation = (TireLocation)i;
@@ -113,7 +119,7 @@ public class CarSimulation : MonoBehaviour
             
             if (ableToSteer)
             {
-                tirePhysicsComponent.SteerTireRotation(inputVector.x, transform, steerRotateTime, isAssistSteerTire);
+                tirePhysicsComponent.SteerTireRotation(TireRotateSignal, transform, steerRotateTime, isAssistSteerTire);
             }
             
             if (!raycastResult)
@@ -132,7 +138,7 @@ public class CarSimulation : MonoBehaviour
                 float engineTorque = 0f;
                 engineTorque = engineTorqueCurve.Evaluate(Math.Abs(Vector3.Dot(carRigidbody.velocity, carRigidbody.transform.forward) / maxEngineVelocity)) *
                                engineMaxTorque;
-                tirePhysicsComponent.SimulateAccelerating(inputVector.y, carRigidbody, engineTorque);
+                tirePhysicsComponent.SimulateAccelerating(CarDriveSignal, carRigidbody, engineTorque);
             }
         }
     }
@@ -141,10 +147,16 @@ public class CarSimulation : MonoBehaviour
     {
         ClearTireConfigMaps();
 
-        tiresMap.Add(TireLocation.FrontLeft, FrontLeftTire.GetComponent<TirePhysics>());
-        tiresMap.Add(TireLocation.FrontRight, FrontRightTire.GetComponent<TirePhysics>());
-        tiresMap.Add(TireLocation.BackLeft, BackLeftTire.GetComponent<TirePhysics>());
-        tiresMap.Add(TireLocation.BackRight, BackRightTire.GetComponent<TirePhysics>());
+        frontLeftTire = Instantiate(frontLeftTirePrefab, WheelsTransform);
+        frontRightTire = Instantiate(frontRightTirePrefab, WheelsTransform);
+        backLeftTire = Instantiate(backLeftTirePrefab, WheelsTransform);
+        backRightTire = Instantiate(backRightTirePrefab, WheelsTransform);
+
+        
+        tiresMap.Add(TireLocation.FrontLeft,frontLeftTire.GetComponent<TirePhysics>());
+        tiresMap.Add(TireLocation.FrontRight, frontRightTire.GetComponent<TirePhysics>());
+        tiresMap.Add(TireLocation.BackLeft, backLeftTire.GetComponent<TirePhysics>());
+        tiresMap.Add(TireLocation.BackRight, backRightTire.GetComponent<TirePhysics>());
 
         tireConnectPointsMap.Add(TireLocation.FrontLeft, FrontLeftTireConnectionPoint);
         tireConnectPointsMap.Add(TireLocation.FrontRight, FrontRightTireConnectionPoint);
@@ -170,6 +182,11 @@ public class CarSimulation : MonoBehaviour
 
     private void ClearTireConfigMaps()
     {
+        foreach (var keyValuePair in tiresMap)
+        {
+            Destroy(keyValuePair.Value.gameObject);
+        }
+        
         tiresMap.Clear();
         tireConnectPointsMap.Clear();
         tiresAbleToDriveMap.Clear();
