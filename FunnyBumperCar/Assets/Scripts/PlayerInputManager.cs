@@ -23,7 +23,12 @@ public class PlayerInputManager : MonoBehaviour
         if (ControlledCar == null) return;
 
         var moveInputVector = gameInputActions.Player.Move.ReadValue<Vector2>();
+        
+        var isBraking =gameInputActions.Player.CarBrake.ReadValue<float>() != 0;
+        
+        Debug.Log("car brake info: "+ isBraking);
         carSimulationComponent.TireRotateSignal = moveInputVector.x;
         carSimulationComponent.CarDriveSignal = moveInputVector.y;
+        carSimulationComponent.IsBraking = isBraking;
     }
 }

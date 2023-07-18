@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TireVisual : MonoBehaviour
 {
-    [SerializeField] private float radius = 0.3f;
+    private float radius = 0.3f;
     private float worldVelocity;
     private Transform wheelMeshTransform;
 

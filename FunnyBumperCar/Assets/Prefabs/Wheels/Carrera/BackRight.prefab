@@ -329,7 +329,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f6466a604f70f4b857b324ba169b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.3313
 --- !u!114 &903695102885681146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,6 +350,7 @@ MonoBehaviour:
   springDamping: 300
   springDefaultLength: 0.35
   springMaxLength: 0.48
+  isBraking: 0
   springMinLength: 0.32
   frictionCoefficient: 0.25
   steeringCurve:
@@ -397,4 +397,5 @@ MonoBehaviour:
     m_RotationOrder: 4
   steerAngle: 25
   assistSteerRatio: 0.05
+  brakeFrictionMultiplier: 30
   drawRaycastDebugLine: 0

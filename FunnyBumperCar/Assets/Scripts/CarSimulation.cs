@@ -37,6 +37,8 @@ public class CarSimulation : MonoBehaviour
     [SerializeField] private float carFlipOverDragAngleLimitation = 120;
     [SerializeField] private float carFlipOverAngularVelocityLimitation = 1f;
 
+    private bool isBraking;
+
     private Dictionary<TireLocation, Transform> tireConnectPointsMap = new Dictionary<TireLocation, Transform>();
     private Dictionary<TireLocation, TirePhysics> tiresMap = new Dictionary<TireLocation, TirePhysics>();
     private Dictionary<TireLocation, bool> tiresAbleToSteerMap = new Dictionary<TireLocation, bool>();
@@ -53,6 +55,12 @@ public class CarSimulation : MonoBehaviour
     public float TireRotateSignal { get; set; }
 
     public float CarDriveSignal { get; set; }
+
+    public bool IsBraking
+    {
+        get => isBraking;
+        set => isBraking = value;
+    }
 
     [Serializable]
     public enum TireDriveMode
@@ -137,7 +145,8 @@ public class CarSimulation : MonoBehaviour
             tirePhysicsComponent.SimulateSuspensionSystem(tireConnectPoint, carRigidbody, minRaycastDistance, out Vector3 suspensionForceOnSpring);
             
             tirePhysicsComponent.SimulateSteeringForces(carRigidbody, maxEngineVelocity);
-            
+
+            tirePhysicsComponent.IsBraking = isBraking;
             tirePhysicsComponent.SimulateFriction(carRigidbody, suspensionForceOnSpring);
 
             if (ableToDrive)

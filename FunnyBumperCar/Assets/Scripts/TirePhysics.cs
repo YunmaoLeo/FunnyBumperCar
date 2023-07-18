@@ -26,7 +26,7 @@ public class TirePhysics : MonoBehaviour
 
     [SerializeField] private float springMaxLength;
 
-
+    [SerializeField] private bool isBraking = false;
     [SerializeField] private float springMinLength;
 
 
@@ -38,6 +38,7 @@ public class TirePhysics : MonoBehaviour
     [SerializeField] [Range(0f, 180f)] private float steerAngle;
 
     [SerializeField] private float assistSteerRatio = 0.05f;
+    [SerializeField] private float brakeFrictionMultiplier = 10f;
 
     private float tireGripFactor;
 
@@ -52,6 +53,12 @@ public class TirePhysics : MonoBehaviour
     {
         get => tireMass;
         set => tireMass = value;
+    }
+
+    public bool IsBraking
+    {
+        get => isBraking;
+        set => isBraking = value;
     }
 
     private void Awake()
@@ -155,8 +162,8 @@ public class TirePhysics : MonoBehaviour
         if (tireForwardVelocity != 0f)
         {
             int directionControl = tireForwardVelocity > 0 ? 1 : -1;
-            var frictionForce = Vector3.Dot(suspensionForceOnSpring + tireMass * Physics.gravity, Vector3.down) *
-                                frictionCoefficient * tireWidth;
+            var frictionForce = Vector3.Dot(suspensionForceOnSpring + (tireMass) * Physics.gravity, Vector3.down) *
+                                frictionCoefficient * tireWidth * (isBraking ? brakeFrictionMultiplier : 1f);
 
             //friction clamp
             var frictionAbsMax = tireMass * Math.Abs(tireForwardVelocity) / Time.fixedDeltaTime;
@@ -165,7 +172,7 @@ public class TirePhysics : MonoBehaviour
             carRigidbody.AddForceAtPosition(transform.forward * (directionControl * frictionForce), transform.position);
 
             Debug.DrawLine(transform.position,
-                transform.position + transform.forward * -frictionForce / carRigidbody.mass / 2f, Color.black);
+                transform.position + transform.forward * frictionForce / carRigidbody.mass / 2f, Color.black);
         }
     }
 

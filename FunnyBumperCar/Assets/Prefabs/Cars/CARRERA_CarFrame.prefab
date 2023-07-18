@@ -711,8 +711,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2142469186497459607}
-  m_LocalRotation: {x: -0, y: -0.99608785, z: -0, w: 0.08836855}
-  m_LocalPosition: {x: 0, y: 2.95, z: 35.05}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -820,6 +820,10 @@ MonoBehaviour:
   FrontRightTireConnectionPoint: {fileID: 2142469187287257617}
   BackLeftTireConnectionPoint: {fileID: 2142469187180448324}
   BackRightTireConnectionPoint: {fileID: 2142469185966637294}
+  carFlipOverMaxForceCoefficient: 30
+  carFlipOverMinForceCoefficient: 4
+  carFlipOverDragAngleLimitation: 120
+  carFlipOverAngularVelocityLimitation: 1
   WheelsTransform: {fileID: 2142469186480035259}
 --- !u!65 &2142469186497459614
 BoxCollider:
