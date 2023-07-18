@@ -102,7 +102,6 @@ public class CarSimulation : MonoBehaviour
         
         InitializeTires();
         
-
         //precompute max engine velocity
         maxEngineVelocity = engineMaxTorque / (carRigidbody.mass + totalTireMass) * maxEngineVelocityCoefficient;
     }
