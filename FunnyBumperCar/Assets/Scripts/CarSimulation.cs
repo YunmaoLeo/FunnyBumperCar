@@ -53,7 +53,9 @@ public class CarSimulation : MonoBehaviour
     private Vector3 carFrameSize;
 
     [SerializeField] private Transform WheelsTransform;
-    
+
+    [SerializeField] private Transform CarsAddonsTransform;
+
     public float TireRotateSignal { get; set; }
 
     public float CarDriveSignal { get; set; }
@@ -102,8 +104,21 @@ public class CarSimulation : MonoBehaviour
         
         InitializeTires();
         
+        //initialize car addons;
+        InitializeCarAddons();
+        
         //precompute max engine velocity
         maxEngineVelocity = engineMaxTorque / (carRigidbody.mass + totalTireMass) * maxEngineVelocityCoefficient;
+    }
+
+    private void InitializeCarAddons()
+    {
+        var addonsCount = CarsAddonsTransform.childCount;
+        for (int index = 0; index < addonsCount; index++)
+        {
+            var addonSlot = CarsAddonsTransform.GetChild(index);
+            addonSlot.GetComponent<AddonSlot>().InitializeCarAddon(carRigidbody);
+        }
     }
 
     private void Update()

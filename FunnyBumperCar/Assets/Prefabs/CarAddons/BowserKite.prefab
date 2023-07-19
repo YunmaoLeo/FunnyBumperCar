@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2785036679028453991
+--- !u!1 &1309565822083395000
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,31 +8,32 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 67848380965628988}
+  - component: {fileID: 1830523590722041602}
   m_Layer: 0
-  m_Name: Blades
+  m_Name: BowserKite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &67848380965628988
+--- !u!4 &1830523590722041602
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2785036679028453991}
-  m_LocalRotation: {x: -0, y: -0, z: -0.6011177, w: 0.7991606}
-  m_LocalPosition: {x: 0, y: 1.4273, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_GameObject: {fileID: 1309565822083395000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6715072550647809887}
-  m_Father: {fileID: 6203557946467250355}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -73.9}
---- !u!1 &4768825879277082748
+  - {fileID: 6510447812082649392}
+  - {fileID: 1634806609987368835}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4561501081083096329
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,46 +41,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6715072550647809887}
-  - component: {fileID: 6243078209522647475}
-  - component: {fileID: 6267293550153623427}
+  - component: {fileID: 1634806609987368835}
+  - component: {fileID: 8757980058793169640}
+  - component: {fileID: 6531572062762633255}
   m_Layer: 0
-  m_Name: Thruster_Blades
+  m_Name: Wing_Kpa__m_Wing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6715072550647809887
+--- !u!4 &1634806609987368835
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4768825879277082748}
-  m_LocalRotation: {x: -0.29859105, y: -0.029408691, z: 0.09350141, w: 0.9493345}
-  m_LocalPosition: {x: 0, y: 0, z: 0.68426055}
-  m_LocalScale: {x: 6.1955347, y: 6.1955338, z: 6.1955347}
+  m_GameObject: {fileID: 4561501081083096329}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 67848380965628988}
-  m_RootOrder: 0
+  m_Father: {fileID: 1830523590722041602}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6243078209522647475
+--- !u!33 &8757980058793169640
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4768825879277082748}
-  m_Mesh: {fileID: -2168239119996570549, guid: b353840656e26a74aad8a0e448e8e407, type: 3}
---- !u!23 &6267293550153623427
+  m_GameObject: {fileID: 4561501081083096329}
+  m_Mesh: {fileID: -4553319277629995595, guid: fa4c40b37754b2347b5394af51ecbc41, type: 3}
+--- !u!23 &6531572062762633255
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4768825879277082748}
+  m_GameObject: {fileID: 4561501081083096329}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -93,7 +94,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 68cd2765e6d615446ae38f3e21bc1168, type: 2}
+  - {fileID: 2100000, guid: 6a67e2b55bf40ec4880ca32a7f4ec8c2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -115,7 +116,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &6727436356463307273
+--- !u!1 &5690571084293539200
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,94 +124,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6203557946467250355}
-  - component: {fileID: 3352316204821073854}
+  - component: {fileID: 6510447812082649392}
+  - component: {fileID: 4956186113792612884}
+  - component: {fileID: 4888573100895712284}
   m_Layer: 0
-  m_Name: CircleThruster
+  m_Name: Wing_Kpa__m_Frame2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6203557946467250355
+--- !u!4 &6510447812082649392
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6727436356463307273}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
-  m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 2559464379586116580}
-  - {fileID: 67848380965628988}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3352316204821073854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6727436356463307273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78a329b86ac0d564faf54108fb8c584d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bladesTransform: {fileID: 67848380965628988}
-  bladeRadius: 0.13
---- !u!1 &7956304673140111271
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2559464379586116580}
-  - component: {fileID: 9041654909095291052}
-  - component: {fileID: 2881431596880303125}
-  m_Layer: 0
-  m_Name: Thruster_T1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2559464379586116580
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7956304673140111271}
-  m_LocalRotation: {x: -0.6941153, y: -0.13492237, z: -0.13492237, w: 0.6941152}
-  m_LocalPosition: {x: -0.000000014901161, y: 1.1140993, z: -0.053945683}
-  m_LocalScale: {x: 99.99999, y: 99.99999, z: 100}
+  m_GameObject: {fileID: 5690571084293539200}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6203557946467250355}
+  m_Father: {fileID: 1830523590722041602}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &9041654909095291052
+--- !u!33 &4956186113792612884
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7956304673140111271}
-  m_Mesh: {fileID: -9049630090029765464, guid: b353840656e26a74aad8a0e448e8e407, type: 3}
---- !u!23 &2881431596880303125
+  m_GameObject: {fileID: 5690571084293539200}
+  m_Mesh: {fileID: -2698964903398543627, guid: fa4c40b37754b2347b5394af51ecbc41, type: 3}
+--- !u!23 &4888573100895712284
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7956304673140111271}
+  m_GameObject: {fileID: 5690571084293539200}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -224,7 +177,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 68cd2765e6d615446ae38f3e21bc1168, type: 2}
+  - {fileID: 2100000, guid: a69078dc467ba0b41a42ab8f3c9ea924, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
