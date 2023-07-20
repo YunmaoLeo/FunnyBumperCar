@@ -2,21 +2,39 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AddonSlot : MonoBehaviour
 {
+    [Serializable]
+    public enum AddonSlotType
+    {
+        Front,
+        Side,
+        Back,
+        Top,
+        Bottom
+    }
+    
     [SerializeField] public Transform CarAddonPrefab;
     [SerializeField] private Transform calibrator;
-
+    [SerializeField] public AddonSlotType SlotType;
+    
+    
     private Transform carAddonInstance;
     private BaseAddon addon;
     private void Awake()
     {
-        // InitializeCarAddon();
+        
     }
 
     private void Start()
     {
+    }
+
+    public BaseAddon GetAddon()
+    {
+        return addon;
     }
 
     public void InitializeCarAddon(Rigidbody carRigidbody)

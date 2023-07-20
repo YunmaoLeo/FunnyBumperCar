@@ -121,6 +121,38 @@ public class CarSimulation : MonoBehaviour
         }
     }
 
+    public void BindAddonInputActions(GameInputActions gameInputActions)
+    {
+        var addonsCount = CarsAddonsTransform.childCount;
+        for (int index = 0; index < addonsCount; index++)
+        {
+            var addonSlot = CarsAddonsTransform.GetChild(index);
+            var slot = addonSlot.GetComponent<AddonSlot>();
+
+            switch (slot.SlotType)
+            {
+                case AddonSlot.AddonSlotType.Top:
+                    gameInputActions.Player.CarAddonTriggerTop.performed += slot.GetAddon().TriggerAddon;
+                    break;
+                case AddonSlot.AddonSlotType.Front:
+                    gameInputActions.Player.CarAddonTriggerFront.performed += slot.GetAddon().TriggerAddon;
+                    break;
+                case AddonSlot.AddonSlotType.Side:
+                    gameInputActions.Player.CarAddonTriggerSide.performed += slot.GetAddon().TriggerAddon;
+                    break;
+                case AddonSlot.AddonSlotType.Back:
+                    gameInputActions.Player.CarAddonTriggerBack.performed += slot.GetAddon().TriggerAddon;
+                    break;
+                case AddonSlot.AddonSlotType.Bottom:
+                    // gameInputActions.Player.CarAddonTrigger.performed += slot.GetAddon().TriggerAddon;
+                    break;
+                
+                default:
+                    break;
+            }
+        }
+    }
+
     private void Update()
     {
     }

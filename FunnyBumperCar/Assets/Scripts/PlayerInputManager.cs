@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class PlayerInputManager : MonoBehaviour
         
         gameInputActions = new GameInputActions();
         gameInputActions.Player.Enable();
+        
+        carSimulationComponent.BindAddonInputActions(gameInputActions);
     }
 
     private void FixedUpdate()
@@ -23,7 +26,7 @@ public class PlayerInputManager : MonoBehaviour
         if (ControlledCar == null) return;
 
         var moveInputVector = gameInputActions.Player.Move.ReadValue<Vector2>();
-        var isBraking =gameInputActions.Player.CarBrake.ReadValue<float>() != 0;
+        var isBraking = gameInputActions.Player.CarBrake.ReadValue<float>() != 0;
         carSimulationComponent.TireRotateSignal = moveInputVector.x;
         carSimulationComponent.CarDriveSignal = moveInputVector.y;
         carSimulationComponent.IsBraking = isBraking;

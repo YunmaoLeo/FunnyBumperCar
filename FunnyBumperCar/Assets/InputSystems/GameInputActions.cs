@@ -44,6 +44,42 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CarAddonTriggerFront"",
+                    ""type"": ""Button"",
+                    ""id"": ""9214a617-fafd-4459-b1f4-11c901dfda9f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CarAddonTriggerSide"",
+                    ""type"": ""Button"",
+                    ""id"": ""1b742196-9bff-47bb-846b-fd4cfd9b61d7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CarAddonTriggerBack"",
+                    ""type"": ""Button"",
+                    ""id"": ""fcfba858-adf5-4b70-aa85-ac7b2c315266"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CarAddonTriggerTop"",
+                    ""type"": ""Button"",
+                    ""id"": ""abdf5844-514d-47ba-b2be-a79b19d093f4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +148,50 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""CarBrake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f7979221-67b6-4848-9e45-9a78429b6a59"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CarAddonTriggerFront"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""35544993-ceae-4329-b069-c6bf5262b7ba"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CarAddonTriggerSide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3773772-485a-4471-b5c0-70d00435e78d"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CarAddonTriggerBack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b6ad9b02-60b2-4446-bcdb-e079852d5008"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CarAddonTriggerTop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +202,10 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_CarBrake = m_Player.FindAction("CarBrake", throwIfNotFound: true);
+        m_Player_CarAddonTriggerFront = m_Player.FindAction("CarAddonTriggerFront", throwIfNotFound: true);
+        m_Player_CarAddonTriggerSide = m_Player.FindAction("CarAddonTriggerSide", throwIfNotFound: true);
+        m_Player_CarAddonTriggerBack = m_Player.FindAction("CarAddonTriggerBack", throwIfNotFound: true);
+        m_Player_CarAddonTriggerTop = m_Player.FindAction("CarAddonTriggerTop", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,12 +269,20 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_CarBrake;
+    private readonly InputAction m_Player_CarAddonTriggerFront;
+    private readonly InputAction m_Player_CarAddonTriggerSide;
+    private readonly InputAction m_Player_CarAddonTriggerBack;
+    private readonly InputAction m_Player_CarAddonTriggerTop;
     public struct PlayerActions
     {
         private @GameInputActions m_Wrapper;
         public PlayerActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @CarBrake => m_Wrapper.m_Player_CarBrake;
+        public InputAction @CarAddonTriggerFront => m_Wrapper.m_Player_CarAddonTriggerFront;
+        public InputAction @CarAddonTriggerSide => m_Wrapper.m_Player_CarAddonTriggerSide;
+        public InputAction @CarAddonTriggerBack => m_Wrapper.m_Player_CarAddonTriggerBack;
+        public InputAction @CarAddonTriggerTop => m_Wrapper.m_Player_CarAddonTriggerTop;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -206,6 +298,18 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @CarBrake.started += instance.OnCarBrake;
             @CarBrake.performed += instance.OnCarBrake;
             @CarBrake.canceled += instance.OnCarBrake;
+            @CarAddonTriggerFront.started += instance.OnCarAddonTriggerFront;
+            @CarAddonTriggerFront.performed += instance.OnCarAddonTriggerFront;
+            @CarAddonTriggerFront.canceled += instance.OnCarAddonTriggerFront;
+            @CarAddonTriggerSide.started += instance.OnCarAddonTriggerSide;
+            @CarAddonTriggerSide.performed += instance.OnCarAddonTriggerSide;
+            @CarAddonTriggerSide.canceled += instance.OnCarAddonTriggerSide;
+            @CarAddonTriggerBack.started += instance.OnCarAddonTriggerBack;
+            @CarAddonTriggerBack.performed += instance.OnCarAddonTriggerBack;
+            @CarAddonTriggerBack.canceled += instance.OnCarAddonTriggerBack;
+            @CarAddonTriggerTop.started += instance.OnCarAddonTriggerTop;
+            @CarAddonTriggerTop.performed += instance.OnCarAddonTriggerTop;
+            @CarAddonTriggerTop.canceled += instance.OnCarAddonTriggerTop;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -216,6 +320,18 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @CarBrake.started -= instance.OnCarBrake;
             @CarBrake.performed -= instance.OnCarBrake;
             @CarBrake.canceled -= instance.OnCarBrake;
+            @CarAddonTriggerFront.started -= instance.OnCarAddonTriggerFront;
+            @CarAddonTriggerFront.performed -= instance.OnCarAddonTriggerFront;
+            @CarAddonTriggerFront.canceled -= instance.OnCarAddonTriggerFront;
+            @CarAddonTriggerSide.started -= instance.OnCarAddonTriggerSide;
+            @CarAddonTriggerSide.performed -= instance.OnCarAddonTriggerSide;
+            @CarAddonTriggerSide.canceled -= instance.OnCarAddonTriggerSide;
+            @CarAddonTriggerBack.started -= instance.OnCarAddonTriggerBack;
+            @CarAddonTriggerBack.performed -= instance.OnCarAddonTriggerBack;
+            @CarAddonTriggerBack.canceled -= instance.OnCarAddonTriggerBack;
+            @CarAddonTriggerTop.started -= instance.OnCarAddonTriggerTop;
+            @CarAddonTriggerTop.performed -= instance.OnCarAddonTriggerTop;
+            @CarAddonTriggerTop.canceled -= instance.OnCarAddonTriggerTop;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -237,5 +353,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnCarBrake(InputAction.CallbackContext context);
+        void OnCarAddonTriggerFront(InputAction.CallbackContext context);
+        void OnCarAddonTriggerSide(InputAction.CallbackContext context);
+        void OnCarAddonTriggerBack(InputAction.CallbackContext context);
+        void OnCarAddonTriggerTop(InputAction.CallbackContext context);
     }
 }
