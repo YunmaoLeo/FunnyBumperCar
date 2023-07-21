@@ -104,7 +104,7 @@ PrefabInstance:
     - target: {fileID: 2870271067732260759, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.999962
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2870271067732260759, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
@@ -114,7 +114,7 @@ PrefabInstance:
     - target: {fileID: 2870271067732260759, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.008726558
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2870271067732260759, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
@@ -129,7 +129,7 @@ PrefabInstance:
     - target: {fileID: 2870271067732260759, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2870271067732260759, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
@@ -161,7 +161,8 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9107710979557373730, guid: f96b5c9bec3f5a1489724dd47adcd8d5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f96b5c9bec3f5a1489724dd47adcd8d5, type: 3}
 --- !u!1 &5739974165079010203 stripped
 GameObject:
@@ -182,6 +183,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8299186, y: 0.58966696, z: 0.92574924}
   m_Center: {x: 0.0092199, y: 0.3015502, z: -0.03712538}
+--- !u!114 &1756074929870185172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5739974165079010203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08a8ea3f712746ea819fcb8cce261b53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Calibrator: {fileID: 7070726112067382025}
+  carRigidbody: {fileID: 0}
+  ejectionForceCoefficient: 10000
+  ejectionCDTime: 1
+  ejectionDuration: 0.2
+  forceMode: 0
+--- !u!4 &7070726112067382025 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4420350827950921762, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
+    type: 3}
+  m_PrefabInstance: {fileID: 6879387277290943275}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8695674709498889404 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2870271067732260759, guid: f96b5c9bec3f5a1489724dd47adcd8d5,

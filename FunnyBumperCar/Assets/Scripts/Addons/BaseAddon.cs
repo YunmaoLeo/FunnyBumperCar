@@ -10,8 +10,7 @@ public class BaseAddon : MonoBehaviour
 
     public Rigidbody carRigidbody;
 
-    public void TriggerAddon(InputAction.CallbackContext context)
+    public virtual void TriggerAddon(InputAction.CallbackContext context)
     {
-        Debug.Log("TriggerBaseAddon");
     }
 }
