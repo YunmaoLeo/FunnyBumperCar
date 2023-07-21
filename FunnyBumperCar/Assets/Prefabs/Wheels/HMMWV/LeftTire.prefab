@@ -147,7 +147,7 @@ MonoBehaviour:
   raycastPrecision: 0.2
   widthRaycastPrecision: 0.3
   springStrength: 2500
-  springDamping: 300
+  springDamping: 100
   springDefaultLength: 0.45
   springMaxLength: 0.6
   isBraking: 0
@@ -168,15 +168,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.105771594
       value: 0.92490476
-      inSlope: -0.6535867
-      outSlope: -0.6535867
+      inSlope: -0.41905987
+      outSlope: -0.41905987
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.41602406
-      value: 0.73962265
+      time: 0.8976983
+      value: 0.8234239
       inSlope: -0.12397851
       outSlope: -0.12397851
       tangentMode: 0
@@ -186,8 +186,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.9267273
       value: 0.7195053
-      inSlope: -0.039391454
-      outSlope: -0.039391454
+      inSlope: -3.5798192
+      outSlope: -3.5798192
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334

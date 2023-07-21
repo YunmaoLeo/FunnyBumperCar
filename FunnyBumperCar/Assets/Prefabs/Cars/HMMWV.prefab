@@ -71,6 +71,7 @@ Transform:
   - {fileID: 4993003909828065180}
   - {fileID: 8523334345671764154}
   - {fileID: 1278665869325781837}
+  - {fileID: 5850538254101087744}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -84,7 +85,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 350
   m_Drag: 0.02
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.25
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 2
@@ -107,7 +108,7 @@ MonoBehaviour:
   maxEngineVelocityCoefficient: 8
   engineMaxTorque: 1200
   tireDriveMode: 2
-  tireSteerMode: 0
+  tireSteerMode: 2
   steerRotateTime: 0.35
   engineTorqueCurve:
     serializedVersion: 2
@@ -169,6 +170,7 @@ MonoBehaviour:
   backRightTirePrefab: {fileID: 903695102885681092, guid: c09b1251e637004438e41b64e2f321fb,
     type: 3}
   CenterOfMass: {fileID: 8523334345671764154}
+  Parachute: {fileID: 5850538254101087744}
   FrontLeftTireConnectionPoint: {fileID: 4993003911010942431}
   FrontRightTireConnectionPoint: {fileID: 4993003910631714870}
   BackLeftTireConnectionPoint: {fileID: 4993003911468066915}
@@ -633,6 +635,81 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 783354124126319222}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4773668117025909377
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4993003909808805811}
+    m_Modifications:
+    - target: {fileID: 1373088087326354561, guid: eb35b3dd5c245b142846ea4fd6d3f510,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373088087326354561, guid: eb35b3dd5c245b142846ea4fd6d3f510,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373088087326354561, guid: eb35b3dd5c245b142846ea4fd6d3f510,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373088087326354561, guid: eb35b3dd5c245b142846ea4fd6d3f510,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373088087326354561, guid: eb35b3dd5c245b142846ea4fd6d3f510,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373088087326354561, guid: eb35b3dd5c245b142846ea4fd6d3f510,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373088087326354561, guid: eb35b3dd5c245b142846ea4fd6d3f510,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373088087326354561, guid: eb35b3dd5c245b142846ea4fd6d3f510,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373088087326354561, guid: eb35b3dd5c245b142846ea4fd6d3f510,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373088087326354561, guid: eb35b3dd5c245b142846ea4fd6d3f510,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373088087326354561, guid: eb35b3dd5c245b142846ea4fd6d3f510,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170386304897423884, guid: eb35b3dd5c245b142846ea4fd6d3f510,
+        type: 3}
+      propertyPath: m_Name
+      value: Parachute
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eb35b3dd5c245b142846ea4fd6d3f510, type: 3}
+--- !u!4 &5850538254101087744 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1373088087326354561, guid: eb35b3dd5c245b142846ea4fd6d3f510,
+    type: 3}
+  m_PrefabInstance: {fileID: 4773668117025909377}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7704706214158561449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -796,8 +873,7 @@ PrefabInstance:
         type: 3}
       propertyPath: CarAddonPrefab
       value: 
-      objectReference: {fileID: 3543289598363116449, guid: 31db16e50949f174d9dfe3ddadbc328f,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 103937600709461394, guid: 6faafac07bf123743a809e0a027d24cb,
         type: 3}
       propertyPath: bindInputAction.m_Id

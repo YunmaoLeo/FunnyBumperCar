@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CarSimulation : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class CarSimulation : MonoBehaviour
     [SerializeField] public Transform backRightTirePrefab;
 
     [SerializeField] public Transform CenterOfMass;
+    [SerializeField] public Transform Parachute;
     
     private Transform frontLeftTire;
     private Transform frontRightTire;
@@ -40,6 +42,8 @@ public class CarSimulation : MonoBehaviour
     [SerializeField] private float carFlipOverAngularVelocityLimitation = 1f;
 
     private bool isBraking;
+
+    private bool isParachuteActive;
 
     private Dictionary<TireLocation, Transform> tireConnectPointsMap = new Dictionary<TireLocation, Transform>();
     private Dictionary<TireLocation, TirePhysics> tiresMap = new Dictionary<TireLocation, TirePhysics>();
@@ -60,10 +64,21 @@ public class CarSimulation : MonoBehaviour
 
     public float CarDriveSignal { get; set; }
 
+    public float MaxEngineVelocity
+    {
+        get => maxEngineVelocity;
+    }
+    
     public bool IsBraking
     {
         get => isBraking;
         set => isBraking = value;
+    }
+
+    public bool IsParachuteActive
+    {
+        get => isParachuteActive;
+        set => isParachuteActive = value;
     }
 
     [Serializable]
@@ -101,6 +116,10 @@ public class CarSimulation : MonoBehaviour
     {
         carRigidbody = GetComponent<Rigidbody>();
         carRigidbody.centerOfMass = CenterOfMass.localPosition;
+
+        var parachute = Parachute.GetComponent<Parachute>();
+        parachute.SetCarRigidbody(carRigidbody);
+        parachute.SetCarSimulation(this);
         
         InitializeTires();
         
@@ -128,7 +147,10 @@ public class CarSimulation : MonoBehaviour
         {
             var addonSlot = CarsAddonsTransform.GetChild(index);
             var slot = addonSlot.GetComponent<AddonSlot>();
-
+            if (slot.GetAddon() == null)
+            {
+                continue;
+            }
             switch (slot.SlotType)
             {
                 case AddonSlot.AddonSlotType.Top:
@@ -151,6 +173,7 @@ public class CarSimulation : MonoBehaviour
                     break;
             }
         }
+        gameInputActions.Player.ParachuteTrigger.performed += context => TurnOnAndOffParachute();
     }
 
     private void Update()
@@ -161,6 +184,21 @@ public class CarSimulation : MonoBehaviour
     {
         Time.fixedDeltaTime = fixedDeltaTime;
         CarTireSimulation();
+    }
+
+    private void TurnOnAndOffParachute()
+    {
+        isParachuteActive = !isParachuteActive;
+
+        var parachute = Parachute.GetComponent<Parachute>();
+        if (isParachuteActive)
+        {
+            parachute.OpenParachute();
+        }
+        else
+        {
+            parachute.CloseParachute();
+        }
     }
 
     private void CarTireSimulation()
