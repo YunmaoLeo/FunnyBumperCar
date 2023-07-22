@@ -42,8 +42,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1373088087326354561}
   - component: {fileID: 4844230223778753320}
-  - component: {fileID: 7722173695333005493}
-  - component: {fileID: 8106349532012090254}
   m_Layer: 0
   m_Name: Parachute
   m_TagString: Untagged
@@ -80,43 +78,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upliftForceCoefficient: 0.5
---- !u!95 &7722173695333005493
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8170386304897423884}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2adafc56906dca44fa61642100f00242, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!111 &8106349532012090254
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8170386304897423884}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: ed202a4b4898f7143baf5b65d31be90e, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: ed202a4b4898f7143baf5b65d31be90e, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!1001 &1867289764148982198
 PrefabInstance:
   m_ObjectHideFlags: 0

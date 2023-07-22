@@ -8,27 +8,27 @@ public class Parachute : MonoBehaviour
     private Rigidbody carRigidbody;
     private CarSimulation carSimulation;
 
-    private Animator animator;
-
+    [SerializeField] [Range(0.1f, 10f)] private float angularDragWhileOpen = 10f;
     [SerializeField] [Range(0.1f, 2f)]
     private float upliftForceCoefficient = 0.5f;
+
+    private float defaultAngularDrag;
     private void Awake()
     {
-        animator = GetComponent<Animator>();
         gameObject.SetActive(false);
     }
 
     public void OpenParachute()
     {
-        
-       
         gameObject.SetActive(true);
+        carRigidbody.angularDrag = angularDragWhileOpen;
     }
 
 
     public void CloseParachute()
     {
         gameObject.SetActive(false);
+        carRigidbody.angularDrag = defaultAngularDrag;
     }
 
     private void FixedUpdate()
@@ -49,13 +49,11 @@ public class Parachute : MonoBehaviour
     public void SetCarRigidbody(Rigidbody rigidbody)
     {
         carRigidbody = rigidbody;
+        defaultAngularDrag = carRigidbody.angularDrag;
     }
-    
+
     public void SetCarSimulation(CarSimulation simulation)
     {
         carSimulation = simulation;
     }
-
-    
-    
 }
