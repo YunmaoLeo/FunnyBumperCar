@@ -89,6 +89,15 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Drifting"",
+                    ""type"": ""Button"",
+                    ""id"": ""ae9565ee-d929-4c4e-b279-a8954459f110"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -212,6 +221,17 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""ParachuteTrigger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c7904eaa-eb8b-42ec-875f-c60b482d2a07"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drifting"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -227,6 +247,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         m_Player_CarAddonTriggerBack = m_Player.FindAction("CarAddonTriggerBack", throwIfNotFound: true);
         m_Player_CarAddonTriggerTop = m_Player.FindAction("CarAddonTriggerTop", throwIfNotFound: true);
         m_Player_ParachuteTrigger = m_Player.FindAction("ParachuteTrigger", throwIfNotFound: true);
+        m_Player_Drifting = m_Player.FindAction("Drifting", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -295,6 +316,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CarAddonTriggerBack;
     private readonly InputAction m_Player_CarAddonTriggerTop;
     private readonly InputAction m_Player_ParachuteTrigger;
+    private readonly InputAction m_Player_Drifting;
     public struct PlayerActions
     {
         private @GameInputActions m_Wrapper;
@@ -306,6 +328,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         public InputAction @CarAddonTriggerBack => m_Wrapper.m_Player_CarAddonTriggerBack;
         public InputAction @CarAddonTriggerTop => m_Wrapper.m_Player_CarAddonTriggerTop;
         public InputAction @ParachuteTrigger => m_Wrapper.m_Player_ParachuteTrigger;
+        public InputAction @Drifting => m_Wrapper.m_Player_Drifting;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -336,6 +359,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @ParachuteTrigger.started += instance.OnParachuteTrigger;
             @ParachuteTrigger.performed += instance.OnParachuteTrigger;
             @ParachuteTrigger.canceled += instance.OnParachuteTrigger;
+            @Drifting.started += instance.OnDrifting;
+            @Drifting.performed += instance.OnDrifting;
+            @Drifting.canceled += instance.OnDrifting;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -361,6 +387,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @ParachuteTrigger.started -= instance.OnParachuteTrigger;
             @ParachuteTrigger.performed -= instance.OnParachuteTrigger;
             @ParachuteTrigger.canceled -= instance.OnParachuteTrigger;
+            @Drifting.started -= instance.OnDrifting;
+            @Drifting.performed -= instance.OnDrifting;
+            @Drifting.canceled -= instance.OnDrifting;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -387,5 +416,6 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         void OnCarAddonTriggerBack(InputAction.CallbackContext context);
         void OnCarAddonTriggerTop(InputAction.CallbackContext context);
         void OnParachuteTrigger(InputAction.CallbackContext context);
+        void OnDrifting(InputAction.CallbackContext context);
     }
 }

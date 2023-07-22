@@ -25,6 +25,8 @@ public class CarSimulation : MonoBehaviour
 
     [SerializeField] public Transform CenterOfMass;
     [SerializeField] public Transform Parachute;
+
+    private bool isDrifting = false;
     
     private Transform frontLeftTire;
     private Transform frontRightTire;
@@ -75,6 +77,12 @@ public class CarSimulation : MonoBehaviour
         set => isBraking = value;
     }
 
+    public bool IsDrifting
+    {
+        get => isDrifting;
+        set => isDrifting = value;
+    }
+    
     public bool IsParachuteActive
     {
         get => isParachuteActive;
@@ -184,6 +192,8 @@ public class CarSimulation : MonoBehaviour
     {
         Time.fixedDeltaTime = fixedDeltaTime;
         CarTireSimulation();
+        
+        
     }
 
     private void TurnOnAndOffParachute()
@@ -232,7 +242,7 @@ public class CarSimulation : MonoBehaviour
 
             tirePhysicsComponent.SimulateSuspensionSystem(tireConnectPoint, carRigidbody, minRaycastDistance, out Vector3 suspensionForceOnSpring);
             
-            tirePhysicsComponent.SimulateSteeringForces(carRigidbody, maxEngineVelocity);
+            tirePhysicsComponent.SimulateSteeringForces(carRigidbody, maxEngineVelocity, isDrifting);
 
             tirePhysicsComponent.IsBraking = isBraking;
             tirePhysicsComponent.SimulateFriction(carRigidbody, suspensionForceOnSpring);

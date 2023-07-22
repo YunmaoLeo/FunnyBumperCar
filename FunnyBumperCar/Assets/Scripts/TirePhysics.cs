@@ -33,6 +33,7 @@ public class TirePhysics : MonoBehaviour
     [Space][Header("Steering Properties")] [SerializeField]
     private float frictionCoefficient;
 
+    [SerializeField] private float driftingTireGripFactor = 0.1f;
     [SerializeField] private AnimationCurve steeringCurve;
 
     [SerializeField] [Range(0f, 180f)] private float steerAngle;
@@ -121,7 +122,7 @@ public class TirePhysics : MonoBehaviour
         transform.position = connectPointPos + wheelPosOffset;
     }
 
-    public void SimulateSteeringForces(Rigidbody carRigidbody, float maxEngineVelocity)
+    public void SimulateSteeringForces(Rigidbody carRigidbody, float maxEngineVelocity, bool isDrifting = false)
     {
         var tireTransform = transform.position;
         Vector3 steeringDirection = transform.right;
@@ -132,7 +133,7 @@ public class TirePhysics : MonoBehaviour
         float steeringVelocity = Vector3.Dot(wheelVelocity, steeringDirection);
 
 
-        tireGripFactor = steeringCurve.Evaluate(Math.Abs(wheelForwardVelocity / maxEngineVelocity));
+        tireGripFactor = !isDrifting ? steeringCurve.Evaluate(Math.Abs(wheelForwardVelocity / maxEngineVelocity)) : driftingTireGripFactor;
 
         float expectedVelChange = -steeringVelocity * tireGripFactor;
 
