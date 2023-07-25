@@ -48,7 +48,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1373088087326354561
 Transform:
   m_ObjectHideFlags: 0
@@ -77,6 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a62dff442e60e247b7400f6802b38b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  angularDragWhileOpen: 10
   upliftForceCoefficient: 0.5
 --- !u!1001 &1867289764148982198
 PrefabInstance:
