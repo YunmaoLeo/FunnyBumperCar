@@ -506,52 +506,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e3876ae021b0a4d988dbb44211a57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  springForceCoefficient: 400000
+  springForceCoefficient: 10
   springDefaultSize: 1
-  springMinScaleRatio: 0.3
+  springMinScaleRatio: 0.8
+  springDamping: 5
   pillarMesh: {fileID: 7726269533417461505}
   springForceCoefficientCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.40979004
-      value: 10.147766
-      inSlope: -8.482456
-      outSlope: -8.482456
+      time: 0
+      value: 1
+      inSlope: -0.47067952
+      outSlope: -0.47067952
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.48451167
-      value: 2.5618908
-      inSlope: -7.4526186
-      outSlope: -7.4526186
+      time: 1
+      value: 0.5293205
+      inSlope: -2.220863
+      outSlope: -2.220863
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.65714675
-    - serializedVersion: 3
-      time: 0.78567475
-      value: 1.7092115
-      inSlope: 1.0789633
-      outSlope: 1.0789633
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 1
-    - serializedVersion: 3
-      time: 1.0124817
-      value: 0.07348633
-      inSlope: -7.2119713
-      outSlope: -7.2119713
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.159257
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  forceMode: 2
 --- !u!1 &7726269534270277191
 GameObject:
   m_ObjectHideFlags: 0

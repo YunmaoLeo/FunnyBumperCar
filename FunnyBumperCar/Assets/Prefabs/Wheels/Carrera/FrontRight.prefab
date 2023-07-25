@@ -346,13 +346,14 @@ MonoBehaviour:
   tireMass: 10
   raycastPrecision: 0.2
   widthRaycastPrecision: 0.3
-  springStrength: 1500
+  springStrength: 2500
   springDamping: 300
   springDefaultLength: 0.35
   springMaxLength: 0.48
   isBraking: 0
   springMinLength: 0.32
   frictionCoefficient: 0.25
+  driftingTireGripFactor: 0.1
   steeringCurve:
     serializedVersion: 2
     m_Curve:

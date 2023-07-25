@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b1f346831746cd4fbb4f39f7de09b1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CarAddonPrefab: {fileID: 0}
+  calibrator: {fileID: 6932048180553425496}
+  SlotType: 0
 --- !u!1001 &682671073458951465
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
@@ -11,12 +10,22 @@ public class SpringPillar : MonoBehaviour
 
     [SerializeField] private float springMinScaleRatio = 0.6f;
 
+    [SerializeField] private float springDamping = 20000f;
+
     [SerializeField] private Transform pillarMesh;
     [SerializeField] private AnimationCurve springForceCoefficientCurve;
 
+    [SerializeField] private ForceMode forceMode;
+    
+    private Rigidbody carRigidbody;
+    private bool isAddon = false;
+
+    private float springScaleVelocity;
+
     private List<GameObject> collisionGameObjectsList = new List<GameObject>();
 
-    private float currentScale = 1;
+    private float currentScale = 1f;
+    private float lastFrameScale = 1f;
 
     private BoxCollider triggerCollider;
 
@@ -26,6 +35,12 @@ public class SpringPillar : MonoBehaviour
     {
         triggerCollider = GetComponent<BoxCollider>();
         CreateMinPillarCollider(triggerCollider);
+    }
+
+    public void InitializeAddon(Rigidbody rigidbody)
+    {
+        carRigidbody = rigidbody;
+        isAddon = true;
     }
     
 
@@ -42,11 +57,15 @@ public class SpringPillar : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         if (collisionGameObjectsList.Count == 0)
         {
             currentScale = Mathf.Lerp(currentScale, 1f, (1 - currentScale) * 0.08f);
         }
 
+        springScaleVelocity = currentScale - lastFrameScale;
+        lastFrameScale = currentScale;
+        
         pillarMesh.localScale = new Vector3(1, 1, currentScale);
     }
 
@@ -74,10 +93,6 @@ public class SpringPillar : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (!other.CompareTag("Car"))
-        {
-            return;
-        }
         var contactPoint = other.bounds.ClosestPoint(transform.position);
 
         var distance = Vector3.Distance(transform.position, contactPoint);
@@ -87,12 +102,27 @@ public class SpringPillar : MonoBehaviour
         currentScale = (springDefaultSize - springOffsetDistance) / springDefaultSize;
 
         var springDirection = Vector3.Dot(contactPoint - transform.position, transform.forward);
+
+        var springDampingForce = springScaleVelocity * springDamping;
+        var springBaseForce = springOffsetDistance * springForceCoefficient;
+        var springForceDir = springDirection * transform.forward;
+        var springForceCurveFactor = springForceCoefficientCurve.Evaluate(currentScale);
         
-        var springForce = springOffsetDistance * springForceCoefficient * (springDirection * transform.forward) * springForceCoefficientCurve.Evaluate(currentScale);
+        var springForce = (springBaseForce * springForceCurveFactor - springDampingForce) * springForceDir;
 
-        var rigidBody = other.GetComponent<Rigidbody>();
-        rigidBody.AddForce(springForce, ForceMode.Force);
+        if (other.GetComponent<Rigidbody>())
+        {
+            var rigidBody = other.GetComponent<Rigidbody>();
+            rigidBody.AddForce(springForce, forceMode);
+            Debug.DrawLine(rigidBody.position, rigidBody.position + springForce / rigidBody.mass / 2, Color.red);
+        }
 
-        Debug.DrawLine(rigidBody.position, rigidBody.position + springForce / rigidBody.mass / 2, Color.red);
+        if (isAddon)
+        {
+            Debug.Log("SpringPillarAddForceToAddonCar");
+            Debug.Log("SpringForceMagnitude: "+ springForce.magnitude);
+            carRigidbody.AddForce(-springForce, forceMode);
+            Debug.DrawLine(carRigidbody.position, carRigidbody.position - springForce / carRigidbody.mass / 2, Color.red);
+        }
     }
 }

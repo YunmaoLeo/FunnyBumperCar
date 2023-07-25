@@ -149,13 +149,40 @@ PrefabInstance:
     - target: {fileID: 4781775378498917140, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
       propertyPath: m_Mass
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9107710979557373730, guid: f96b5c9bec3f5a1489724dd47adcd8d5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f96b5c9bec3f5a1489724dd47adcd8d5, type: 3}
+--- !u!1 &6332605176171004403 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1211470846111029424, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
+    type: 3}
+  m_PrefabInstance: {fileID: 5130141536361224515}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7906788578850162455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6332605176171004403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c4ec35a22fd2842993add0785b12f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Calibrator: {fileID: 8820811295597511009}
+  carRigidbody: {fileID: 0}
 --- !u!4 &6981895399783706324 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2870271067732260759, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
+    type: 3}
+  m_PrefabInstance: {fileID: 5130141536361224515}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8820811295597511009 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4420350827950921762, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
     type: 3}
   m_PrefabInstance: {fileID: 5130141536361224515}
   m_PrefabAsset: {fileID: 0}

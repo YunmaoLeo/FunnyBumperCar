@@ -95,8 +95,8 @@ MonoBehaviour:
   tireMass: 15
   raycastPrecision: 0.2
   widthRaycastPrecision: 0.3
-  springStrength: 2500
-  springDamping: 100
+  springStrength: 3500
+  springDamping: 500
   springDefaultLength: 0.45
   springMaxLength: 0.6
   isBraking: 0

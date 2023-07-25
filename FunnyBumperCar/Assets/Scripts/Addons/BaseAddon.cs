@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -12,5 +13,15 @@ public class BaseAddon : MonoBehaviour
 
     public virtual void TriggerAddon(InputAction.CallbackContext context)
     {
+    }
+
+    public virtual void OnInitialState()
+    {
+        
+    }
+
+    private void Start()
+    {
+        OnInitialState();
     }
 }
