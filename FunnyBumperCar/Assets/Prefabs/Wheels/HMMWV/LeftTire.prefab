@@ -94,9 +94,10 @@ GameObject:
   - component: {fileID: 3579344537826871267}
   - component: {fileID: 3579344537826871266}
   - component: {fileID: 3579344537826871265}
-  m_Layer: 0
+  - component: {fileID: -9177034512322119558}
+  m_Layer: 2
   m_Name: LeftTire
-  m_TagString: CannotSteer
+  m_TagString: Tire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,7 +147,7 @@ MonoBehaviour:
   tireMass: 15
   raycastPrecision: 0.2
   widthRaycastPrecision: 0.3
-  springStrength: 3500
+  springStrength: 2500
   springDamping: 500
   springDefaultLength: 0.45
   springMaxLength: 0.6
@@ -200,6 +201,19 @@ MonoBehaviour:
   assistSteerRatio: 0.05
   brakeFrictionMultiplier: 30
   drawRaycastDebugLine: 0
+--- !u!65 &-9177034512322119558
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3579344537826871196}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.33318204, y: 0.95873904, z: 1}
+  m_Center: {x: 0.00056400895, y: -0.001876831, z: 0}
 --- !u!1 &3579344538344078956
 GameObject:
   m_ObjectHideFlags: 0

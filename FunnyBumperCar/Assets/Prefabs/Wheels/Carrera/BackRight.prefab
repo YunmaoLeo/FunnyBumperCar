@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 903695102885681146}
   m_Layer: 0
   m_Name: BackRight
-  m_TagString: CannotSteer
+  m_TagString: Tire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

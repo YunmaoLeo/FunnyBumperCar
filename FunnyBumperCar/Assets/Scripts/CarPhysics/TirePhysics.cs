@@ -107,19 +107,21 @@ public class TirePhysics : MonoBehaviour
 
         float suspensionForce = (offset * springStrength) - (springVelocity * springDamping);
 
-        Debug.DrawLine(transform.position,
-            transform.position + springDirection * suspensionForce / carRigidbody.mass / 2f, Color.blue);
+        var tirePosition = transform.position;
+        Debug.DrawLine(tirePosition,
+            tirePosition + springDirection * suspensionForce / carRigidbody.mass / 2f, Color.blue);
 
         suspensionForceOnSpring = springDirection * suspensionForce;
 
         carRigidbody.AddForceAtPosition(suspensionForceOnSpring,
-            transform.position, ForceMode.Force);
+            tirePosition, ForceMode.Force);
 
         Vector3 wheelPosOffset =
             -carRigidbody.transform.up * Math.Max(minRaycastDistance, springMinLength);
 
         //update tire position;
-        transform.position = connectPointPos + wheelPosOffset;
+        tirePosition = connectPointPos + wheelPosOffset;
+        transform.position = tirePosition;
     }
 
     public void SimulateSteeringForces(Rigidbody carRigidbody, float maxEngineVelocity, bool isDrifting = false)
@@ -147,11 +149,11 @@ public class TirePhysics : MonoBehaviour
 
     public void SimulateAccelerating(float controlSignal, Rigidbody carRigidbody, float engineTorque)
     {
-        var tirePosition = transform.position;
         if (controlSignal == 0) return;
+        var tirePosition = transform.position;
         Vector3 forwardDir = transform.forward;
         carRigidbody.AddForceAtPosition(forwardDir * (engineTorque * controlSignal), tirePosition);
-
+        
         Debug.DrawLine(tirePosition,
             tirePosition + forwardDir * (engineTorque * controlSignal) / carRigidbody.mass / 2f, Color.magenta);
     }
@@ -201,7 +203,9 @@ public class TirePhysics : MonoBehaviour
                 var rayRadius = Math.Sqrt(Math.Pow(tireRadius, 2f) -
                                           Math.Pow((i - 0.5f) * 2 * tireRadius, 2));
                 var rayMaxDistance = springMaxLength + rayRadius;
-
+                //
+                // int layerMask = ~(1 << LayerMask.NameToLayer("IgnoreRaycast"));
+                //
                 var unitRayResult = Physics.Raycast(rayOrigin, rayDirection, out RaycastHit raycastHit,
                     (float)rayMaxDistance);
 

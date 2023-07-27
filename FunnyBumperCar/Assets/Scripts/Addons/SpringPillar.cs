@@ -71,17 +71,18 @@ public class SpringPillar : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Car"))
+        
+        if (other.CompareTag("Ground"))
         {
             return;
         }
-
         collisionGameObjectsList.Add(other.gameObject);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Car"))
+        
+        if (other.CompareTag("Ground"))
         {
             return;
         }
@@ -93,6 +94,10 @@ public class SpringPillar : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (other.CompareTag("Ground"))
+        {
+            return;
+        }
         var contactPoint = other.bounds.ClosestPoint(transform.position);
 
         var distance = Vector3.Distance(transform.position, contactPoint);
@@ -119,8 +124,6 @@ public class SpringPillar : MonoBehaviour
 
         if (isAddon)
         {
-            Debug.Log("SpringPillarAddForceToAddonCar");
-            Debug.Log("SpringForceMagnitude: "+ springForce.magnitude);
             carRigidbody.AddForce(-springForce, forceMode);
             Debug.DrawLine(carRigidbody.position, carRigidbody.position - springForce / carRigidbody.mass / 2, Color.red);
         }

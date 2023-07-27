@@ -192,8 +192,6 @@ public class CarSimulation : MonoBehaviour
     {
         Time.fixedDeltaTime = fixedDeltaTime;
         CarTireSimulation();
-        
-        
     }
 
     private void TurnOnAndOffParachute()
@@ -213,7 +211,7 @@ public class CarSimulation : MonoBehaviour
 
     private void CarTireSimulation()
     {
-        bool NotAllTiresContactToGround = false;
+        int tiresContactToGroundCount = 4;
         for (int i = (int)TireLocation.FrontLeft; i <= (int)TireLocation.BackRight; i++)
         {
             TireLocation tireLocation = (TireLocation)i;
@@ -236,7 +234,7 @@ public class CarSimulation : MonoBehaviour
             
             if (!raycastResult)
             {
-                NotAllTiresContactToGround = true;
+                tiresContactToGroundCount--;
                 continue;
             }
 
@@ -256,13 +254,13 @@ public class CarSimulation : MonoBehaviour
             }
         }
 
-        if (NotAllTiresContactToGround)
+        if (tiresContactToGroundCount != 4)
         {
-            RecoverCarWhenFlippedOver();
+            RecoverCarWhenFlippedOver(tiresContactToGroundCount);
         }
     }
 
-    private void RecoverCarWhenFlippedOver()
+    private void RecoverCarWhenFlippedOver(int tiresContactToGroundCount)
     {
         if (carRigidbody.angularVelocity.magnitude > carFlipOverAngularVelocityLimitation)
         {

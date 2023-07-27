@@ -7,6 +7,8 @@ TagManager:
   - WheelTransform
   - CannotSteer
   - Car
+  - Ground
+  - Tire
   layers:
   - Default
   - TransparentFX
