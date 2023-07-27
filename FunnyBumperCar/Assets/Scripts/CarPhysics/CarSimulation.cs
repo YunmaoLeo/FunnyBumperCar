@@ -270,7 +270,7 @@ public class CarSimulation : MonoBehaviour
         if (angle < carFlipOverDragAngleLimitation)
         {
             var carFlipOverDragForceCoefficient = angle / carFlipOverDragAngleLimitation * carFlipOverMaxForceCoefficient + carFlipOverMinForceCoefficient;
-            Vector3 dragForce = -transform.up * (carRigidbody.mass * carFlipOverDragForceCoefficient);
+            Vector3 dragForce = transform.up * (carRigidbody.mass * carFlipOverDragForceCoefficient);
             if (TireRotateSignal < 0f)
             {
                 AddForceAndDrawLine(frontRightTire.transform.position, dragForce, Color.cyan);

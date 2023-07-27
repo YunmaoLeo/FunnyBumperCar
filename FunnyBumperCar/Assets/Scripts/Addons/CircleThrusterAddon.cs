@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CircleThrusterAddon : BaseAddon
+public class CircleThrusterAddon : AddonObject
 {
     [SerializeField] private float ejectionForceCoefficient = 100f;
     [SerializeField] private float ejectionCDTime = 1f;
@@ -16,6 +16,13 @@ public class CircleThrusterAddon : BaseAddon
     {
         
     }
+    
+    public override void InitializeCarRigidbody(Rigidbody rigidbody)
+    {
+        base.InitializeCarRigidbody(rigidbody);
+        GetComponent<FixedJoint>().connectedBody = rigidbody;
+    }
+
 
     private void FixedUpdate()
     {

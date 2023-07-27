@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
-public class SpringPillar : MonoBehaviour
+public class SpringPillar : AddonObject
 {
     [SerializeField] private float springForceCoefficient = 400000f;
     [SerializeField] private float springDefaultSize = 1f;
@@ -17,7 +17,6 @@ public class SpringPillar : MonoBehaviour
 
     [SerializeField] private ForceMode forceMode;
     
-    private Rigidbody carRigidbody;
     private bool isAddon = false;
 
     private float springScaleVelocity;
@@ -37,12 +36,13 @@ public class SpringPillar : MonoBehaviour
         CreateMinPillarCollider(triggerCollider);
     }
 
-    public void InitializeAddon(Rigidbody rigidbody)
+    public override void InitializeCarRigidbody(Rigidbody rigidbody)
     {
-        carRigidbody = rigidbody;
+        base.InitializeCarRigidbody(rigidbody);
         isAddon = true;
+        GetComponent<FixedJoint>().connectedBody = rigidbody;
     }
-    
+
 
     private void CreateMinPillarCollider(BoxCollider triggerCollider)
     {

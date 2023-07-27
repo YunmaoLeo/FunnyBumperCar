@@ -36,7 +36,6 @@ public class JumpPlatformTrigger : MonoBehaviour
     {
         if (objectsOnTriggerList.Count == 1 && coolDownTimer <= 0f)
         {
-            TriggerMesh.DOMoveY(triggerMeshInitialY - onPressYOffset, pressDuration);
             coolDownTimer = triggerCoolDownTime;
             StartCoroutine(TriggerJumpPlatformAfterCertainTime(triggerDelayTime));
         }
@@ -57,6 +56,8 @@ public class JumpPlatformTrigger : MonoBehaviour
                 objectsOnTriggerList.Add(other.gameObject);
             }
         }
+        
+        TriggerMesh.DOMoveY(triggerMeshInitialY - onPressYOffset, pressDuration);
         TryTrigger();
     }
 

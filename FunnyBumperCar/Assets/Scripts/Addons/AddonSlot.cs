@@ -22,7 +22,7 @@ public class AddonSlot : MonoBehaviour
     
     
     private Transform carAddonInstance;
-    private BaseAddon addon;
+    private AddonContainer _addonContainer;
     private void Awake()
     {
         
@@ -32,9 +32,9 @@ public class AddonSlot : MonoBehaviour
     {
     }
 
-    public BaseAddon GetAddon()
+    public AddonContainer GetAddon()
     {
-        return addon;
+        return _addonContainer;
     }
 
     public void InitializeCarAddon(Rigidbody carRigidbody)
@@ -50,17 +50,16 @@ public class AddonSlot : MonoBehaviour
         }
 
         carAddonInstance = Instantiate(CarAddonPrefab, transform);
-        addon = carAddonInstance.GetComponent<BaseAddon>();
+        _addonContainer = carAddonInstance.GetComponent<AddonContainer>();
 
-        Transform addOnCalibrator = addon.Calibrator;
+        //do calibration;
+        Transform addOnCalibrator = _addonContainer.Calibrator;
 
-        var rotationDelta = calibrator.rotation * Quaternion.Inverse(addon.Calibrator.rotation);
-        addon.transform.rotation *= rotationDelta;
-        addon.transform.position += (calibrator.position - addOnCalibrator.position);
+        var rotationDelta = calibrator.rotation * Quaternion.Inverse(_addonContainer.Calibrator.rotation);
+        _addonContainer.transform.rotation *= rotationDelta;
+        _addonContainer.transform.position += (calibrator.position - addOnCalibrator.position);
 
-        addon.carRigidbody = carRigidbody;
-
-        addon.GetComponent<FixedJoint>().connectedBody = carRigidbody;
+        _addonContainer.AssignCarRigidbody(carRigidbody);
     }
     
 }
