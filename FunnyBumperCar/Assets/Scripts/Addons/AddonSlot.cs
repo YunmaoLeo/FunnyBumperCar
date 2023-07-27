@@ -52,7 +52,7 @@ public class AddonSlot : MonoBehaviour
         carAddonInstance = Instantiate(CarAddonPrefab, transform);
         _addonContainer = carAddonInstance.GetComponent<AddonContainer>();
 
-        //do calibration;
+        //do calibration
         Transform addOnCalibrator = _addonContainer.Calibrator;
 
         var rotationDelta = calibrator.rotation * Quaternion.Inverse(_addonContainer.Calibrator.rotation);

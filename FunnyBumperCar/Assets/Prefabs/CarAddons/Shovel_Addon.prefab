@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 441856104382466890}
   m_LocalRotation: {x: -0.1604841, y: 0, z: 0, w: 0.98703843}
   m_LocalPosition: {x: 0, y: -0.338, z: 0.20300001}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5832, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 99294117306447271}
@@ -509,6 +509,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4420350826359387784, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4420350826359387784, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4420350827950921762, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -517,7 +527,7 @@ PrefabInstance:
     - target: {fileID: 4420350827950921762, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.365
+      value: -0.191
       objectReference: {fileID: 0}
     - target: {fileID: 9107710979557373730, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
@@ -559,12 +569,12 @@ PrefabInstance:
     - target: {fileID: 3790315252107365809, guid: 54d08afd326528b44baa9cd745cf4e31,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.093
+      value: -0.394
       objectReference: {fileID: 0}
     - target: {fileID: 3790315252107365809, guid: 54d08afd326528b44baa9cd745cf4e31,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.101
+      value: -0.089
       objectReference: {fileID: 0}
     - target: {fileID: 3790315252107365809, guid: 54d08afd326528b44baa9cd745cf4e31,
         type: 3}
@@ -603,6 +613,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9042588756205373387, guid: 54d08afd326528b44baa9cd745cf4e31,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 158.31999
+      objectReference: {fileID: 0}
+    - target: {fileID: 9042588756205373387, guid: 54d08afd326528b44baa9cd745cf4e31,
+        type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.338
       objectReference: {fileID: 0}
@@ -614,27 +629,27 @@ PrefabInstance:
     - target: {fileID: 9042588756205373387, guid: 54d08afd326528b44baa9cd745cf4e31,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.00000011211099
+      value: 0.00000012654193
       objectReference: {fileID: 0}
     - target: {fileID: 9042588756205373387, guid: 54d08afd326528b44baa9cd745cf4e31,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.00000015919179
+      value: -0.00000014797989
       objectReference: {fileID: 0}
     - target: {fileID: 9042588756205373387, guid: 54d08afd326528b44baa9cd745cf4e31,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.8175955
+      value: 0.76001215
       objectReference: {fileID: 0}
     - target: {fileID: 9042588756205373387, guid: 54d08afd326528b44baa9cd745cf4e31,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.575793
+      value: 0.6499089
       objectReference: {fileID: 0}
     - target: {fileID: 9042588756205373387, guid: 54d08afd326528b44baa9cd745cf4e31,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -70.31
+      value: -81.069
       objectReference: {fileID: 0}
     - target: {fileID: 9042588756205373387, guid: 54d08afd326528b44baa9cd745cf4e31,
         type: 3}
@@ -687,7 +702,7 @@ ConfigurableJoint:
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
-  m_YMotion: 0
+  m_YMotion: 2
   m_ZMotion: 0
   m_AngularXMotion: 0
   m_AngularYMotion: 0
@@ -730,8 +745,8 @@ ConfigurableJoint:
     maximumForce: 3.4028233e+38
   m_YDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 3.4028233e+38
   m_ZDrive:
     serializedVersion: 3
@@ -779,3 +794,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd2495243cb10d4381fd0ce22a69570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetHeightMinOffset: -0.06
+  targetHeightMaxOffset: -1
