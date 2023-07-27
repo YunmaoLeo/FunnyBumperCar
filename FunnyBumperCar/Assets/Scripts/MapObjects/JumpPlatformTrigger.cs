@@ -29,7 +29,7 @@ public class JumpPlatformTrigger : MonoBehaviour
 
     private void FixedUpdate()
     {
-        triggerCoolDownTime -= Time.fixedDeltaTime;
+        coolDownTimer -= Time.fixedDeltaTime;
     }
 
     private void TryTrigger()

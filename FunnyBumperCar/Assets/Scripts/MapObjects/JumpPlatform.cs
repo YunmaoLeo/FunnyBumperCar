@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -209,7 +208,7 @@ public class JumpPlatform : MonoBehaviour
         Vector2 boundsMinPoint = new Vector2(-boundsSize.x / 2, -boundsSize.z);
 
         
-        leverageDistanceFactor = (0f - projectorPoint.z) / boundsSize.z;
+        leverageDistanceFactor = (0f - projectorPoint.z) / boundsSize.z * (boundsSize.z / boundsSize.x);
         
         if (projectorPoint.x > boundsMinPoint.x 
             && projectorPoint.x < boundsMaxPoint.x
