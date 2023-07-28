@@ -54,9 +54,9 @@ public class AddonSlot : MonoBehaviour
 
         //do calibration
         Transform addOnCalibrator = _addonContainer.Calibrator;
-
-        var rotationDelta = calibrator.rotation * Quaternion.Inverse(_addonContainer.Calibrator.rotation);
-        _addonContainer.transform.rotation *= rotationDelta;
+        
+        var rotationDelta = calibrator.localRotation * Quaternion.Inverse(_addonContainer.Calibrator.localRotation);
+        _addonContainer.transform.localRotation *= rotationDelta;
         _addonContainer.transform.position += (calibrator.position - addOnCalibrator.position);
 
         _addonContainer.AssignCarRigidbody(carRigidbody);
