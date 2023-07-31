@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5156174595153735954
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 885203821276499797}
+  m_Layer: 0
+  m_Name: MissileEjectTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &885203821276499797
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5156174595153735954}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0.00201, z: -0.00822}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4830268190550262193}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1001 &1655366750482863158
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -247,10 +278,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cannonRotatePlatform: {fileID: 8205674035004368299}
   cannonBarrel: {fileID: 4830268190550262193}
+  missileEjectTransform: {fileID: 885203821276499797}
   barrelXAngleMin: -20
   barrelXAngleMax: 20
   missileCoolDownTime: 0.5
   aimTargetTimeConsumed: 0.5
-  missilePrefab: {fileID: 0}
+  missilePrefab: {fileID: 8892114391785321728, guid: f43f1f88294dedf4a8958a0b6f68cdcd,
+    type: 3}
   recoilForceFactor: 100
   aimRotateEase: 18

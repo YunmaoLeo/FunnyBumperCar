@@ -126,7 +126,8 @@ GameObject:
   - component: {fileID: 8744978947832411348}
   - component: {fileID: 8744978947832411351}
   - component: {fileID: 8744978947832411350}
-  m_Layer: 0
+  - component: {fileID: -2744861499871979153}
+  m_Layer: 2
   m_Name: FrontLeft
   m_TagString: Tire
   m_Icon: {fileID: 0}
@@ -178,10 +179,10 @@ MonoBehaviour:
   tireMass: 10
   raycastPrecision: 0.2
   widthRaycastPrecision: 0.3
-  springStrength: 2500
+  springStrength: 3000
   springDamping: 300
-  springDefaultLength: 0.35
-  springMaxLength: 0.48
+  springDefaultLength: 0.45
+  springMaxLength: 0.5
   isBraking: 0
   springMinLength: 0.32
   frictionCoefficient: 0.25
@@ -232,6 +233,19 @@ MonoBehaviour:
   assistSteerRatio: 0.05
   brakeFrictionMultiplier: 30
   drawRaycastDebugLine: 0
+--- !u!65 &-2744861499871979153
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8744978947832411349}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.31439227, y: 0.64699185, z: 0.66423845}
+  m_Center: {x: 0.0092408955, y: -0.0026856065, z: 0.002472639}
 --- !u!1 &8744978948593010712
 GameObject:
   m_ObjectHideFlags: 0

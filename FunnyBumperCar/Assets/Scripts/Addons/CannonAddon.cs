@@ -1,5 +1,6 @@
 using System.Collections;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,8 @@ public class CannonAddon : AddonObject
 {
     [SerializeField] private Transform cannonRotatePlatform;
     [SerializeField] private Transform cannonBarrel;
+
+    [SerializeField] private Transform missileEjectTransform;
     [SerializeField] private float barrelXAngleMin = -20f;
     [SerializeField] private float barrelXAngleMax = 20f;
     [SerializeField] private float missileCoolDownTime = 0.5f;
@@ -86,7 +89,8 @@ public class CannonAddon : AddonObject
     {
         if (missilePrefab != null)
         {
-            var missile = Instantiate(missilePrefab);
+            var missile = Instantiate(missilePrefab, position: missileEjectTransform.position, rotation:missileEjectTransform.rotation);
+            missile.GetComponent<Missile>().AssignHomingTarget(targetCar.GetComponent<Rigidbody>());
         }
         
         
