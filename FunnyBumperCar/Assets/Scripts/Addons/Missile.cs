@@ -19,6 +19,8 @@ public class Missile : MonoBehaviour
     
     [SerializeField] private float explosionIntensity = 2000f;
     [SerializeField] private float explosionRadius = 5f;
+
+    [SerializeField] private Transform ExplosionPrefab;
     
     private Rigidbody homingTargetRb;
     private Rigidbody rb;
@@ -37,7 +39,8 @@ public class Missile : MonoBehaviour
     {
         Debug.Log("Missile has detect collision of trigger");
         Debug.Log(other.gameObject.name);
-        
+
+        var explosion = Instantiate(ExplosionPrefab, position:other.ClosestPoint(transform.position), Quaternion.identity);
         //Explosion
         Destroy(gameObject);
     }
