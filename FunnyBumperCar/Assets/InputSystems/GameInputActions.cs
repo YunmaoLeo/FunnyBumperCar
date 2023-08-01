@@ -98,6 +98,15 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Join"",
+                    ""type"": ""Button"",
+                    ""id"": ""28f11deb-bca0-466d-9523-bf0f8cfc179e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -118,7 +127,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -129,7 +138,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -140,7 +149,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -151,7 +160,62 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""b4fd8843-0af9-4622-a0ab-72860e83b0f1"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
                     ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""0c4b62d7-05c3-43fb-b704-752761f3b883"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""6fd4ec22-b152-4f27-b9a1-37b3cdae1ce9"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""e154fab3-4b0a-4544-b0e9-f91fd570ea63"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""33f4b97d-4353-4641-8a61-dba3302812b4"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -162,7 +226,18 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""CarBrake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9bcc514f-697c-446e-b6cd-1f4a68da496c"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""CarBrake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -173,7 +248,18 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/h"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""CarAddonTriggerFront"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d08a2633-c846-46a0-9b08-31de948ef3e7"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""CarAddonTriggerFront"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -184,7 +270,18 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""CarAddonTriggerSide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc9e2da8-f9e8-44d6-a60e-3463144f7c6d"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""CarAddonTriggerSide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -195,7 +292,18 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/k"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""CarAddonTriggerBack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec706fa5-0afa-42f1-8b5a-dea09487be52"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""CarAddonTriggerBack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -206,7 +314,18 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/l"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""CarAddonTriggerTop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48d5fe93-0256-45a5-880d-79b0394e6b46"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""CarAddonTriggerTop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -217,7 +336,18 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ParachuteTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aa072d57-59f1-4f5d-86c7-e637583dd8b7"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""ParachuteTrigger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -228,15 +358,71 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Drifting"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3048a981-96df-444c-952f-9c8f9f0701ff"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Drifting"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ebb1331-e697-4b0a-8b9e-a04eeeefe40a"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Join"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cb3245a5-1b41-4921-9431-837814e91ac5"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Join"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Keyboard"",
+            ""bindingGroup"": ""Keyboard"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Gamepad"",
+            ""bindingGroup"": ""Gamepad"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
@@ -248,6 +434,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         m_Player_CarAddonTriggerTop = m_Player.FindAction("CarAddonTriggerTop", throwIfNotFound: true);
         m_Player_ParachuteTrigger = m_Player.FindAction("ParachuteTrigger", throwIfNotFound: true);
         m_Player_Drifting = m_Player.FindAction("Drifting", throwIfNotFound: true);
+        m_Player_Join = m_Player.FindAction("Join", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -317,6 +504,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CarAddonTriggerTop;
     private readonly InputAction m_Player_ParachuteTrigger;
     private readonly InputAction m_Player_Drifting;
+    private readonly InputAction m_Player_Join;
     public struct PlayerActions
     {
         private @GameInputActions m_Wrapper;
@@ -329,6 +517,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         public InputAction @CarAddonTriggerTop => m_Wrapper.m_Player_CarAddonTriggerTop;
         public InputAction @ParachuteTrigger => m_Wrapper.m_Player_ParachuteTrigger;
         public InputAction @Drifting => m_Wrapper.m_Player_Drifting;
+        public InputAction @Join => m_Wrapper.m_Player_Join;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -362,6 +551,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @Drifting.started += instance.OnDrifting;
             @Drifting.performed += instance.OnDrifting;
             @Drifting.canceled += instance.OnDrifting;
+            @Join.started += instance.OnJoin;
+            @Join.performed += instance.OnJoin;
+            @Join.canceled += instance.OnJoin;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -390,6 +582,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @Drifting.started -= instance.OnDrifting;
             @Drifting.performed -= instance.OnDrifting;
             @Drifting.canceled -= instance.OnDrifting;
+            @Join.started -= instance.OnJoin;
+            @Join.performed -= instance.OnJoin;
+            @Join.canceled -= instance.OnJoin;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -407,6 +602,24 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+    private int m_KeyboardSchemeIndex = -1;
+    public InputControlScheme KeyboardScheme
+    {
+        get
+        {
+            if (m_KeyboardSchemeIndex == -1) m_KeyboardSchemeIndex = asset.FindControlSchemeIndex("Keyboard");
+            return asset.controlSchemes[m_KeyboardSchemeIndex];
+        }
+    }
+    private int m_GamepadSchemeIndex = -1;
+    public InputControlScheme GamepadScheme
+    {
+        get
+        {
+            if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
+            return asset.controlSchemes[m_GamepadSchemeIndex];
+        }
+    }
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -417,5 +630,6 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         void OnCarAddonTriggerTop(InputAction.CallbackContext context);
         void OnParachuteTrigger(InputAction.CallbackContext context);
         void OnDrifting(InputAction.CallbackContext context);
+        void OnJoin(InputAction.CallbackContext context);
     }
 }

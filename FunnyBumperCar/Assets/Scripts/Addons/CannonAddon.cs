@@ -1,6 +1,5 @@
 using System.Collections;
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,7 +14,7 @@ public class CannonAddon : AddonObject
     [SerializeField] private float missileCoolDownTime = 0.5f;
 
     [SerializeField] private float aimTargetTimeConsumed = 0.5f;
-    
+
     [SerializeField] private Transform missilePrefab;
 
     [SerializeField] private float recoilForceFactor;
@@ -28,7 +27,7 @@ public class CannonAddon : AddonObject
 
     private bool isAimingTarget = false;
     private Transform targetCar;
-    
+
     public override void InitializeCarRigidbody(Rigidbody rigidbody)
     {
         base.InitializeCarRigidbody(rigidbody);
@@ -49,7 +48,9 @@ public class CannonAddon : AddonObject
     private void AimingAtTargetPerFrame(Transform target)
     {
         var position = target.position;
-        cannonRotatePlatform.DODynamicLookAt(new Vector3(position.x, cannonRotatePlatform.transform.position.y, position.z), aimTargetTimeConsumed).SetEase(aimRotateEase);
+        cannonRotatePlatform
+            .DODynamicLookAt(new Vector3(position.x, cannonRotatePlatform.transform.position.y, position.z),
+                aimTargetTimeConsumed).SetEase(aimRotateEase);
 
         //Barrel Rotate;
         Vector3 directionToTarget = position - cannonBarrel.position;
@@ -71,7 +72,7 @@ public class CannonAddon : AddonObject
 
         //2. Rotate cannon platform and barrel;
         isAimingTarget = true;
-        
+
         //3. Send Missile & Add recoil force on car rigidbody;
         StartCoroutine(EjectMissileCoroutine(aimTargetTimeConsumed));
     }
@@ -80,7 +81,7 @@ public class CannonAddon : AddonObject
     {
         yield return new WaitForSeconds(aimTimeConsumed);
         EjectMissile();
-        
+
         isAimingTarget = false;
         targetCar = null;
     }
@@ -89,22 +90,23 @@ public class CannonAddon : AddonObject
     {
         if (missilePrefab != null)
         {
-            var missile = Instantiate(missilePrefab, position: missileEjectTransform.position, rotation:missileEjectTransform.rotation);
+            var missile = Instantiate(missilePrefab, position: missileEjectTransform.position,
+                rotation: missileEjectTransform.rotation);
             missile.GetComponent<Missile>().AssignHomingTarget(targetCar.GetComponent<Rigidbody>());
         }
-        
-        
-        // add recoil force;
-        carRigidbody.AddForceAtPosition(cannonBarrel.forward * recoilForceFactor, carRigidbody.position + fixedJoint.connectedAnchor, ForceMode.Impulse);
-        Debug.DrawLine(carRigidbody.position + fixedJoint.connectedAnchor, carRigidbody.position + fixedJoint.connectedAnchor+cannonBarrel.forward * recoilForceFactor, Color.red, duration:0.5f);
 
+
+        // add recoil force;
+        carRigidbody.AddForceAtPosition(cannonBarrel.forward * recoilForceFactor,
+            carRigidbody.position + fixedJoint.connectedAnchor, ForceMode.Impulse);
+        Debug.DrawLine(carRigidbody.position + fixedJoint.connectedAnchor,
+            carRigidbody.position + fixedJoint.connectedAnchor + cannonBarrel.forward * recoilForceFactor, Color.red,
+            duration: 0.5f);
     }
-    
+
 
     public override void TriggerAddon(InputAction.CallbackContext context)
     {
         StartFireMissile();
     }
-    
-    
 }

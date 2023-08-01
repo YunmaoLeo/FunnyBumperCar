@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -148,7 +147,7 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
         }
     }
 
-    public void BindAddonInputActions(GameInputActions gameInputActions)
+    public void BindAddonInputActions(InputActionMap playerActionMap)
     {
         var addonsCount = CarsAddonsTransform.childCount;
         for (int index = 0; index < addonsCount; index++)
@@ -159,29 +158,37 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
             {
                 continue;
             }
+
+            string actionName = "";
             switch (slot.SlotType)
             {
                 case AddonSlot.AddonSlotType.Top:
-                    gameInputActions.Player.CarAddonTriggerTop.performed += slot.GetAddon().TriggerAddon;
+                    actionName = "CarAddonTriggerTop";
                     break;
                 case AddonSlot.AddonSlotType.Front:
-                    gameInputActions.Player.CarAddonTriggerFront.performed += slot.GetAddon().TriggerAddon;
+                    actionName = "CarAddonTriggerFront";
                     break;
                 case AddonSlot.AddonSlotType.Side:
-                    gameInputActions.Player.CarAddonTriggerSide.performed += slot.GetAddon().TriggerAddon;
+                    actionName = "CarAddonTriggerSide";
                     break;
                 case AddonSlot.AddonSlotType.Back:
-                    gameInputActions.Player.CarAddonTriggerBack.performed += slot.GetAddon().TriggerAddon;
+                    actionName = "CarAddonTriggerBack";
                     break;
                 case AddonSlot.AddonSlotType.Bottom:
-                    // gameInputActions.Player.CarAddonTrigger.performed += slot.GetAddon().TriggerAddon;
+                    actionName = "CarAddonTriggerBottom";
                     break;
                 
                 default:
                     break;
             }
+
+            if (actionName != "")
+            {
+                playerActionMap.FindAction(actionName).performed += slot.GetAddon().TriggerAddon;
+            }
         }
-        gameInputActions.Player.ParachuteTrigger.performed += context => TurnOnAndOffParachute();
+
+        playerActionMap.FindAction("ParachuteTrigger").performed += context => TurnOnAndOffParachute();
     }
 
     private void Update()

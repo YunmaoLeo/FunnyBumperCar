@@ -199,7 +199,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   steerAngle: 25
   assistSteerRatio: 0.05
-  brakeFrictionMultiplier: 30
+  brakeFrictionMultiplier: 3000
   drawRaycastDebugLine: 0
 --- !u!65 &-9177034512322119558
 BoxCollider:

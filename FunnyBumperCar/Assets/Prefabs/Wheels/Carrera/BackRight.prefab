@@ -347,12 +347,12 @@ MonoBehaviour:
   tireMass: 10
   raycastPrecision: 0.2
   widthRaycastPrecision: 0.3
-  springStrength: 3000
+  springStrength: 3500
   springDamping: 300
-  springDefaultLength: 0.45
-  springMaxLength: 0.5
+  springDefaultLength: 0.55
+  springMaxLength: 0.6
   isBraking: 0
-  springMinLength: 0.32
+  springMinLength: 0.4
   frictionCoefficient: 0.25
   driftingTireGripFactor: 0.1
   steeringCurve:
@@ -370,15 +370,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.105771594
       value: 0.92490476
-      inSlope: -0.8789981
-      outSlope: -0.8789981
+      inSlope: -0.433959
+      outSlope: -0.433959
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.42795643
-      value: 0.5872484
+      time: 0.89919364
+      value: 0.7995897
       inSlope: -0.12397851
       outSlope: -0.12397851
       tangentMode: 0
@@ -386,10 +386,10 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.41749007
     - serializedVersion: 3
-      time: 0.9545593
-      value: 0.57515717
-      inSlope: -0.022960793
-      outSlope: -0.022960793
+      time: 1.5400391
+      value: 0.7533188
+      inSlope: -0.07220291
+      outSlope: -0.07220291
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -399,7 +399,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   steerAngle: 25
   assistSteerRatio: 0.05
-  brakeFrictionMultiplier: 30
+  brakeFrictionMultiplier: 3000
   drawRaycastDebugLine: 0
 --- !u!65 &2383664118095319644
 BoxCollider:

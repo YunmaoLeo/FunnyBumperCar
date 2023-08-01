@@ -10,11 +10,13 @@ public class CircleThrusterAddon : AddonObject
     [SerializeField] private float ejectionDuration = 0.2f;
     private float ejectionCDTimer = 0f;
 
+    private CircleThrusterVisual thrusterVisual;
+
 
     [SerializeField] private ForceMode forceMode;
     private void Awake()
     {
-        
+        thrusterVisual = GetComponent<CircleThrusterVisual>();
     }
     
     public override void InitializeCarRigidbody(Rigidbody rigidbody)
@@ -34,6 +36,7 @@ public class CircleThrusterAddon : AddonObject
         if (ejectionCDTimer < 0f)
         {
             ejectionCDTimer = ejectionCDTime;
+            thrusterVisual.OnThrusterEject();
             StartCoroutine(Ejection());
         }
     }
@@ -48,5 +51,6 @@ public class CircleThrusterAddon : AddonObject
             durationTime += Time.deltaTime;
             yield return null;
         }
+        thrusterVisual.OnThrusterEndEject();
     }
 }

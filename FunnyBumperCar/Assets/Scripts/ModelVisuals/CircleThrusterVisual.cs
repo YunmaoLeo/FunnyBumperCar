@@ -12,6 +12,8 @@ public class CircleThrusterVisual : MonoBehaviour
 
     [SerializeField] private float bladeRadius = 0.13f;
 
+    [SerializeField] private ParticleSystem flameParticle;
+    
     private Vector3 lastPosition;
     private float WorldVelocity = 0f;
 
@@ -19,6 +21,7 @@ public class CircleThrusterVisual : MonoBehaviour
     private void Awake()
     {
         lastPosition = transform.position;
+        flameParticle.Stop();
     }
 
     public void FixedUpdate()
@@ -34,5 +37,15 @@ public class CircleThrusterVisual : MonoBehaviour
         bladesTransform.localRotation *= newQuaternion;
 
         lastPosition = transform.position;
+    }
+
+    public void OnThrusterEject()
+    {
+        flameParticle.Play();
+    }
+
+    public void OnThrusterEndEject()
+    {
+        flameParticle.Stop();
     }
 }
