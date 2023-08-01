@@ -7,7 +7,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Missile : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float maxSpeed = 50f;
+    [SerializeField] private float acceleration = 5f;
     [SerializeField] private float angularSpeed = 0.5f;
     
     [SerializeField] private float maxPredictionTime = 1f;
@@ -18,9 +19,11 @@ public class Missile : MonoBehaviour
     [SerializeField] private float deviationAmount = 3f;
     
     [SerializeField] private float explosionIntensity = 2000f;
-    [SerializeField] private float explosionRadius = 5f;
+    [SerializeField] private float explosionRadius = 5.12f;
 
     [SerializeField] private Transform ExplosionPrefab;
+
+    private float currentSpeed = 0f;
     
     private Rigidbody homingTargetRb;
     private Rigidbody rb;
@@ -37,24 +40,37 @@ public class Missile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Missile has detect collision of trigger");
-        Debug.Log(other.gameObject.name);
-
         var explosion = Instantiate(ExplosionPrefab, position:other.ClosestPoint(transform.position), Quaternion.identity);
+        explosion.localScale = Vector3.one * (explosionRadius / 2.5f);
+        Destroy(explosion.gameObject, 1f);
+
+        Collider[] colliders = Physics.OverlapSphere(explosion.position, explosionRadius);
+        foreach (var explodedCollider in colliders)
+        {
+            if (explodedCollider.TryGetComponent<ICanBeExploded>(out ICanBeExploded exploded))
+            {
+                // var localExplosionIntensity = Vector3.Distance(explodedCollider.transform.position, explosion.position) / explosionRadius * explosionIntensity;
+                exploded.BeExploded(explosion.position, explosionIntensity, explosionRadius);
+            }
+        }
+        
         //Explosion
         Destroy(gameObject);
     }
+    
 
     private void FixedUpdate()
     {
         // 1. provide driving force/velocity;
-        rb.velocity = speed * transform.forward;
+        currentSpeed += acceleration * Time.fixedDeltaTime;
+        currentSpeed = Mathf.Min(currentSpeed, maxSpeed);
+        rb.velocity = currentSpeed * transform.forward;
         
         // 2. missile pose adjustment;
 
         if (homingTargetRb != null)
         {
-            Vector3 targetPosition = homingTargetRb.worldCenterOfMass;
+            Vector3 targetPosition = homingTargetRb.worldCenterOfMass + (homingTargetRb.transform.up * 10f);
 
             var distance = Vector3.Distance(targetPosition, transform.position);
 

@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CarSimulation : MonoBehaviour
+public class CarSimulation : MonoBehaviour, ICanBeExploded
 {
     [SerializeField] private float fixedDeltaTime = 0.005f;
     
@@ -342,5 +342,10 @@ public class CarSimulation : MonoBehaviour
         tireConnectPointsMap.Clear();
         tiresAbleToDriveMap.Clear();
         tiresAbleToSteerMap.Clear();
+    }
+
+    public void BeExploded(Vector3 explosionCenter, float explosionIntensity, float explosionRadius)
+    {
+        carRigidbody.AddExplosionForce(explosionIntensity, explosionCenter, explosionRadius);
     }
 }

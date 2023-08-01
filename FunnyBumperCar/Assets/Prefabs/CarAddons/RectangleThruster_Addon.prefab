@@ -285,5 +285,5 @@ MonoBehaviour:
   aimTargetTimeConsumed: 0.5
   missilePrefab: {fileID: 8892114391785321728, guid: f43f1f88294dedf4a8958a0b6f68cdcd,
     type: 3}
-  recoilForceFactor: 100
+  recoilForceFactor: 300
   aimRotateEase: 18
