@@ -19,9 +19,9 @@ public class CircleThrusterAddon : AddonObject
         thrusterVisual = GetComponent<CircleThrusterVisual>();
     }
     
-    public override void InitializeCarRigidbody(Rigidbody rigidbody)
+    public override void InitializeBasePlatformRigidbody(Rigidbody rigidbody)
     {
-        base.InitializeCarRigidbody(rigidbody);
+        base.InitializeBasePlatformRigidbody(rigidbody);
         GetComponent<FixedJoint>().connectedBody = rigidbody;
     }
 
@@ -46,7 +46,7 @@ public class CircleThrusterAddon : AddonObject
         float durationTime = 0f;
         while (durationTime < ejectionDuration)
         {
-            carRigidbody.AddForce(transform.forward * ejectionForceCoefficient);
+            basePlatformRigidbody.AddForce(transform.forward * ejectionForceCoefficient);
             Debug.DrawLine(transform.position, transform.position + transform.forward * ejectionForceCoefficient, Color.red);
             durationTime += Time.deltaTime;
             yield return null;

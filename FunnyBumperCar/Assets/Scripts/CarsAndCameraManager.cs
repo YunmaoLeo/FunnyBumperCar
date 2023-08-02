@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
@@ -11,7 +9,7 @@ public class CarsAndCameraManager : MonoBehaviour
 
     private Transform P1CarTransform;
     private Transform P2CarTransform;
-    
+
     private void Awake()
     {
         Instance = this;
@@ -27,8 +25,8 @@ public class CarsAndCameraManager : MonoBehaviour
         {
             P2CarTransform = car;
         }
-        
-        cameraTargetGroup.AddMember(car,1,10);
+
+        cameraTargetGroup.AddMember(car, 1, 10);
     }
 
     public void RegisterVisualEffect(Transform effect, float time = 1f)
@@ -43,8 +41,20 @@ public class CarsAndCameraManager : MonoBehaviour
         cameraTargetGroup.RemoveMember(transform);
     }
 
-    public Transform GetHostileCar(Transform car)
+    public Transform GetHostileCar(Transform transformWithRb)
     {
-        return P1CarTransform == car ? P2CarTransform : P1CarTransform;
+        if (transformWithRb.CompareTag("Car"))
+        {
+            return P1CarTransform == transformWithRb ? P2CarTransform : P1CarTransform;
+        }
+        else
+        {
+            return GetHostileCar();
+        }
+    }
+
+    public Transform GetHostileCar()
+    {
+        return Random.Range(0, 2) == 1 ? P1CarTransform : P2CarTransform;
     }
 }

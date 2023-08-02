@@ -1,25 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using UnityEngine;
 
-/**
- * Responsible for containing addon and provides calibration with cars.
- */
 public class AddonContainer : MonoBehaviour
 {
-    [SerializeField] public Transform Calibrator;
-    [SerializeField] private AddonObject Addon;
+    [SerializeField] protected AddonObject Addon;
 
-    public void TriggerAddon(InputAction.CallbackContext context)
-    {
-        if (Addon != null)
-        {
-            Addon.TriggerAddon(context);
-        }
-    }
 
     public void SetEnable(bool enable)
     {
@@ -29,15 +13,11 @@ public class AddonContainer : MonoBehaviour
         }
     }
 
-
-
-    public void AssignCarRigidbody(Rigidbody rigidbody)
+    public void AssignRigidbody(Rigidbody rigidbody)
     {
         if (Addon != null)
         {
-            Addon.InitializeCarRigidbody(rigidbody);
+            Addon.InitializeBasePlatformRigidbody(rigidbody);
         }
     }
-
-
 }

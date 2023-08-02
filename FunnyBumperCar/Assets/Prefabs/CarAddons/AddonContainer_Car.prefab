@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2870271067732260759}
   - component: {fileID: 9107710979557373730}
   m_Layer: 0
-  m_Name: AddonContainer
+  m_Name: AddonContainer_Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

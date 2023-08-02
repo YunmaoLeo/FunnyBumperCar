@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 6203557946467250355}
   - component: {fileID: 3352316204821073854}
   m_Layer: 0
-  m_Name: CircleThruster
+  m_Name: CircleThrusterMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

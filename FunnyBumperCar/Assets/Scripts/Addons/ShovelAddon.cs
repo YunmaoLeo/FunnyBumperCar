@@ -14,9 +14,9 @@ public class ShovelAddon : AddonObject
         joint.targetPosition = new Vector3(0, targetHeightMinOffset, 0);
     }
 
-    public override void InitializeCarRigidbody(Rigidbody rigidbody)
+    public override void InitializeBasePlatformRigidbody(Rigidbody rigidbody)
     {
-        base.InitializeCarRigidbody(rigidbody);
+        base.InitializeBasePlatformRigidbody(rigidbody);
         GetComponent<ConfigurableJoint>().connectedBody = rigidbody;
     }
 

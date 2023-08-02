@@ -22,7 +22,7 @@ public class AddonSlot : MonoBehaviour
     
     
     private Transform carAddonInstance;
-    private AddonContainer _addonContainer;
+    private AddonContainer_Car _addonContainerCar;
     private void Awake()
     {
         
@@ -32,9 +32,9 @@ public class AddonSlot : MonoBehaviour
     {
     }
 
-    public AddonContainer GetAddonContainer()
+    public AddonContainer_Car GetAddonContainer()
     {
-        return _addonContainer;
+        return _addonContainerCar;
     }
 
     public void InitializeCarAddon(Rigidbody carRigidbody)
@@ -50,16 +50,16 @@ public class AddonSlot : MonoBehaviour
         }
 
         carAddonInstance = Instantiate(CarAddonPrefab, transform);
-        _addonContainer = carAddonInstance.GetComponent<AddonContainer>();
+        _addonContainerCar = carAddonInstance.GetComponent<AddonContainer_Car>();
 
         //do calibration
-        Transform addOnCalibrator = _addonContainer.Calibrator;
+        Transform addOnCalibrator = _addonContainerCar.Calibrator;
         
-        var rotationDelta = calibrator.localRotation * Quaternion.Inverse(_addonContainer.Calibrator.localRotation);
-        _addonContainer.transform.localRotation *= rotationDelta;
-        _addonContainer.transform.position += (calibrator.position - addOnCalibrator.position);
+        var rotationDelta = calibrator.localRotation * Quaternion.Inverse(_addonContainerCar.Calibrator.localRotation);
+        _addonContainerCar.transform.localRotation *= rotationDelta;
+        _addonContainerCar.transform.position += (calibrator.position - addOnCalibrator.position);
 
-        _addonContainer.AssignCarRigidbody(carRigidbody);
+        _addonContainerCar.AssignRigidbody(carRigidbody);
     }
     
 }

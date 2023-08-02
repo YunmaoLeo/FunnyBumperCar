@@ -209,7 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3396773498112942734}
   m_Layer: 0
-  m_Name: RectangleThruster
+  m_Name: CannonMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

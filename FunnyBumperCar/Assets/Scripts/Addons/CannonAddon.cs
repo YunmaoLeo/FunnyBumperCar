@@ -28,9 +28,9 @@ public class CannonAddon : AddonObject
     private bool isAimingTarget = false;
     private Transform targetCar;
 
-    public override void InitializeCarRigidbody(Rigidbody rigidbody)
+    public override void InitializeBasePlatformRigidbody(Rigidbody rigidbody)
     {
-        base.InitializeCarRigidbody(rigidbody);
+        base.InitializeBasePlatformRigidbody(rigidbody);
         fixedJoint = GetComponent<FixedJoint>();
         fixedJoint.connectedBody = rigidbody;
     }
@@ -67,8 +67,11 @@ public class CannonAddon : AddonObject
 
         missileCDTimer = missileCoolDownTime;
         //1. Find the attack target;
-        // var targetCar = CarsManager.Instance.GetHostileCar(carRigidbody.transform);
-        targetCar = CarsAndCameraManager.Instance.GetHostileCar(carRigidbody.transform);
+        targetCar = CarsAndCameraManager.Instance.GetHostileCar(basePlatformRigidbody.transform);
+        if (targetCar == null)
+        {
+            return;
+        }
 
         //2. Rotate cannon platform and barrel;
         isAimingTarget = true;
@@ -96,15 +99,17 @@ public class CannonAddon : AddonObject
             {
                 return;
             }
+
             missile.GetComponent<Missile>().AssignHomingTarget(targetCar.GetComponent<Rigidbody>());
         }
 
 
         // add recoil force;
-        carRigidbody.AddForceAtPosition(cannonBarrel.forward * recoilForceFactor,
-            carRigidbody.position + fixedJoint.connectedAnchor, ForceMode.Impulse);
-        Debug.DrawLine(carRigidbody.position + fixedJoint.connectedAnchor,
-            carRigidbody.position + fixedJoint.connectedAnchor + cannonBarrel.forward * recoilForceFactor, Color.red,
+        basePlatformRigidbody.AddForceAtPosition(cannonBarrel.forward * recoilForceFactor,
+            basePlatformRigidbody.position + fixedJoint.connectedAnchor, ForceMode.Impulse);
+        Debug.DrawLine(basePlatformRigidbody.position + fixedJoint.connectedAnchor,
+            basePlatformRigidbody.position + fixedJoint.connectedAnchor + cannonBarrel.forward * recoilForceFactor,
+            Color.red,
             duration: 0.5f);
     }
 

@@ -36,9 +36,9 @@ public class SpringPillar : AddonObject
         CreateMinPillarCollider(triggerCollider);
     }
 
-    public override void InitializeCarRigidbody(Rigidbody rigidbody)
+    public override void InitializeBasePlatformRigidbody(Rigidbody rigidbody)
     {
-        base.InitializeCarRigidbody(rigidbody);
+        base.InitializeBasePlatformRigidbody(rigidbody);
         isAddon = true;
         GetComponent<FixedJoint>().connectedBody = rigidbody;
     }
@@ -126,8 +126,8 @@ public class SpringPillar : AddonObject
 
         if (isAddon)
         {
-            carRigidbody.AddForce(-springForce, forceMode);
-            Debug.DrawLine(carRigidbody.position, carRigidbody.position - springForce / carRigidbody.mass / 2, Color.red);
+            basePlatformRigidbody.AddForce(-springForce, forceMode);
+            Debug.DrawLine(basePlatformRigidbody.position, basePlatformRigidbody.position - springForce / basePlatformRigidbody.mass / 2, Color.red);
         }
     }
 }

@@ -5,15 +5,16 @@ using UnityEngine.InputSystem;
 
 public class AddonObject : MonoBehaviour
 {
-    protected Rigidbody carRigidbody;
+    protected Rigidbody basePlatformRigidbody;
 
     public virtual void TriggerAddon(InputAction.CallbackContext context)
     {
     }
+
     
-    public virtual void InitializeCarRigidbody(Rigidbody rigidbody)
+    public virtual void InitializeBasePlatformRigidbody(Rigidbody rigidbody)
     {
-        carRigidbody = rigidbody;
+        basePlatformRigidbody = rigidbody;
     }
     
     public virtual void OnInitialState()
