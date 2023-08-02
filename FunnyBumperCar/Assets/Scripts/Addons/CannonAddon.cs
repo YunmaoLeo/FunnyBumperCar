@@ -68,7 +68,7 @@ public class CannonAddon : AddonObject
         missileCDTimer = missileCoolDownTime;
         //1. Find the attack target;
         // var targetCar = CarsManager.Instance.GetHostileCar(carRigidbody.transform);
-        targetCar = CarsManager.Instance.GetHostileCar(carRigidbody.transform);
+        targetCar = CarsAndCameraManager.Instance.GetHostileCar(carRigidbody.transform);
 
         //2. Rotate cannon platform and barrel;
         isAimingTarget = true;

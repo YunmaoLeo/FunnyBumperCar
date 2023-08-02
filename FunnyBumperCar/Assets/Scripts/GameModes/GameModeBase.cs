@@ -50,7 +50,7 @@ public class GameModeBase : MonoBehaviour
 
     protected virtual void OnGameOver()
     {
-        Time.timeScale = 0f;
+        Time.timeScale = 0.3f;
         GameOverUI.gameObject.SetActive(true);
     }
 

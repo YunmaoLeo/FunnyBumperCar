@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
         carSimulationComponent.BindAddonInputActions(player);
 
         //initialize carManager;
-        CarsManager.Instance.RegisterCar(carTransform, playerIndex);
+        CarsAndCameraManager.Instance.RegisterCar(carTransform, playerIndex);
     }
 
     private void OnEnable()

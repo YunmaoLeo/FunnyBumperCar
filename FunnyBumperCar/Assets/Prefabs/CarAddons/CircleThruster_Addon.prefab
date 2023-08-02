@@ -133,7 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ejectionForceCoefficient: 10000
   ejectionCDTime: 1
-  ejectionDuration: 0.2
+  ejectionDuration: 0.5
   forceMode: 0
 --- !u!1001 &6879387277290943275
 PrefabInstance:

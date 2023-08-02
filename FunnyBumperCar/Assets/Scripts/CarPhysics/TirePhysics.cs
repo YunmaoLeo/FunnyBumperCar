@@ -36,7 +36,7 @@ public class TirePhysics : MonoBehaviour
     [SerializeField] private float driftingTireGripFactor = 0.1f;
     [SerializeField] private AnimationCurve steeringCurve;
 
-    [SerializeField] [Range(0f, 180f)] private float steerAngle;
+    [SerializeField] [Range(-180f, 180f)] private float steerAngle;
 
     [SerializeField] private float assistSteerRatio = 0.05f;
     [SerializeField] private float brakeFrictionMultiplier = 10f;
