@@ -32,7 +32,7 @@ public class AddonSlot : MonoBehaviour
     {
     }
 
-    public AddonContainer GetAddon()
+    public AddonContainer GetAddonContainer()
     {
         return _addonContainer;
     }

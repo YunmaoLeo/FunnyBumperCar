@@ -21,6 +21,14 @@ public class AddonContainer : MonoBehaviour
         }
     }
 
+    public void SetEnable(bool enable)
+    {
+        if (Addon != null)
+        {
+            Addon.SetEnable(enable);
+        }
+    }
+
 
 
     public void AssignCarRigidbody(Rigidbody rigidbody)

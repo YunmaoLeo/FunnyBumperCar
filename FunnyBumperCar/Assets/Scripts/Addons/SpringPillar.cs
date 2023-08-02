@@ -63,6 +63,8 @@ public class SpringPillar : AddonObject
             currentScale = Mathf.Lerp(currentScale, 1f, (1 - currentScale) * 0.08f);
         }
 
+        currentScale = Mathf.Clamp(currentScale, springMinScaleRatio, 1f);
+
         springScaleVelocity = currentScale - lastFrameScale;
         lastFrameScale = currentScale;
         

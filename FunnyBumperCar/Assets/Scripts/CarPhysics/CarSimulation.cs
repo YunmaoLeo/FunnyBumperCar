@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -81,6 +82,11 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
         get => isDrifting;
         set => isDrifting = value;
     }
+
+    public float GetCarRadiusSize
+    {
+        get => (GetComponentInChildren<MeshRenderer>().bounds.extents.magnitude);
+    }
     
     public bool IsParachuteActive
     {
@@ -137,6 +143,43 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
         maxEngineVelocity = engineMaxTorque / (carRigidbody.mass + totalTireMass) * maxEngineVelocityCoefficient;
     }
 
+    private void ResetAddonStates(bool enable)
+    {
+        var addonsCount = CarsAddonsTransform.childCount;
+        for (int index = 0; index < addonsCount; index++)
+        {
+            var addonSlot = CarsAddonsTransform.GetChild(index);
+            var slot = addonSlot.GetComponent<AddonSlot>();
+            if (slot.GetAddonContainer() != null)
+            {
+                slot.GetAddonContainer().SetEnable(enable);
+            }
+        }
+    }
+
+    public void ResetPhysicalState(Transform spawnPointTransform)
+    {
+
+        ResetAddonStates(false);
+        carRigidbody.isKinematic = true;
+        carRigidbody.detectCollisions = false;
+        carRigidbody.velocity = Vector3.zero;
+        carRigidbody.angularVelocity = Vector3.zero; 
+        carRigidbody.ResetInertiaTensor();
+        carRigidbody.position = spawnPointTransform.position;
+        carRigidbody.rotation = spawnPointTransform.rotation;
+
+        StartCoroutine(ActivePhysicalBodyWithDelay(1f));
+    }
+
+    IEnumerator ActivePhysicalBodyWithDelay(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        carRigidbody.isKinematic = false;
+        carRigidbody.detectCollisions = true;
+        ResetAddonStates(true);
+    }
+
     private void InitializeCarAddons()
     {
         var addonsCount = CarsAddonsTransform.childCount;
@@ -154,7 +197,7 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
         {
             var addonSlot = CarsAddonsTransform.GetChild(index);
             var slot = addonSlot.GetComponent<AddonSlot>();
-            if (slot.GetAddon() == null)
+            if (slot.GetAddonContainer() == null)
             {
                 continue;
             }
@@ -184,7 +227,7 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
 
             if (actionName != "")
             {
-                playerActionMap.FindAction(actionName).performed += slot.GetAddon().TriggerAddon;
+                playerActionMap.FindAction(actionName).performed += slot.GetAddonContainer().TriggerAddon;
             }
         }
 

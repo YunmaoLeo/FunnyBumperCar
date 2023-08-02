@@ -92,6 +92,10 @@ public class CannonAddon : AddonObject
         {
             var missile = Instantiate(missilePrefab, position: missileEjectTransform.position,
                 rotation: missileEjectTransform.rotation);
+            if (targetCar.GetComponent<Rigidbody>() == null)
+            {
+                return;
+            }
             missile.GetComponent<Missile>().AssignHomingTarget(targetCar.GetComponent<Rigidbody>());
         }
 

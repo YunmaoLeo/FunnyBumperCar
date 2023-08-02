@@ -20,4 +20,19 @@ public class AddonObject : MonoBehaviour
     {
         
     }
+
+    public virtual void SetEnable(bool enable)
+    {
+        if (TryGetComponent<Rigidbody>(out Rigidbody rb))
+        {
+            rb.isKinematic = !enable;
+        }
+
+        if (TryGetComponent<Collider>(out Collider collider))
+        {
+            collider.enabled = enable;
+        }
+
+        this.enabled = enable;
+    }
 }
