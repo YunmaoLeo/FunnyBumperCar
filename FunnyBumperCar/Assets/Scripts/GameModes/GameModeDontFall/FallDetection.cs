@@ -14,7 +14,7 @@ public class FallDetection : MonoBehaviour
         {
             var fallAnimation = Instantiate(CarFallAnimatonPrefeb, other.transform.position, other.transform.rotation);
             fallAnimation.localScale = Vector3.one * fallAnimationScale;
-            CarsAndCameraManager.Instance.RegisterVisualEffect(fallAnimation, animationDuration);
+            // CarsAndCameraManager.Instance.RegisterVisualEffect(fallAnimation, animationDuration);
             Destroy(fallAnimation.gameObject, animationDuration);
             OnCarFallDetected.Invoke(other.transform);
         }

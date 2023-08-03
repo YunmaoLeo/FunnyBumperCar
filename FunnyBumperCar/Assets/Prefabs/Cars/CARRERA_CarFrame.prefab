@@ -768,7 +768,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2142469186497459607}
   serializedVersion: 2
-  m_Mass: 200
+  m_Mass: 340
   m_Drag: 0.02
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -2338,7 +2338,7 @@ PrefabInstance:
         type: 3}
       propertyPath: CarAddonPrefab
       value: 
-      objectReference: {fileID: 6981895399783706324, guid: bfb70a556d2142d4da282e6da4db1d2a,
+      objectReference: {fileID: 3543289598363116449, guid: 31db16e50949f174d9dfe3ddadbc328f,
         type: 3}
     - target: {fileID: 6932048180553425496, guid: 6faafac07bf123743a809e0a027d24cb,
         type: 3}
@@ -2363,12 +2363,12 @@ PrefabInstance:
     - target: {fileID: 6932048180563746134, guid: 6faafac07bf123743a809e0a027d24cb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.841
+      value: 1.069
       objectReference: {fileID: 0}
     - target: {fileID: 6932048180563746134, guid: 6faafac07bf123743a809e0a027d24cb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.809
+      value: 1.655
       objectReference: {fileID: 0}
     - target: {fileID: 6932048180563746134, guid: 6faafac07bf123743a809e0a027d24cb,
         type: 3}

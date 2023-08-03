@@ -151,7 +151,7 @@ public class TirePhysics : MonoBehaviour
     {
         if (controlSignal == 0) return;
         var tirePosition = transform.position;
-        Vector3 forwardDir = transform.forward;
+        Vector3 forwardDir = carRigidbody.transform.forward;
         carRigidbody.AddForceAtPosition(forwardDir * (engineTorque * controlSignal), tirePosition);
         
         Debug.DrawLine(tirePosition,
