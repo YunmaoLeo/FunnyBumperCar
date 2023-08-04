@@ -10,7 +10,12 @@ PrefabInstance:
     - target: {fileID: 1211470846111029424, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
       propertyPath: m_Name
-      value: Cannon_Addon
+      value: CannonAddon_Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211470846111029424, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
       objectReference: {fileID: 0}
     - target: {fileID: 2870271067732260759, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
@@ -151,6 +156,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RectangleThruster
+      objectReference: {fileID: 0}
+    - target: {fileID: 1766348905342599328, guid: 5017c1e2a912c3e4d8a915d25d45dfe1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5017c1e2a912c3e4d8a915d25d45dfe1, type: 3}

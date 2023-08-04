@@ -67,6 +67,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CircleThruster
       objectReference: {fileID: 0}
+    - target: {fileID: 601353845483070842, guid: 5be0a22f42db9e647baeac5ba8763bf9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5be0a22f42db9e647baeac5ba8763bf9, type: 3}
 --- !u!114 &8336657425293883910 stripped
@@ -91,7 +96,12 @@ PrefabInstance:
     - target: {fileID: 1211470846111029424, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
       propertyPath: m_Name
-      value: CircleThruster_Addon
+      value: CircleThrusterAddonCar
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211470846111029424, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
       objectReference: {fileID: 0}
     - target: {fileID: 2870271067732260759, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}

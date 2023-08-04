@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a0203dcfde6a0f4eac440d1cb6f0922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CarPrefab: {fileID: 2142469186497459604, guid: 3e311c140b59f3742b55cd28226c0afb,
+  CarPrefab: {fileID: 8649703101789954409, guid: 3b968a565ec4b50448e4cc8bb43ded26,
     type: 3}
 --- !u!114 &-4203338154518481189
 MonoBehaviour:

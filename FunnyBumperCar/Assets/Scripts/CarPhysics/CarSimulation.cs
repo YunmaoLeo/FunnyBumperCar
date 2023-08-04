@@ -398,4 +398,11 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
     {
         carRigidbody.AddExplosionForce(explosionIntensity, explosionCenter, explosionRadius);
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Car"))
+        {
+         VisualEffectManager.Instance.PlayCarCrashEffectLists(collision.contacts[0].point);   
+        }
+    }
 }

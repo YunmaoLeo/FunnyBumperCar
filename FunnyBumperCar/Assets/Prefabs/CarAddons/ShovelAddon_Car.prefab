@@ -67,6 +67,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shovel
       objectReference: {fileID: 0}
+    - target: {fileID: 7178519655750295231, guid: e5b879e9db817bf4d8f75d321eb3638a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5b879e9db817bf4d8f75d321eb3638a, type: 3}
 --- !u!114 &1206132145899003243 stripped
@@ -92,6 +97,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShovelAddon_Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211470846111029424, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
       objectReference: {fileID: 0}
     - target: {fileID: 2870271067732260759, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
@@ -249,6 +259,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShovelLifter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5145701283893531246, guid: bb39c5dd97c3f3e4583ab89b8f8ac9be,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb39c5dd97c3f3e4583ab89b8f8ac9be, type: 3}
