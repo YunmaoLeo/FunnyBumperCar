@@ -65,10 +65,16 @@ PrefabInstance:
     - target: {fileID: 6727436356463307273, guid: 2359c422ba7884148b55f04b4ba81fbb,
         type: 3}
       propertyPath: m_Name
-      value: CircleThruster
+      value: CircleThrusterAddon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2359c422ba7884148b55f04b4ba81fbb, type: 3}
+--- !u!4 &212155711728176931 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6338092881026121808, guid: 2359c422ba7884148b55f04b4ba81fbb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6126258457816223603}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &601353845483070842 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6727436356463307273, guid: 2359c422ba7884148b55f04b4ba81fbb,
@@ -91,19 +97,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &5273159211241774636
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 601353845483070842}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8299186, y: 0.58966696, z: 0.92574924}
-  m_Center: {x: 0.0092199, y: 0.3015502, z: -0.03712538}
 --- !u!138 &5567459730462211894
 FixedJoint:
   m_ObjectHideFlags: 0
@@ -131,7 +124,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a8ea3f712746ea819fcb8cce261b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddonName: 
   ejectionForceCoefficient: 10000
   ejectionCDTime: 1
   ejectionDuration: 0.5
+  ThrusterTransform: {fileID: 212155711728176931}
   forceMode: 0
+--- !u!1 &5161824916797750394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1343950595259839241, guid: 2359c422ba7884148b55f04b4ba81fbb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6126258457816223603}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &6780164813796927008
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5161824916797750394}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.8759866, y: 2.5649195, z: 3.0219462}
+  m_Center: {x: 0.0248245, y: 1.1559179, z: -0.16120231}

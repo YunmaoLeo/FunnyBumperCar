@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CarSimulation : MonoBehaviour, ICanBeExploded
+public class CarBody : MonoBehaviour, ICanBeExploded
 {
     [SerializeField] private float fixedDeltaTime = 0.005f;
     
@@ -54,13 +54,16 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
 
     private float totalTireMass;
     
-    private Rigidbody carRigidbody;
+    [HideInInspector]
+    public Rigidbody CarRigidbody;
     
     private Vector3 carFrameSize;
 
     [SerializeField] private Transform WheelsTransform;
 
     [SerializeField] private Transform CarsAddonsTransform;
+
+    private List<AddonSlot> slotLists = new List<AddonSlot>();
 
     public float TireRotateSignal { get; set; }
 
@@ -122,16 +125,16 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
     private void OnEnable()
     {
         InitializeTires();
-        maxEngineVelocity = engineMaxTorque / (carRigidbody.mass + totalTireMass) * maxEngineVelocityCoefficient;
+        maxEngineVelocity = engineMaxTorque / (CarRigidbody.mass + totalTireMass) * maxEngineVelocityCoefficient;
     }
 
     private void Awake()
     {
-        carRigidbody = GetComponent<Rigidbody>();
-        carRigidbody.centerOfMass = CenterOfMass.localPosition;
+        CarRigidbody = GetComponent<Rigidbody>();
+        CarRigidbody.centerOfMass = CenterOfMass.localPosition;
 
         var parachute = Parachute.GetComponent<Parachute>();
-        parachute.SetCarRigidbody(carRigidbody);
+        parachute.SetCarRigidbody(CarRigidbody);
         parachute.SetCarSimulation(this);
         
         InitializeTires();
@@ -140,7 +143,7 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
         InitializeCarAddons();
         
         //precompute max engine velocity
-        maxEngineVelocity = engineMaxTorque / (carRigidbody.mass + totalTireMass) * maxEngineVelocityCoefficient;
+        maxEngineVelocity = engineMaxTorque / (CarRigidbody.mass + totalTireMass) * maxEngineVelocityCoefficient;
     }
 
     private void ResetAddonStates(bool enable)
@@ -161,13 +164,13 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
     {
 
         ResetAddonStates(false);
-        carRigidbody.isKinematic = true;
-        carRigidbody.detectCollisions = false;
-        carRigidbody.velocity = Vector3.zero;
-        carRigidbody.angularVelocity = Vector3.zero; 
-        carRigidbody.ResetInertiaTensor();
-        carRigidbody.position = spawnPointTransform.position;
-        carRigidbody.rotation = spawnPointTransform.rotation;
+        CarRigidbody.isKinematic = true;
+        CarRigidbody.detectCollisions = false;
+        CarRigidbody.velocity = Vector3.zero;
+        CarRigidbody.angularVelocity = Vector3.zero; 
+        CarRigidbody.ResetInertiaTensor();
+        CarRigidbody.position = spawnPointTransform.position;
+        CarRigidbody.rotation = spawnPointTransform.rotation;
 
         StartCoroutine(ActivePhysicalBodyWithDelay(1f));
     }
@@ -175,8 +178,8 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
     IEnumerator ActivePhysicalBodyWithDelay(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
-        carRigidbody.isKinematic = false;
-        carRigidbody.detectCollisions = true;
+        CarRigidbody.isKinematic = false;
+        CarRigidbody.detectCollisions = true;
         ResetAddonStates(true);
     }
 
@@ -185,8 +188,31 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
         var addonsCount = CarsAddonsTransform.childCount;
         for (int index = 0; index < addonsCount; index++)
         {
-            var addonSlot = CarsAddonsTransform.GetChild(index);
-            addonSlot.GetComponent<AddonSlot>().InitializeCarAddon(carRigidbody);
+            var addonSlot = CarsAddonsTransform.GetChild(index).GetComponent<AddonSlot>();
+            slotLists.Add(addonSlot);
+            addonSlot.InitializeCarAddon(this);
+        }
+    }
+
+    public void EquipCarAddon(AddonSlot.AddonSlotType slotType, Transform addonContainerPrefab)
+    {
+        foreach (var addonSlot in slotLists)
+        {
+            if (addonSlot.SlotType == slotType)
+            {
+                addonSlot.EquipSpecificCarAddon(this, addonContainerPrefab);
+            }
+        }
+    }
+
+    public void RemoveCarAddon(AddonSlot.AddonSlotType slotType)
+    {
+        foreach (var addonSlot in slotLists)
+        {
+            if (addonSlot.SlotType == slotType)
+            {
+                addonSlot.RemoveAddon(this);
+            }
         }
     }
 
@@ -211,7 +237,10 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
                 case AddonSlot.AddonSlotType.Front:
                     actionName = "CarAddonTriggerFront";
                     break;
-                case AddonSlot.AddonSlotType.Side:
+                case AddonSlot.AddonSlotType.SideLeft:
+                    actionName = "CarAddonTriggerSide";
+                    break;
+                case AddonSlot.AddonSlotType.SideRight:
                     actionName = "CarAddonTriggerSide";
                     break;
                 case AddonSlot.AddonSlotType.Back:
@@ -227,7 +256,7 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
 
             if (actionName != "")
             {
-                playerActionMap.FindAction(actionName).performed += slot.GetAddonContainer().TriggerAddon;
+                playerActionMap.FindAction(actionName).performed += slot.TriggerAddon;
             }
         }
 
@@ -238,10 +267,30 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
     {
     }
 
+
+    [SerializeField] private bool TestChangeCommand = false;
+    [SerializeField] private float TestChangeCommandTargetValue = 0f;
     private void FixedUpdate()
     {
         Time.fixedDeltaTime = fixedDeltaTime;
         CarTireSimulation();
+
+        if (TestChangeCommand)
+        {
+            TestChangeCommand = false;
+            foreach (var addonSlot in slotLists)
+            {
+                if (addonSlot.SlotType == AddonSlot.AddonSlotType.SideRight)
+                {
+                    Debug.Log("FindSlot");
+                    foreach (var configSlideRangeCommand in addonSlot.GetAddon().ConfigFloatSlideRangeCommandsList)
+                    {
+                        configSlideRangeCommand.OnValueLegallyChanged(TestChangeCommandTargetValue);
+                        Debug.Log(configSlideRangeCommand.Description);
+                    }
+                }
+            }
+        }
     }
 
     private void TurnOnAndOffParachute()
@@ -275,7 +324,7 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
 
             bool raycastResult = tirePhysicsComponent.SteerRaycast(tireConnectPoint, out float minRaycastDistance);
 
-            tirePhysicsComponent.HandleTireVisual(carRigidbody);
+            tirePhysicsComponent.HandleTireVisual(CarRigidbody);
             
             if (ableToSteer)
             {
@@ -288,19 +337,19 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
                 continue;
             }
 
-            tirePhysicsComponent.SimulateSuspensionSystem(tireConnectPoint, carRigidbody, minRaycastDistance, out Vector3 suspensionForceOnSpring);
+            tirePhysicsComponent.SimulateSuspensionSystem(tireConnectPoint, CarRigidbody, minRaycastDistance, out Vector3 suspensionForceOnSpring);
             
-            tirePhysicsComponent.SimulateSteeringForces(carRigidbody, maxEngineVelocity, isDrifting);
+            tirePhysicsComponent.SimulateSteeringForces(CarRigidbody, maxEngineVelocity, isDrifting);
 
             tirePhysicsComponent.IsBraking = isBraking;
-            tirePhysicsComponent.SimulateFriction(carRigidbody, suspensionForceOnSpring);
+            tirePhysicsComponent.SimulateFriction(CarRigidbody, suspensionForceOnSpring);
 
             if (ableToDrive)
             {
                 float engineTorque = 0f;
-                engineTorque = engineTorqueCurve.Evaluate(Math.Abs(Vector3.Dot(carRigidbody.velocity, carRigidbody.transform.forward) / maxEngineVelocity)) *
+                engineTorque = engineTorqueCurve.Evaluate(Math.Abs(Vector3.Dot(CarRigidbody.velocity, CarRigidbody.transform.forward) / maxEngineVelocity)) *
                                engineMaxTorque;
-                tirePhysicsComponent.SimulateAccelerating(CarDriveSignal, carRigidbody, engineTorque);
+                tirePhysicsComponent.SimulateAccelerating(CarDriveSignal, CarRigidbody, engineTorque);
             }
         }
 
@@ -312,7 +361,7 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
 
     private void RecoverCarWhenFlippedOver(int tiresContactToGroundCount)
     {
-        if (carRigidbody.angularVelocity.magnitude > carFlipOverAngularVelocityLimitation)
+        if (CarRigidbody.angularVelocity.magnitude > carFlipOverAngularVelocityLimitation)
         {
             return;
         }
@@ -320,7 +369,7 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
         if (angle < carFlipOverDragAngleLimitation)
         {
             var carFlipOverDragForceCoefficient = angle / carFlipOverDragAngleLimitation * carFlipOverMaxForceCoefficient + carFlipOverMinForceCoefficient;
-            Vector3 dragForce = transform.up * (carRigidbody.mass * carFlipOverDragForceCoefficient);
+            Vector3 dragForce = transform.up * (CarRigidbody.mass * carFlipOverDragForceCoefficient);
             if (TireRotateSignal < 0f)
             {
                 AddForceAndDrawLine(frontRightTire.transform.position, dragForce, Color.cyan);
@@ -339,9 +388,9 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
     }
     private void AddForceAndDrawLine(Vector3 startPoint, Vector3 force, Color color, ForceMode forceMode = ForceMode.Force)
     {
-        carRigidbody.AddForceAtPosition(force, startPoint, forceMode);
+        CarRigidbody.AddForceAtPosition(force, startPoint, forceMode);
         Debug.DrawLine(startPoint,
-            startPoint + force / carRigidbody.mass / 2f, color);
+            startPoint + force / CarRigidbody.mass / 2f, color);
     }
 
     private void InitializeTires()
@@ -396,7 +445,7 @@ public class CarSimulation : MonoBehaviour, ICanBeExploded
 
     public void BeExploded(Vector3 explosionCenter, float explosionIntensity, float explosionRadius)
     {
-        carRigidbody.AddExplosionForce(explosionIntensity, explosionCenter, explosionRadius);
+        CarRigidbody.AddExplosionForce(explosionIntensity, explosionCenter, explosionRadius);
     }
     private void OnCollisionEnter(Collision collision)
     {

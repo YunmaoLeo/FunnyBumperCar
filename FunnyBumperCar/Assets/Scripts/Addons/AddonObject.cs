@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class AddonObject : MonoBehaviour
 {
@@ -10,8 +11,46 @@ public class AddonObject : MonoBehaviour
     protected Rigidbody basePlatformRigidbody;
     protected NodeGraphHandler graphHandler;
 
+    public List<ConfigSlideRangeCommand<float>> ConfigFloatSlideRangeCommandsList;
+
+    [Serializable]
+    public struct ConfigSlideRangeCommand<T> where T : IComparable<T>
+    {
+        public string Description;
+        public T min;
+        public T max;
+        public Action<T> OnValueLegallyChanged;
+        private bool IsInputValid(T input)
+        {
+            return input.CompareTo(min) >=0 && input.CompareTo(max) <= 0;
+        }
+
+        public void CheckAndTriggerChangeEvent(T input)
+        {
+            if (IsInputValid(input))
+            {
+                OnValueLegallyChanged?.Invoke(input);
+            }
+        }
+    }
+    
     private void Awake()
     {
+    }
+
+    private void Start()
+    {
+        OnInitialState();
+    }
+
+    public virtual void OnEquipOnCar(CarBody carBody)
+    {
+        
+    }
+
+    public virtual void OnRemoveFromCar(CarBody carBody)
+    {
+        
     }
 
     public virtual void TriggerAddon(InputAction.CallbackContext context)
@@ -25,6 +64,11 @@ public class AddonObject : MonoBehaviour
     }
     
     public virtual void OnInitialState()
+    {
+        InitializeConfigSlideRangeCommands();
+    }
+
+    public virtual void InitializeConfigSlideRangeCommands()
     {
         
     }

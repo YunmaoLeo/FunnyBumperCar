@@ -1,5 +1,7 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AddonSlot : MonoBehaviour
 {
@@ -7,7 +9,8 @@ public class AddonSlot : MonoBehaviour
     public enum AddonSlotType
     {
         Front,
-        Side,
+        SideLeft,
+        SideRight,
         Back,
         Top,
         Bottom
@@ -18,8 +21,14 @@ public class AddonSlot : MonoBehaviour
     [SerializeField] public AddonSlotType SlotType;
 
 
-    private Transform carAddonInstance;
-    private AddonContainer_Car _addonContainerCar;
+    private Transform carAddonContainerInstance;
+    private AddonContainer_Car addonContainerCar;
+    private AddonObject addon;
+
+    public AddonObject GetAddon()
+    {
+        return addon;
+    }
 
     private void Awake()
     {
@@ -29,46 +38,66 @@ public class AddonSlot : MonoBehaviour
     {
     }
 
+    public void TriggerAddon(InputAction.CallbackContext context)
+    {
+        if (addon != null)
+        {
+            addon.TriggerAddon(context);
+        }
+    }
+
     public AddonContainer_Car GetAddonContainer()
     {
-        return _addonContainerCar;
+        return addonContainerCar;
     }
 
-    public void InitializeCarAddon(Rigidbody carRigidbody)
+    public AddonObject InitializeCarAddon(CarBody carBody)
     {
-        EquipSpecificCarAddon(carRigidbody, CarAddonContainerPrefab);
+        return EquipSpecificCarAddon(carBody, CarAddonContainerPrefab);
     }
 
-    public void EquipSpecificCarAddon(Rigidbody carRigidbody, Transform addonContainerPrefab)
+    public AddonObject EquipSpecificCarAddon(CarBody carBody, Transform addonContainerPrefab)
     {
         if (addonContainerPrefab == null)
         {
-            return;
+            return null;
         }
         
-        RemoveAddon();
+        RemoveAddon(carBody);
         
-        carAddonInstance = Instantiate(addonContainerPrefab, transform);
-        _addonContainerCar = carAddonInstance.GetComponent<AddonContainer_Car>();
+        carAddonContainerInstance = Instantiate(addonContainerPrefab, transform);
+        addonContainerCar = carAddonContainerInstance.GetComponent<AddonContainer_Car>();
 
         //do calibration
-        Transform addOnCalibrator = _addonContainerCar.Calibrator;
+        DoAddonCalibration();
+        addonContainerCar.AssignRigidbody(carBody.CarRigidbody);
 
-        var rotationDelta = calibrator.localRotation * Quaternion.Inverse(_addonContainerCar.Calibrator.localRotation);
-        _addonContainerCar.transform.localRotation *= rotationDelta;
-        _addonContainerCar.transform.position += (calibrator.position - addOnCalibrator.position);
-
-        _addonContainerCar.AssignRigidbody(carRigidbody);
+        addon = carAddonContainerInstance.GetComponentInChildren<AddonObject>();
+        addon.OnEquipOnCar(carBody);
+        
+        return addon;
     }
 
-    public void RemoveAddon()
+    public void RemoveAddon(CarBody carBody)
     {
-        if (carAddonInstance != null)
+        if (carAddonContainerInstance == null)
         {
-            Destroy(carAddonInstance);
+            return;
         }
+        addon.OnRemoveFromCar(carBody);
+        Destroy(carAddonContainerInstance);
 
-        carAddonInstance = null;
-        _addonContainerCar = null;
+
+        carAddonContainerInstance = null;
+        addonContainerCar = null;
+    }
+
+    private void DoAddonCalibration()
+    {
+        Transform addOnCalibrator = addonContainerCar.Calibrator;
+
+        var rotationDelta = calibrator.localRotation * Quaternion.Inverse(addonContainerCar.Calibrator.localRotation);
+        addonContainerCar.transform.localRotation *= rotationDelta;
+        addonContainerCar.transform.position += (calibrator.position - addOnCalibrator.position);
     }
 }

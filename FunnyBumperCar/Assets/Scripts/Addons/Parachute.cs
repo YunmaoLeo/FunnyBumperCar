@@ -6,7 +6,7 @@ using UnityEngine;
 public class Parachute : MonoBehaviour
 {
     private Rigidbody carRigidbody;
-    private CarSimulation carSimulation;
+    private CarBody _carBody;
 
     [SerializeField] [Range(0.1f, 10f)] private float angularDragWhileOpen = 10f;
     [SerializeField] [Range(0.1f, 2f)]
@@ -40,7 +40,7 @@ public class Parachute : MonoBehaviour
 
         var upDirectionFactor = Math.Clamp(Vector3.Dot(carRigidbody.transform.up, Vector3.up),0,1);
 
-        var currentUpliftForce = maxUpliftForce * (Math.Abs(velocity) / carSimulation.MaxEngineVelocity * upliftForceCoefficient * upDirectionFactor);
+        var currentUpliftForce = maxUpliftForce * (Math.Abs(velocity) / _carBody.MaxEngineVelocity * upliftForceCoefficient * upDirectionFactor);
         carRigidbody.AddForce(currentUpliftForce);
         
         Debug.DrawLine(transform.position, transform.position + (currentUpliftForce / carRigidbody.mass / 2f), Color.red);
@@ -52,8 +52,8 @@ public class Parachute : MonoBehaviour
         defaultAngularDrag = carRigidbody.angularDrag;
     }
 
-    public void SetCarSimulation(CarSimulation simulation)
+    public void SetCarSimulation(CarBody body)
     {
-        carSimulation = simulation;
+        _carBody = body;
     }
 }

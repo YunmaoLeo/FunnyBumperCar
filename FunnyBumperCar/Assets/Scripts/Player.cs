@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform CarPrefab;
 
     private Transform carTransform;
-    private CarSimulation carSimulationComponent;
+    private CarBody _carBodyComponent;
     private InputActionMap player;
 
     private int playerIndex;
@@ -21,8 +21,8 @@ public class Player : MonoBehaviour
     private void Start()
     {
         carTransform = Instantiate(CarPrefab, transform);
-        carSimulationComponent = carTransform.GetComponent<CarSimulation>();
-        carSimulationComponent.BindAddonInputActions(player);
+        _carBodyComponent = carTransform.GetComponent<CarBody>();
+        _carBodyComponent.BindAddonInputActions(player);
 
         //initialize carManager;
         CarsAndCameraManager.Instance.RegisterCar(carTransform, playerIndex);
@@ -38,9 +38,9 @@ public class Player : MonoBehaviour
         var moveInputVector = player.FindAction("Move").ReadValue<Vector2>();
         var isBraking = player.FindAction("CarBrake").ReadValue<float>() != 0;
         var isDrifting = player.FindAction("Drifting").ReadValue<float>() != 0;
-        carSimulationComponent.TireRotateSignal = moveInputVector.x;
-        carSimulationComponent.CarDriveSignal = moveInputVector.y;
-        carSimulationComponent.IsBraking = isBraking;
-        carSimulationComponent.IsDrifting = isDrifting;
+        _carBodyComponent.TireRotateSignal = moveInputVector.x;
+        _carBodyComponent.CarDriveSignal = moveInputVector.y;
+        _carBodyComponent.IsBraking = isBraking;
+        _carBodyComponent.IsDrifting = isDrifting;
     }
 }

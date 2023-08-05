@@ -34,13 +34,13 @@ public class GameModeDontFall : GameModeBase
                 }
                 else
                 {
-                    RespawnCar(car.GetComponent<CarSimulation>());
+                    RespawnCar(car.GetComponent<CarBody>());
                 }
             }
         }
     }
 
-    private void RespawnCar(CarSimulation car)
+    private void RespawnCar(CarBody car)
     {
         var randomPosition = carSpawnPoints[Random.Range(0, carSpawnPoints.Count)];
         foreach (var carSpawnPoint in carSpawnPoints)

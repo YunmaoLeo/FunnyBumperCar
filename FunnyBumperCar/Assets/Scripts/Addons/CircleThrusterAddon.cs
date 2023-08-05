@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,17 +10,43 @@ public class CircleThrusterAddon : AddonObject
     [SerializeField] private float ejectionForceCoefficient = 100f;
     [SerializeField] private float ejectionCDTime = 1f;
     [SerializeField] private float ejectionDuration = 0.2f;
+    [SerializeField] private Transform ThrusterTransform;
     private float ejectionCDTimer = 0f;
 
     private CircleThrusterVisual thrusterVisual;
 
+    [SerializeField] private ConfigSlideRangeCommand<float> thrusterRotationChangeCommand = new ConfigSlideRangeCommand<float>
+    {
+        min = 0f,
+        max = 360f,
+        Description = "Thruster Y Rotation",
+    };
 
     [SerializeField] private ForceMode forceMode;
-    private void Awake()
+
+    public override void OnInitialState()
     {
+        base.OnInitialState();
         thrusterVisual = GetComponent<CircleThrusterVisual>();
     }
-    
+
+
+    public override void InitializeConfigSlideRangeCommands()
+    {
+        base.InitializeConfigSlideRangeCommands();
+        thrusterRotationChangeCommand.OnValueLegallyChanged += RotateThrusterAroundYAxis;
+        ConfigFloatSlideRangeCommandsList.Add(thrusterRotationChangeCommand);
+    }
+
+    private void RotateThrusterAroundYAxis(float newAngle)
+    {
+        var oldAngles = ThrusterTransform.localEulerAngles;
+        var angleChanges = newAngle - oldAngles.y;
+        oldAngles.y = newAngle;
+
+        ThrusterTransform.DOLocalRotate(oldAngles, Math.Abs(angleChanges) / 360f);
+    }
+
     public override void InitializeBasePlatformRigidbody(Rigidbody rigidbody)
     {
         base.InitializeBasePlatformRigidbody(rigidbody);
@@ -48,7 +76,7 @@ public class CircleThrusterAddon : AddonObject
         while (durationTime < ejectionDuration)
         {
             basePlatformRigidbody.AddForce(transform.forward * ejectionForceCoefficient);
-            Debug.DrawLine(transform.position, transform.position + transform.forward * ejectionForceCoefficient, Color.red);
+            Debug.DrawLine(transform.position, transform.position + ThrusterTransform.forward * ejectionForceCoefficient, Color.red);
             durationTime += Time.deltaTime;
             yield return null;
         }
