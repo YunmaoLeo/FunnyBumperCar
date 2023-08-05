@@ -196,24 +196,22 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
     public void EquipCarAddon(AddonSlot.AddonSlotType slotType, Transform addonContainerPrefab)
     {
-        foreach (var addonSlot in slotLists)
+        var addonSlot = GetAddonSlot(slotType);
+        if (addonSlot.SlotType == slotType)
         {
-            if (addonSlot.SlotType == slotType)
-            {
-                addonSlot.EquipSpecificCarAddon(this, addonContainerPrefab);
-            }
+            addonSlot.EquipSpecificCarAddon(this, addonContainerPrefab);
         }
+
     }
 
     public void RemoveCarAddon(AddonSlot.AddonSlotType slotType)
     {
-        foreach (var addonSlot in slotLists)
+        var addonSlot = GetAddonSlot(slotType);
+        if (addonSlot.SlotType == slotType)
         {
-            if (addonSlot.SlotType == slotType)
-            {
-                addonSlot.RemoveAddon(this);
-            }
+            addonSlot.RemoveAddon(this);
         }
+        
     }
 
     public void BindAddonInputActions(InputActionMap playerActionMap)
@@ -278,17 +276,12 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         if (TestChangeCommand)
         {
             TestChangeCommand = false;
-            foreach (var addonSlot in slotLists)
+
+            var addonSlot = GetAddonSlot(AddonSlot.AddonSlotType.SideRight);
+            foreach (var configSlideRangeCommand in addonSlot.GetAddon().ConfigFloatSlideRangeCommandsList)
             {
-                if (addonSlot.SlotType == AddonSlot.AddonSlotType.SideRight)
-                {
-                    Debug.Log("FindSlot");
-                    foreach (var configSlideRangeCommand in addonSlot.GetAddon().ConfigFloatSlideRangeCommandsList)
-                    {
-                        configSlideRangeCommand.OnValueLegallyChanged(TestChangeCommandTargetValue);
-                        Debug.Log(configSlideRangeCommand.Description);
-                    }
-                }
+                configSlideRangeCommand.OnValueLegallyChanged(TestChangeCommandTargetValue);
+                Debug.Log(configSlideRangeCommand.Description);
             }
         }
     }
@@ -453,5 +446,18 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         {
          VisualEffectManager.Instance.PlayCarCrashEffectLists(collision.contacts[0].point);   
         }
+    }
+
+    private AddonSlot GetAddonSlot(AddonSlot.AddonSlotType type)
+    {
+        foreach (var addonSlot in slotLists)
+        {
+            if (addonSlot.SlotType == type)
+            {
+                return addonSlot;
+            }
+        }
+
+        return null;
     }
 }

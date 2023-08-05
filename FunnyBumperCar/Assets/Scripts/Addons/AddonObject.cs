@@ -7,6 +7,16 @@ using UnityEngine.Rendering;
 
 public class AddonObject : MonoBehaviour
 {
+    [Serializable]
+    public enum AddonObjectEnum
+    {
+        CannonTower,
+        CircleThruster,
+        SpringPillar,
+        Shovel,
+    }
+
+    [SerializeField] public AddonObjectEnum AddonType;
     [SerializeField] public string AddonName;
     protected Rigidbody basePlatformRigidbody;
     protected NodeGraphHandler graphHandler;

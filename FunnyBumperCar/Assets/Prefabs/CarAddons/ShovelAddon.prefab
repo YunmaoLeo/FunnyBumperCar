@@ -465,6 +465,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd2495243cb10d4381fd0ce22a69570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graph: {fileID: 11400000, guid: 49cb96a62300e0241ac98cb96eb6aea7, type: 2}
+  AddonType: 3
+  AddonName: 
+  ConfigFloatSlideRangeCommandsList: []
   targetHeightMinOffset: -0.06
   targetHeightMaxOffset: -1

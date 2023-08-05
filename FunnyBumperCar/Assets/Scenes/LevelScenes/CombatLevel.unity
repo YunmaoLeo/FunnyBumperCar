@@ -14705,7 +14705,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlMode: 1
   addon: {fileID: 208057968}
-  automaticTriggerCDTime: 1000
+  automaticTriggerCDTime: 10
 --- !u!114 &2124971568
 MonoBehaviour:
   m_ObjectHideFlags: 0

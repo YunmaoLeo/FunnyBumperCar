@@ -506,6 +506,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e3876ae021b0a4d988dbb44211a57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddonType: 2
+  AddonName: 
+  ConfigFloatSlideRangeCommandsList: []
   springForceCoefficient: 10
   springDefaultSize: 1
   springMinScaleRatio: 0.8

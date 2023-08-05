@@ -124,11 +124,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a8ea3f712746ea819fcb8cce261b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddonType: 1
   AddonName: 
+  ConfigFloatSlideRangeCommandsList: []
   ejectionForceCoefficient: 10000
   ejectionCDTime: 1
   ejectionDuration: 0.5
   ThrusterTransform: {fileID: 212155711728176931}
+  thrusterRotationChangeCommand:
+    Description: Thruster Y Rotation
+    min: 0
+    max: 360
   forceMode: 0
 --- !u!1 &5161824916797750394 stripped
 GameObject:
