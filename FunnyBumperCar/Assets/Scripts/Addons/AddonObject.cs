@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,13 @@ using UnityEngine.InputSystem;
 
 public class AddonObject : MonoBehaviour
 {
+    [SerializeField] public string AddonName;
     protected Rigidbody basePlatformRigidbody;
+    protected NodeGraphHandler graphHandler;
+
+    private void Awake()
+    {
+    }
 
     public virtual void TriggerAddon(InputAction.CallbackContext context)
     {

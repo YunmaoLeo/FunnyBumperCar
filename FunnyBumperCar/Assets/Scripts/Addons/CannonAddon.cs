@@ -116,6 +116,7 @@ public class CannonAddon : AddonObject
 
     public override void TriggerAddon(InputAction.CallbackContext context)
     {
+        base.TriggerAddon(context);
         StartFireMissile();
     }
 }

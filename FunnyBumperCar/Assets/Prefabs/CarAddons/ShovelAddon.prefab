@@ -225,7 +225,7 @@ PrefabInstance:
     - target: {fileID: 1634701382382875453, guid: 54d08afd326528b44baa9cd745cf4e31,
         type: 3}
       propertyPath: m_Name
-      value: Shovel
+      value: ShovelAddon
       objectReference: {fileID: 0}
     - target: {fileID: 3790315252107365809, guid: 54d08afd326528b44baa9cd745cf4e31,
         type: 3}
@@ -465,5 +465,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd2495243cb10d4381fd0ce22a69570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  graph: {fileID: 11400000, guid: 49cb96a62300e0241ac98cb96eb6aea7, type: 2}
   targetHeightMinOffset: -0.06
   targetHeightMaxOffset: -1

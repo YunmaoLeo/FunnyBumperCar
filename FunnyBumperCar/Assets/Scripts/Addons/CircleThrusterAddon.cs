@@ -33,6 +33,7 @@ public class CircleThrusterAddon : AddonObject
 
     public override void TriggerAddon(InputAction.CallbackContext context)
     {
+        base.TriggerAddon(context);
         if (ejectionCDTimer < 0f)
         {
             ejectionCDTimer = ejectionCDTime;

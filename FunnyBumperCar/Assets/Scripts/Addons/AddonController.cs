@@ -18,6 +18,11 @@ public class AddonController : MonoBehaviour
     private float triggerCDTimer = 0f;
     private void FixedUpdate()
     {
+        if (addon == null)
+        {
+            return;
+        }
+
         triggerCDTimer -= Time.fixedDeltaTime;
         if (controlMode == ControlMode.Automatic)
         {

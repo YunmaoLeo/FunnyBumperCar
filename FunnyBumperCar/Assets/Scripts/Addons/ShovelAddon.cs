@@ -22,6 +22,7 @@ public class ShovelAddon : AddonObject
 
     public override void TriggerAddon(InputAction.CallbackContext context)
     {
+        base.TriggerAddon(context);
         float targetOffset = joint.targetPosition.y < targetHeightMinOffset
             ? targetHeightMinOffset
             : targetHeightMaxOffset;

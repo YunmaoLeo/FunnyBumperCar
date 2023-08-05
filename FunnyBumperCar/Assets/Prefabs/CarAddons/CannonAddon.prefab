@@ -41,7 +41,7 @@ PrefabInstance:
     - target: {fileID: 2623368581845088308, guid: 0022c024ab7faa74e8ca135adfdbd789,
         type: 3}
       propertyPath: m_Name
-      value: RectangleThruster
+      value: CannonAddon
       objectReference: {fileID: 0}
     - target: {fileID: 3396773498112942734, guid: 0022c024ab7faa74e8ca135adfdbd789,
         type: 3}
@@ -179,6 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5edb58c28791b0499fa7fd244396fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  graph: {fileID: 11400000, guid: 49cb96a62300e0241ac98cb96eb6aea7, type: 2}
   cannonRotatePlatform: {fileID: 2052425362516074392}
   cannonBarrel: {fileID: 3356109309838572418}
   missileEjectTransform: {fileID: 885203821276499797}

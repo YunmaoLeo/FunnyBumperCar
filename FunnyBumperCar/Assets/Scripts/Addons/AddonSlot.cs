@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class AddonSlot : MonoBehaviour
 {
@@ -15,17 +12,17 @@ public class AddonSlot : MonoBehaviour
         Top,
         Bottom
     }
-    
-    [SerializeField] public Transform CarAddonPrefab;
+
+    [SerializeField] public Transform CarAddonContainerPrefab;
     [SerializeField] private Transform calibrator;
     [SerializeField] public AddonSlotType SlotType;
-    
-    
+
+
     private Transform carAddonInstance;
     private AddonContainer_Car _addonContainerCar;
+
     private void Awake()
     {
-        
     }
 
     private void Start()
@@ -39,27 +36,39 @@ public class AddonSlot : MonoBehaviour
 
     public void InitializeCarAddon(Rigidbody carRigidbody)
     {
-        if (carAddonInstance != null)
-        {
-            Destroy(carAddonInstance);
-        }
-        
-        if (CarAddonPrefab == null)
+        EquipSpecificCarAddon(carRigidbody, CarAddonContainerPrefab);
+    }
+
+    public void EquipSpecificCarAddon(Rigidbody carRigidbody, Transform addonContainerPrefab)
+    {
+        if (addonContainerPrefab == null)
         {
             return;
         }
-
-        carAddonInstance = Instantiate(CarAddonPrefab, transform);
+        
+        RemoveAddon();
+        
+        carAddonInstance = Instantiate(addonContainerPrefab, transform);
         _addonContainerCar = carAddonInstance.GetComponent<AddonContainer_Car>();
 
         //do calibration
         Transform addOnCalibrator = _addonContainerCar.Calibrator;
-        
+
         var rotationDelta = calibrator.localRotation * Quaternion.Inverse(_addonContainerCar.Calibrator.localRotation);
         _addonContainerCar.transform.localRotation *= rotationDelta;
         _addonContainerCar.transform.position += (calibrator.position - addOnCalibrator.position);
 
         _addonContainerCar.AssignRigidbody(carRigidbody);
     }
-    
+
+    public void RemoveAddon()
+    {
+        if (carAddonInstance != null)
+        {
+            Destroy(carAddonInstance);
+        }
+
+        carAddonInstance = null;
+        _addonContainerCar = null;
+    }
 }
