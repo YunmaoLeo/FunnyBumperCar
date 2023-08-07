@@ -26,7 +26,7 @@ public class AddonObject : MonoBehaviour
     [Serializable]
     public struct ConfigSlideRangeCommand<T> where T : IComparable<T>
     {
-        public string Description;
+        public string description;
         public T min;
         public T max;
         public Action<T> OnValueLegallyChanged;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -281,7 +282,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
             foreach (var configSlideRangeCommand in addonSlot.GetAddon().ConfigFloatSlideRangeCommandsList)
             {
                 configSlideRangeCommand.OnValueLegallyChanged(TestChangeCommandTargetValue);
-                Debug.Log(configSlideRangeCommand.Description);
+                Debug.Log(configSlideRangeCommand.description);
             }
         }
     }
@@ -385,6 +386,31 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         Debug.DrawLine(startPoint,
             startPoint + force / CarRigidbody.mass / 2f, color);
     }
+
+    public void SetTireAndInstantiate(TireLocation location, Transform tireTransformPrefab)
+    {
+        Destroy(tiresMap[location].transform);
+        var tireTransformInstance = Instantiate(tireTransformPrefab, WheelsTransform);
+        
+        switch (location)
+        {
+            case TireLocation.FrontLeft:
+                frontLeftTire = tireTransformInstance;
+                break;
+            case TireLocation.FrontRight:
+                frontRightTire = tireTransformInstance;
+                break;
+            case TireLocation.BackLeft:
+                backLeftTire = tireTransformInstance;
+                break;
+            case TireLocation.BackRight:
+                backRightTire = tireTransformInstance;
+                break;
+        }
+        tiresMap.Add(location, tireTransformInstance.GetComponent<TirePhysics>());
+    }
+    
+    
 
     private void InitializeTires()
     {

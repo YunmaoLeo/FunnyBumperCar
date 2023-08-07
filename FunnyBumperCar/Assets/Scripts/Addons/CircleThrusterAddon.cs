@@ -19,7 +19,7 @@ public class CircleThrusterAddon : AddonObject
     {
         min = 0f,
         max = 360f,
-        Description = "Thruster Y Rotation",
+        description = "Thruster Y Rotation",
     };
 
     [SerializeField] private ForceMode forceMode;

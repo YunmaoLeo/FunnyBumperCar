@@ -1677,6 +1677,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3543289598363116449, guid: d5138ad908ae91e4780b3c4fe6e01d94,
         type: 3}
+    - target: {fileID: 6877245103753600109, guid: d499865e0909aaa43bd2d8c881dca643,
+        type: 3}
+      propertyPath: CarAddonContainerPrefab
+      value: 
+      objectReference: {fileID: 3543289598363116449, guid: 31db16e50949f174d9dfe3ddadbc328f,
+        type: 3}
     - target: {fileID: 7979741242883015817, guid: d499865e0909aaa43bd2d8c881dca643,
         type: 3}
       propertyPath: SlotType

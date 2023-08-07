@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b60347b3147b1a46b24b6778bb23819, type: 3}
+  m_Name: CarComponentsListSO
+  m_EditorClassIdentifier: 
+  CarBodysList:
+  - {fileID: 8649703101789954409, guid: 3b968a565ec4b50448e4cc8bb43ded26, type: 3}
+  - {fileID: 7162830859457003593, guid: 81a8d66e6b9a3224e8bc7fc4f2f52736, type: 3}
+  LeftTiresList:
+  - {fileID: 1416034816194826421, guid: bacb8f1addcd88441941e2458880bc24, type: 3}
+  - {fileID: 1416034816194826421, guid: ac4fee8c5d8c10d418b77b9281b13e13, type: 3}
+  RightTiresList:
+  - {fileID: 1416034816194826421, guid: c01b86e690d804146b3f331c78a2d221, type: 3}
+  - {fileID: 1416034816194826421, guid: d915448245055ac42bc9d0a01ccf8ca6, type: 3}
+  AddonsList:
+  - {fileID: 0}
+  - {fileID: 3543289598363116449, guid: d5138ad908ae91e4780b3c4fe6e01d94, type: 3}
+  - {fileID: 8695674709498889404, guid: b77941fbfd6136c4bb6e0583655c080f, type: 3}
+  - {fileID: 3543289598363116449, guid: 31db16e50949f174d9dfe3ddadbc328f, type: 3}
+  - {fileID: 6981895399783706324, guid: bfb70a556d2142d4da282e6da4db1d2a, type: 3}
+  CarBodysSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  LeftTireSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  RightTireSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  AddonsSprites:
+  - {fileID: 0}
+  - {fileID: 21300002, guid: c8260d15cb31d3d49a251f7cdb4d1777, type: 3}
+  - {fileID: 21300000, guid: 295d3a5ab3648614ebdd00140f00f968, type: 3}
+  - {fileID: 21300000, guid: c8260d15cb31d3d49a251f7cdb4d1777, type: 3}
+  - {fileID: 21300006, guid: c8260d15cb31d3d49a251f7cdb4d1777, type: 3}
