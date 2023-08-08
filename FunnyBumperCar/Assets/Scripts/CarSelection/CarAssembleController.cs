@@ -1,15 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CarAssembleController : MonoBehaviour
 {
     [SerializeField] private CarComponentsListSO componentsListSO;
     [SerializeField] private SelectorListUI selectorListUITemplate;
-    [HideInInspector]
-    public Transform carSpawnTransform;
+    [HideInInspector] public Transform carSpawnTransform;
 
     private SelectorListUI selectorListUI;
     public Player player;
@@ -20,7 +15,7 @@ public class CarAssembleController : MonoBehaviour
     private Transform frontRightTire;
     private Transform backLeftTire;
     private Transform backRightTire;
-    
+
     private Transform frontAddon;
     private Transform sideLeftAddon;
     private Transform sideRightAddon;
@@ -51,16 +46,17 @@ public class CarAssembleController : MonoBehaviour
             {
                 return;
             }
+
             Destroy(carBody.gameObject);
             var carBodyTransform =
-                Instantiate(bodyComponent.transform, carSpawnTransform.position, Quaternion.identity);
+                Instantiate(bodyComponent.transform, carSpawnTransform);
             carBody = carBodyTransform.GetComponent<CarBody>();
-            
+
             carBody.SetTireAndInstantiate(CarBody.TireLocation.FrontLeft, frontLeftTire);
             carBody.SetTireAndInstantiate(CarBody.TireLocation.FrontRight, frontRightTire);
             carBody.SetTireAndInstantiate(CarBody.TireLocation.BackLeft, backLeftTire);
             carBody.SetTireAndInstantiate(CarBody.TireLocation.BackRight, backRightTire);
-            
+
             carBody.EquipCarAddon(AddonSlot.AddonSlotType.Front, frontAddon);
             carBody.EquipCarAddon(AddonSlot.AddonSlotType.SideRight, sideRightAddon);
             carBody.EquipCarAddon(AddonSlot.AddonSlotType.SideLeft, sideLeftAddon);
@@ -76,8 +72,6 @@ public class CarAssembleController : MonoBehaviour
 
     public void SetNewAddon(AddonSlot.AddonSlotType slotType, Transform addon)
     {
-        carBody.EquipCarAddon(slotType, addon);
-
         switch (slotType)
         {
             case AddonSlot.AddonSlotType.Front:
@@ -86,23 +80,29 @@ public class CarAssembleController : MonoBehaviour
             case AddonSlot.AddonSlotType.SideLeft:
                 sideLeftAddon = addon;
                 break;
-            
+
             case AddonSlot.AddonSlotType.SideRight:
                 sideRightAddon = addon;
                 break;
-            
+
             case AddonSlot.AddonSlotType.Top:
                 topAddon = addon;
                 break;
-            
+
             case AddonSlot.AddonSlotType.Back:
                 backAddon = addon;
                 break;
+        }
+        
+        if (carBody.EquipCarAddon(slotType, addon))
+        {
+            carBody.transform.localPosition = Vector3.zero;
         }
     }
 
     public void SetNewTire(CarBody.TireLocation location, Transform tireTransform)
     {
+
         switch (location)
         {
             case CarBody.TireLocation.FrontLeft:
@@ -118,7 +118,11 @@ public class CarAssembleController : MonoBehaviour
                 backRightTire = tireTransform;
                 break;
         }
-        carBody.SetTireAndInstantiate(location, tireTransform);
+        
+        if (carBody.SetTireAndInstantiate(location, tireTransform))
+        {
+            carBody.transform.localPosition = Vector3.zero;
+        }
     }
 
     private void InitializeUI()
@@ -128,11 +132,11 @@ public class CarAssembleController : MonoBehaviour
         selectorListUI.assembleController = this;
         player.BindSelectionInputActions(selectorListUI);
     }
-    
+
     private void InitializeCar()
     {
         var carBodyTransform =
-            Instantiate(componentsListSO.CarBodysList[0].transform, carSpawnTransform.position, Quaternion.identity);
+            Instantiate(componentsListSO.CarBodysList[0].transform, carSpawnTransform);
         carBody = carBodyTransform.GetComponent<CarBody>();
     }
 }

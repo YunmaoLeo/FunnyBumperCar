@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -203,28 +202,42 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         }
     }
 
-    public void EquipCarAddon(AddonSlot.AddonSlotType slotType, Transform addonContainerPrefab)
+    public bool EquipCarAddon(AddonSlot.AddonSlotType slotType, Transform addonContainerPrefab)
     {
+        var addonSlot = GetAddonSlot(slotType);
+
+        if (addonSlot.GetAddonContainer()!=null && addonSlot.GetAddonContainer().ContainerID ==
+            addonContainerPrefab.GetComponent<AddonContainer_Car>().ContainerID)
+        {
+            return false;
+        }
+
+        if (addonSlot.GetAddonContainer() == null && addonContainerPrefab == null)
+        {
+            return false;
+        }
+        
         if (addonContainerPrefab == null)
         {
-            RemoveCarAddon(slotType);
+            return RemoveCarAddon(slotType);
         }
-        var addonSlot = GetAddonSlot(slotType);
-        if (addonSlot.SlotType == slotType)
-        {
-            addonSlot.EquipSpecificCarAddon(this, addonContainerPrefab);
-        }
+
+        addonSlot.EquipSpecificCarAddon(this, addonContainerPrefab);
+ 
+
+        return true;
 
     }
 
-    public void RemoveCarAddon(AddonSlot.AddonSlotType slotType)
+    public bool RemoveCarAddon(AddonSlot.AddonSlotType slotType)
     {
         var addonSlot = GetAddonSlot(slotType);
         if (addonSlot.SlotType == slotType)
         {
-            addonSlot.RemoveAddon(this);
+            return addonSlot.RemoveAddon(this);
         }
-        
+
+        return false;
     }
 
     public void BindAddonInputActions(InputActionMap playerActionMap)
@@ -399,15 +412,15 @@ public class CarBody : MonoBehaviour, ICanBeExploded
             startPoint + force / CarRigidbody.mass / 2f, color);
     }
 
-    public void SetTireAndInstantiate(TireLocation location, Transform tireTransformPrefab)
+    public bool SetTireAndInstantiate(TireLocation location, Transform tireTransformPrefab)
     {
         if (tireTransformPrefab == null)
         {
-            return;
+            return false;
         }
         if (tireTransformPrefab.GetComponent<TirePhysics>().TireID == tiresMap[location].TireID)
         {
-            return;
+            return false;
         }
 
         var oldTire = tiresMap[location];
@@ -432,6 +445,8 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         tiresMap[location] = tireTransformInstance.GetComponent<TirePhysics>();
         Destroy(oldTire.gameObject);
         tiresMap[location].InitializeTirePosition(tireConnectPointsMap[location], CarRigidbody);
+
+        return true;
     }
     
     

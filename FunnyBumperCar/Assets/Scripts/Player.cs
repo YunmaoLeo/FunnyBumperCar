@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,7 @@ public class Player : MonoBehaviour
     private InputActionMap player;
     private InputActionMap selection;
     private bool isGamePlaying = false;
+    private CarPresentPlatform presentPlarform;
 
     public int playerIndex;
 
@@ -26,6 +28,7 @@ public class Player : MonoBehaviour
         var instance = Instantiate(controllerPrefab);
         assembleController = instance.GetComponent<CarAssembleController>();
         assembleController.carSpawnTransform = CarAssembleManager.Instance.GetAssemblePositionForCar(playerIndex);
+        presentPlarform = assembleController.carSpawnTransform.GetComponentInParent<CarPresentPlatform>();
         assembleController.player = this;
     }
 
@@ -42,6 +45,7 @@ public class Player : MonoBehaviour
     private void OnAssembleDone()
     {
         carTransform = assembleController.GetCar();
+        carTransform.parent = null;
         assembleController.onAssembleDone();
         DontDestroyOnLoad(carTransform);
         CarAssembleManager.Instance.OnCarAssembleStateChange(playerIndex);
@@ -69,6 +73,11 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (selection.enabled)
+        {
+            var rotateSignal = selection.FindAction("PlatformRotation").ReadValue<Vector2>();
+            presentPlarform.RotateSignal = rotateSignal;
+        }
         if (isGamePlaying)
         {
             var moveInputVector = player.FindAction("Move").ReadValue<Vector2>();

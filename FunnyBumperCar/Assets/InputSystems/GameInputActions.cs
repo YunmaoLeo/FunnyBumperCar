@@ -455,6 +455,15 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PlatformRotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""29e2b2aa-ea66-4465-93dd-f82b803b30bc"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -589,6 +598,116 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SelectDone"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""635bfcb3-677e-4763-a08e-d2d6aa308e56"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PlatformRotation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""4ff19296-edca-4698-af23-6033dbc4373d"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""PlatformRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""fc683645-b25c-498a-a8d5-aa1e05fba627"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""PlatformRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""d1861a65-54e4-45a7-9e3f-6dca51ff2cd5"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""PlatformRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""06f3e95b-f746-4b6d-ba2b-1ba4c8c410ea"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""PlatformRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""ac63d3a8-2b2f-4c75-88ec-5e2107b3af8e"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PlatformRotation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""270f88a8-ba89-48b9-a508-f204af98ebe7"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""PlatformRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""4c9ad9ce-e28c-4631-864f-08be6e0f1dd2"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""PlatformRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""d3bb74d7-410a-4c36-8832-68bee15244ba"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""PlatformRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""08a711e3-d9e6-4be4-bf3e-91378812a877"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""PlatformRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -637,6 +756,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         m_Selection_MoveLeft = m_Selection.FindAction("MoveLeft", throwIfNotFound: true);
         m_Selection_Select = m_Selection.FindAction("Select", throwIfNotFound: true);
         m_Selection_SelectDone = m_Selection.FindAction("SelectDone", throwIfNotFound: true);
+        m_Selection_PlatformRotation = m_Selection.FindAction("PlatformRotation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -814,6 +934,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Selection_MoveLeft;
     private readonly InputAction m_Selection_Select;
     private readonly InputAction m_Selection_SelectDone;
+    private readonly InputAction m_Selection_PlatformRotation;
     public struct SelectionActions
     {
         private @GameInputActions m_Wrapper;
@@ -824,6 +945,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         public InputAction @MoveLeft => m_Wrapper.m_Selection_MoveLeft;
         public InputAction @Select => m_Wrapper.m_Selection_Select;
         public InputAction @SelectDone => m_Wrapper.m_Selection_SelectDone;
+        public InputAction @PlatformRotation => m_Wrapper.m_Selection_PlatformRotation;
         public InputActionMap Get() { return m_Wrapper.m_Selection; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -851,6 +973,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @SelectDone.started += instance.OnSelectDone;
             @SelectDone.performed += instance.OnSelectDone;
             @SelectDone.canceled += instance.OnSelectDone;
+            @PlatformRotation.started += instance.OnPlatformRotation;
+            @PlatformRotation.performed += instance.OnPlatformRotation;
+            @PlatformRotation.canceled += instance.OnPlatformRotation;
         }
 
         private void UnregisterCallbacks(ISelectionActions instance)
@@ -873,6 +998,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @SelectDone.started -= instance.OnSelectDone;
             @SelectDone.performed -= instance.OnSelectDone;
             @SelectDone.canceled -= instance.OnSelectDone;
+            @PlatformRotation.started -= instance.OnPlatformRotation;
+            @PlatformRotation.performed -= instance.OnPlatformRotation;
+            @PlatformRotation.canceled -= instance.OnPlatformRotation;
         }
 
         public void RemoveCallbacks(ISelectionActions instance)
@@ -928,5 +1056,6 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         void OnMoveLeft(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnSelectDone(InputAction.CallbackContext context);
+        void OnPlatformRotation(InputAction.CallbackContext context);
     }
 }

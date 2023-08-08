@@ -55,6 +55,8 @@ public class AddonSlot : MonoBehaviour
     {
         return EquipSpecificCarAddon(carBody, CarAddonContainerPrefab);
     }
+    
+    
 
     public AddonObject EquipSpecificCarAddon(CarBody carBody, Transform addonContainerPrefab)
     {
@@ -78,11 +80,11 @@ public class AddonSlot : MonoBehaviour
         return addon;
     }
 
-    public void RemoveAddon(CarBody carBody)
+    public bool RemoveAddon(CarBody carBody)
     {
         if (carAddonContainerInstance == null)
         {
-            return;
+            return false;
         }
         addon.OnRemoveFromCar(carBody);
         Destroy(carAddonContainerInstance.gameObject);
@@ -90,6 +92,7 @@ public class AddonSlot : MonoBehaviour
 
         carAddonContainerInstance = null;
         addonContainerCar = null;
+        return true;
     }
 
     private void DoAddonCalibration()

@@ -7,12 +7,13 @@ using UnityEngine.SceneManagement;
 
 public class CarAssembleManager : MonoBehaviour
 {
-    [SerializeField] private List<Transform> assemblePositionLists;
+    [SerializeField] private List<CarPresentPlatform> assemblePositionLists;
     [SerializeField] private List<SceneAsset> GameScenes; 
     
     private PlayerInputManager playerInputManager;
     protected List<PlayerInput> playerInputs = new List<PlayerInput>();
     private List<bool> playerAssembleDoneList = new List<bool>();
+
     public static CarAssembleManager Instance { get; private set; }
     private void Awake()
     {
@@ -68,6 +69,11 @@ public class CarAssembleManager : MonoBehaviour
 
     public Transform GetAssemblePositionForCar(int playerIndex)
     {
-        return assemblePositionLists[playerIndex];
+        return assemblePositionLists[playerIndex].GetSpawnTransform();
+    }
+
+    public void SetCarOnPlatform(Transform car)
+    {
+        
     }
 }
