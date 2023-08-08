@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameModeDontFall : GameModeBase
 {
-    private List<PlayerDontFall> players = new List<PlayerDontFall>();
+    private List<PlayerDontFall> playerDontFalls = new List<PlayerDontFall>();
     [SerializeField] private FallDetection fallDetectionTransform;
     [SerializeField] private FallGameStateUI fallGameStateUI;
 
@@ -17,24 +19,23 @@ public class GameModeDontFall : GameModeBase
 
     private void OnPlayerCarFallDetected(Transform car)
     {
-        foreach (var player in players)
+        foreach (var player in playerDontFalls)
         {
             if (player.playerInput.transform == null)
             {
                 continue;
             }
-
-            if (player.playerInput.transform == car.parent.transform)
+            if (player.PlayerIndex == car.root.GetComponent<CarBody>().PlayerIndex)
             {
                 player.RemainFallDownTime--;
-                fallGameStateUI.UpdatePlayerRemainFallTime(players);
+                fallGameStateUI.UpdatePlayerRemainFallTime(playerDontFalls);
                 if (player.RemainFallDownTime <= 0)
                 {
                     OnGameOver();
                 }
                 else
                 {
-                    RespawnCar(car.GetComponent<CarBody>());
+                    RespawnCar(car.root.GetComponent<CarBody>());
                 }
             }
         }
@@ -73,14 +74,14 @@ public class GameModeDontFall : GameModeBase
 
     protected override void SpawnPlayers()
     {
-        for (int i = 0; i < playerInputs.Count; i++)
+        for (int i = 0; i < players.Count; i++)
         {
-            players.Add(new PlayerDontFall(MaxFallDownTime));
-            players[i].PlayerIndex = i;
-            players[i].playerInput = playerInputs[i];
+            playerDontFalls.Add(new PlayerDontFall(MaxFallDownTime));
+            playerDontFalls[i].PlayerIndex = players[i].playerIndex;
+            playerDontFalls[i].playerInput = players[i].GetComponent<PlayerInput>();
         }
 
         fallGameStateUI.gameObject.SetActive(true);
-        fallGameStateUI.UpdatePlayerRemainFallTime(players);
+        fallGameStateUI.UpdatePlayerRemainFallTime(playerDontFalls);
     }
 }

@@ -10,7 +10,7 @@ public class GameModeBase : MonoBehaviour
     private PlayerInputManager playerInputManager;
     [SerializeField] private Canvas GameOverUI;
     
-    protected List<PlayerInput> playerInputs = new List<PlayerInput>();
+    protected List<Player> players = new List<Player>();
 
     public static GameModeBase Instance { get; private set; }
 
@@ -34,17 +34,11 @@ public class GameModeBase : MonoBehaviour
     }
     protected virtual void SpawnCars()
     {
-        playerInputs.Add(playerInputManager.JoinPlayer(0, controlScheme: "Gamepad"));
-        playerInputs.Add(playerInputManager.JoinPlayer(1, controlScheme: "Keyboard"));
-
-        if (playerInputs[0] == null)
+        foreach (var player in FindObjectsOfType<Player>())
         {
-            Debug.LogError("Gamepad Not Connected");
-        }
-
-        for (int index = 0; index < playerInputs.Count; index++)
-        {
-            playerInputs[index].transform.SetPositionAndRotation(carSpawnPoints[index].position, carSpawnPoints[index].rotation);
+            players.Add(player);
+            player.carTransform.SetPositionAndRotation(carSpawnPoints[player.playerIndex].position, carSpawnPoints[player.playerIndex].rotation);
+            player.OnGameModeStart();
         }
     }
 

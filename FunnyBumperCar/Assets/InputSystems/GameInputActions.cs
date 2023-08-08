@@ -446,6 +446,15 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectDone"",
+                    ""type"": ""Button"",
+                    ""id"": ""933106ae-aa06-4f47-a1e2-5982b8747b96"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -558,6 +567,28 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Select"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6f5a6014-7403-4f70-92d9-6ebf7b6d4a1b"",
+                    ""path"": ""<Keyboard>/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""SelectDone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""29bbb84a-3019-4b7a-924e-1ddc73878b0d"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SelectDone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -605,6 +636,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         m_Selection_MoveRight = m_Selection.FindAction("MoveRight", throwIfNotFound: true);
         m_Selection_MoveLeft = m_Selection.FindAction("MoveLeft", throwIfNotFound: true);
         m_Selection_Select = m_Selection.FindAction("Select", throwIfNotFound: true);
+        m_Selection_SelectDone = m_Selection.FindAction("SelectDone", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -781,6 +813,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Selection_MoveRight;
     private readonly InputAction m_Selection_MoveLeft;
     private readonly InputAction m_Selection_Select;
+    private readonly InputAction m_Selection_SelectDone;
     public struct SelectionActions
     {
         private @GameInputActions m_Wrapper;
@@ -790,6 +823,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         public InputAction @MoveRight => m_Wrapper.m_Selection_MoveRight;
         public InputAction @MoveLeft => m_Wrapper.m_Selection_MoveLeft;
         public InputAction @Select => m_Wrapper.m_Selection_Select;
+        public InputAction @SelectDone => m_Wrapper.m_Selection_SelectDone;
         public InputActionMap Get() { return m_Wrapper.m_Selection; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -814,6 +848,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @Select.started += instance.OnSelect;
             @Select.performed += instance.OnSelect;
             @Select.canceled += instance.OnSelect;
+            @SelectDone.started += instance.OnSelectDone;
+            @SelectDone.performed += instance.OnSelectDone;
+            @SelectDone.canceled += instance.OnSelectDone;
         }
 
         private void UnregisterCallbacks(ISelectionActions instance)
@@ -833,6 +870,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @Select.started -= instance.OnSelect;
             @Select.performed -= instance.OnSelect;
             @Select.canceled -= instance.OnSelect;
+            @SelectDone.started -= instance.OnSelectDone;
+            @SelectDone.performed -= instance.OnSelectDone;
+            @SelectDone.canceled -= instance.OnSelectDone;
         }
 
         public void RemoveCallbacks(ISelectionActions instance)
@@ -887,5 +927,6 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         void OnMoveRight(InputAction.CallbackContext context);
         void OnMoveLeft(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
+        void OnSelectDone(InputAction.CallbackContext context);
     }
 }

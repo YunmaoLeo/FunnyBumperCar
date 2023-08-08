@@ -37,6 +37,11 @@ public class CarAssembleController : MonoBehaviour
         InitializeUI();
     }
 
+    public Transform GetCar()
+    {
+        return carBody.transform;
+    }
+
     public void SetNewCarBody(Transform newCar)
     {
         if (newCar.TryGetComponent<CarBody>(out CarBody bodyComponent))

@@ -5,13 +5,13 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private CarAssembleController controllerPrefab;
     private CarAssembleController assembleController;
-    private Transform carTransform;
+    public Transform carTransform;
     private CarBody carBody;
     private InputActionMap player;
     private InputActionMap selection;
     private bool isGamePlaying = false;
 
-    private int playerIndex;
+    public int playerIndex;
 
     private void Awake()
     {
@@ -36,13 +36,24 @@ public class Player : MonoBehaviour
         selection.FindAction("MoveRight").performed += context => { listUI.OnCursorRight(); };
         selection.FindAction("MoveLeft").performed += context => { listUI.OnCursorLeft(); };
         selection.FindAction("Select").performed += context => { listUI.OnSelect(); };
+        selection.FindAction("SelectDone").performed += context => { OnAssembleDone(); };
+    }
+
+    private void OnAssembleDone()
+    {
+        carTransform = assembleController.GetCar();
+        DontDestroyOnLoad(carTransform);
+        CarAssembleManager.Instance.OnCarAssembleStateChange(playerIndex);
+        selection.Disable();
     }
 
     public void OnGameModeStart()
     {
-        selection.Enable();
+        selection.Disable();
+        player.Enable();
         isGamePlaying = true;
         carBody = carTransform.GetComponent<CarBody>();
+        carBody.CarID = playerIndex;
         carBody.BindAddonInputActions(player);
 
         //initialize carManager;
