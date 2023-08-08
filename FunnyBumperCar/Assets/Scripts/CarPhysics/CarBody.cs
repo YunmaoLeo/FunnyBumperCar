@@ -168,7 +168,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         }
     }
 
-    public void ResetPhysicalState(Transform spawnPointTransform)
+    public void ResetPhysicalState(Transform spawnPointTransform, float delay = 1f)
     {
 
         ResetAddonStates(false);
@@ -180,7 +180,14 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         CarRigidbody.position = spawnPointTransform.position;
         CarRigidbody.rotation = spawnPointTransform.rotation;
 
-        StartCoroutine(ActivePhysicalBodyWithDelay(1f));
+        StartCoroutine(ActivePhysicalBodyWithDelay(delay));
+    }
+    
+    public void ResetPhysicalState()
+    {
+        CarRigidbody.velocity = Vector3.zero;
+        CarRigidbody.angularVelocity = Vector3.zero; 
+        CarRigidbody.ResetInertiaTensor();
     }
 
     IEnumerator ActivePhysicalBodyWithDelay(float delayTime)

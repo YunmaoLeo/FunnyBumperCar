@@ -93,17 +93,15 @@ public class CarAssembleController : MonoBehaviour
                 backAddon = addon;
                 break;
         }
-        
+
         if (carBody.EquipCarAddon(slotType, addon))
         {
-            carBody.transform.localPosition = Vector3.zero;
-            carBody.transform.localRotation = Quaternion.identity;
+            ResetCarState();
         }
     }
 
     public void SetNewTire(CarBody.TireLocation location, Transform tireTransform)
     {
-
         switch (location)
         {
             case CarBody.TireLocation.FrontLeft:
@@ -119,11 +117,10 @@ public class CarAssembleController : MonoBehaviour
                 backRightTire = tireTransform;
                 break;
         }
-        
+
         if (carBody.SetTireAndInstantiate(location, tireTransform))
         {
-            carBody.transform.localPosition = Vector3.zero;
-            carBody.transform.localRotation = Quaternion.identity;
+            ResetCarState();
         }
     }
 
@@ -140,5 +137,13 @@ public class CarAssembleController : MonoBehaviour
         var carBodyTransform =
             Instantiate(componentsListSO.CarBodysList[0].transform, carSpawnTransform);
         carBody = carBodyTransform.GetComponent<CarBody>();
+    }
+
+    private void ResetCarState()
+    {
+        carBody.transform.localPosition = Vector3.zero;
+        carBody.transform.localRotation = Quaternion.identity;
+        
+        carBody.ResetPhysicalState();
     }
 }
