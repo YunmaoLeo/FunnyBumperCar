@@ -1663,12 +1663,12 @@ PrefabInstance:
     - target: {fileID: 2997580690991773632, guid: d499865e0909aaa43bd2d8c881dca643,
         type: 3}
       propertyPath: SlotType
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3377407713419324942, guid: d499865e0909aaa43bd2d8c881dca643,
         type: 3}
       propertyPath: SlotType
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3377407713419324942, guid: d499865e0909aaa43bd2d8c881dca643,
         type: 3}
@@ -1684,6 +1684,11 @@ PrefabInstance:
         type: 3}
       propertyPath: CarAddonContainerPrefab
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4481704338763856807, guid: d499865e0909aaa43bd2d8c881dca643,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.353
       objectReference: {fileID: 0}
     - target: {fileID: 6877245103753600109, guid: d499865e0909aaa43bd2d8c881dca643,
         type: 3}

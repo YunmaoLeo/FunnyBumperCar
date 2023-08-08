@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
 
     private void OnAssembleDone()
     {
+        presentPlarform.RotateSignal = Vector2.zero;
         carTransform = assembleController.GetCar();
         carTransform.parent = null;
         assembleController.onAssembleDone();
@@ -51,7 +52,8 @@ public class Player : MonoBehaviour
         CarAssembleManager.Instance.OnCarAssembleStateChange(playerIndex);
         selection.Disable();
     }
-
+    0.52 4.88
+    2.51 0.55
     public void OnGameModeStart()
     {
         selection.Disable();

@@ -190,6 +190,11 @@ PrefabInstance:
       objectReference: {fileID: 8336657425293883910}
     - target: {fileID: 9107710979557373730, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
+      propertyPath: ContainerID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9107710979557373730, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
+        type: 3}
       propertyPath: allowedPositions
       value: 30
       objectReference: {fileID: 0}
