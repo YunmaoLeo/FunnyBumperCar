@@ -205,7 +205,12 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     public bool EquipCarAddon(AddonSlot.AddonSlotType slotType, Transform addonContainerPrefab)
     {
         var addonSlot = GetAddonSlot(slotType);
-
+        
+        if (addonContainerPrefab == null)
+        {
+            return RemoveCarAddon(slotType);
+        }
+        
         if (addonSlot.GetAddonContainer()!=null && addonSlot.GetAddonContainer().ContainerID ==
             addonContainerPrefab.GetComponent<AddonContainer_Car>().ContainerID)
         {
@@ -216,11 +221,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         {
             return false;
         }
-        
-        if (addonContainerPrefab == null)
-        {
-            return RemoveCarAddon(slotType);
-        }
+
 
         addonSlot.EquipSpecificCarAddon(this, addonContainerPrefab);
  

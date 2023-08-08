@@ -52,8 +52,7 @@ public class Player : MonoBehaviour
         CarAssembleManager.Instance.OnCarAssembleStateChange(playerIndex);
         selection.Disable();
     }
-    0.52 4.88
-    2.51 0.55
+
     public void OnGameModeStart()
     {
         selection.Disable();

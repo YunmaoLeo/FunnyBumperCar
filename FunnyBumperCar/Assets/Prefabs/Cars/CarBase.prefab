@@ -197,6 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1496913211d4cff4a820a16d11b48a7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CarID: 0
   fixedDeltaTime: 0.005
   maxEngineVelocity: 0
   maxEngineVelocityCoefficient: 12
@@ -265,6 +266,7 @@ MonoBehaviour:
     type: 3}
   CenterOfMass: {fileID: 6540593555757220302}
   Parachute: {fileID: 8224742989661212797}
+  PlayerIndex: 0
   FrontLeftTireConnectionPoint: {fileID: 2142469187662880760}
   FrontRightTireConnectionPoint: {fileID: 2142469187287257617}
   BackLeftTireConnectionPoint: {fileID: 2142469187180448324}
@@ -273,8 +275,11 @@ MonoBehaviour:
   carFlipOverMinForceCoefficient: 4
   carFlipOverDragAngleLimitation: 120
   carFlipOverAngularVelocityLimitation: 1
+  CarRigidbody: {fileID: 0}
   WheelsTransform: {fileID: 2142469186480035259}
   CarsAddonsTransform: {fileID: 4792150834538076397}
+  TestChangeCommand: 0
+  TestChangeCommandTargetValue: 0
 --- !u!65 &3450070707944843351
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -949,7 +954,7 @@ PrefabInstance:
     - target: {fileID: 8170386304897423884, guid: eb35b3dd5c245b142846ea4fd6d3f510,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb35b3dd5c245b142846ea4fd6d3f510, type: 3}

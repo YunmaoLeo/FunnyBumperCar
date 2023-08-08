@@ -97,6 +97,7 @@ public class CarAssembleController : MonoBehaviour
         if (carBody.EquipCarAddon(slotType, addon))
         {
             carBody.transform.localPosition = Vector3.zero;
+            carBody.transform.localRotation = Quaternion.identity;
         }
     }
 
@@ -122,6 +123,7 @@ public class CarAssembleController : MonoBehaviour
         if (carBody.SetTireAndInstantiate(location, tireTransform))
         {
             carBody.transform.localPosition = Vector3.zero;
+            carBody.transform.localRotation = Quaternion.identity;
         }
     }
 
