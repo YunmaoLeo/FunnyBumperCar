@@ -5,15 +5,15 @@ using UnityEngine.InputSystem;
 
 public class AddonSlot : MonoBehaviour
 {
-    [Serializable]
+    [SerializeField] [System.Flags]
     public enum AddonSlotType
     {
-        Front,
-        SideLeft,
-        SideRight,
-        Back,
-        Top,
-        Bottom
+        Front = 1<<0,
+        SideLeft = 1<<1,
+        SideRight = 1<<2,
+        Back = 1<<3,
+        Top = 1<<4,
+        Bottom = 1<<5
     }
 
     [SerializeField] public Transform CarAddonContainerPrefab;

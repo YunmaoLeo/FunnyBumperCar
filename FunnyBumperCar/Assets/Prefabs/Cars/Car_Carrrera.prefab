@@ -1663,7 +1663,12 @@ PrefabInstance:
     - target: {fileID: 2997580690991773632, guid: d499865e0909aaa43bd2d8c881dca643,
         type: 3}
       propertyPath: SlotType
-      value: 3
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3377407713419324942, guid: d499865e0909aaa43bd2d8c881dca643,
+        type: 3}
+      propertyPath: SlotType
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3377407713419324942, guid: d499865e0909aaa43bd2d8c881dca643,
         type: 3}
@@ -1673,12 +1678,17 @@ PrefabInstance:
     - target: {fileID: 4196627348473928517, guid: d499865e0909aaa43bd2d8c881dca643,
         type: 3}
       propertyPath: SlotType
-      value: 4
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4196627348473928517, guid: d499865e0909aaa43bd2d8c881dca643,
         type: 3}
       propertyPath: CarAddonContainerPrefab
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877245103753600109, guid: d499865e0909aaa43bd2d8c881dca643,
+        type: 3}
+      propertyPath: SlotType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6877245103753600109, guid: d499865e0909aaa43bd2d8c881dca643,
         type: 3}
@@ -1688,7 +1698,7 @@ PrefabInstance:
     - target: {fileID: 7979741242883015817, guid: d499865e0909aaa43bd2d8c881dca643,
         type: 3}
       propertyPath: SlotType
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7979741242883015817, guid: d499865e0909aaa43bd2d8c881dca643,
         type: 3}

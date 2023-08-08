@@ -183,6 +183,11 @@ PrefabInstance:
       propertyPath: Addon
       value: 
       objectReference: {fileID: 1206132145899003243}
+    - target: {fileID: 9107710979557373730, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
+        type: 3}
+      propertyPath: allowedPositions
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6997690905335858710, guid: f96b5c9bec3f5a1489724dd47adcd8d5, type: 3}
     - {fileID: 4781775378498917140, guid: f96b5c9bec3f5a1489724dd47adcd8d5, type: 3}

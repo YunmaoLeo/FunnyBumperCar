@@ -104,37 +104,37 @@ public class SelectorListUI : MonoBehaviour
         };
 
         // AddonSlot
-        var frontAddonSelector =InitializeComponentSelector("FrontAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
+        var frontAddonSelector =InitializeComponentSelector("FrontAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites,AddonSlot.AddonSlotType.Front);
         frontAddonSelector.OnSelectionAction+= addonTransform =>
         {
             assembleController.SetNewAddon(AddonSlot.AddonSlotType.Front, addonTransform);
         };
         
 
-        var sideLeftAddonSelector =InitializeComponentSelector("SideLeftAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
+        var sideLeftAddonSelector =InitializeComponentSelector("SideLeftAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites,AddonSlot.AddonSlotType.SideLeft);
         sideLeftAddonSelector.OnSelectionAction+= addonTransform =>
         {
             assembleController.SetNewAddon(AddonSlot.AddonSlotType.SideLeft, addonTransform);
         };
 
-        var sideRightAddonSelector =InitializeComponentSelector("SideRightAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
+        var sideRightAddonSelector =InitializeComponentSelector("SideRightAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites,AddonSlot.AddonSlotType.SideRight);
         sideRightAddonSelector.OnSelectionAction+= addonTransform =>
         {
             assembleController.SetNewAddon(AddonSlot.AddonSlotType.SideRight, addonTransform);
         };
-        var backAddonSelector =InitializeComponentSelector("BackAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
+        var backAddonSelector =InitializeComponentSelector("BackAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites,AddonSlot.AddonSlotType.Back);
         backAddonSelector.OnSelectionAction+= addonTransform =>
         {
             assembleController.SetNewAddon(AddonSlot.AddonSlotType.Back, addonTransform);
         };
-        var topAddonSelector =InitializeComponentSelector("TopAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
+        var topAddonSelector =InitializeComponentSelector("TopAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites, AddonSlot.AddonSlotType.Top);
         topAddonSelector.OnSelectionAction+= addonTransform =>
         {
             assembleController.SetNewAddon(AddonSlot.AddonSlotType.Top, addonTransform);
         };
     }
-
-    private ComponentSelector InitializeComponentSelector(string componentName, List<Transform> addonsList,
+    
+    private ComponentSelector InitializeComponentSelector(string componentName, List<Transform> componentList,
         List<Sprite> spriteList)
     {
         var componentSelector = Instantiate(componentSelectorTemplate, transform);
@@ -142,9 +142,28 @@ public class SelectorListUI : MonoBehaviour
         
         componentSelectors.Add(componentSelector);
         
-        for (int i = 0; i < addonsList.Count; i++)
+        for (int i = 0; i < componentList.Count; i++)
         {
-            componentSelector.AddSelectableComponent(addonsList[i], spriteList[i]);
+            componentSelector.AddSelectableComponent(componentList[i], spriteList[i]);
+        }
+
+        return componentSelector;
+    }
+    
+    private ComponentSelector InitializeComponentSelector(string componentName, List<Transform> componentList,
+        List<Sprite> spriteList, AddonSlot.AddonSlotType slotType)
+    {
+        var componentSelector = Instantiate(componentSelectorTemplate, transform);
+        componentSelector.ComponentName.text = componentName;
+        
+        componentSelectors.Add(componentSelector);
+        
+        for (int i = 0; i < componentList.Count; i++)
+        {
+            if (componentList[i] == null || (componentList[i].GetComponent<AddonContainer_Car>().allowedPositions & slotType) != 0)
+            {
+                componentSelector.AddSelectableComponent(componentList[i], spriteList[i]);
+            }
         }
 
         return componentSelector;
