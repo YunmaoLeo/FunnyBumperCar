@@ -75,29 +75,64 @@ public class SelectorListUI : MonoBehaviour
     private void InitializeComponentsList()
     {
         // CarBody;
-        InitializeComponentSelector("CarBody", ComponentsListSO.CarBodysList, ComponentsListSO.CarBodysSprites);
-
+        var carBodySelector = InitializeComponentSelector("CarBody", ComponentsListSO.CarBodysList, ComponentsListSO.CarBodysSprites);
+        carBodySelector.OnSelectionAction += assembleController.SetNewCarBody;
         // FrontLeftTire:
-        InitializeComponentSelector("FrontLeftTire", ComponentsListSO.LeftTiresList, ComponentsListSO.LeftTireSprites);
+        var frontLeftTireSelector =InitializeComponentSelector("FrontLeftTire", ComponentsListSO.LeftTiresList, ComponentsListSO.LeftTireSprites);
+        frontLeftTireSelector.OnSelectionAction += tireTransform =>
+        {
+            assembleController.SetNewTire(CarBody.TireLocation.FrontLeft, tireTransform);
+        };
         // FrontRightTire:
-        InitializeComponentSelector("FrontRightTire", ComponentsListSO.RightTiresList,
+        var frontRightTireSelector =InitializeComponentSelector("FrontRightTire", ComponentsListSO.RightTiresList,
             ComponentsListSO.RightTireSprites);
+        frontRightTireSelector.OnSelectionAction += tireTransform =>
+        {
+            assembleController.SetNewTire(CarBody.TireLocation.FrontRight, tireTransform);
+        };
         // BackLeftTire:
-        InitializeComponentSelector("BackLeftTire", ComponentsListSO.LeftTiresList, ComponentsListSO.LeftTireSprites);
+        var backLeftTireSelector =InitializeComponentSelector("BackLeftTire", ComponentsListSO.LeftTiresList, ComponentsListSO.LeftTireSprites);
         // BackRightTire:
-        InitializeComponentSelector("BackRightTire", ComponentsListSO.RightTiresList,
+        backLeftTireSelector.OnSelectionAction += tireTransform =>
+        {
+            assembleController.SetNewTire(CarBody.TireLocation.BackLeft, tireTransform);
+        };
+        var backRightTireSelector =InitializeComponentSelector("BackRightTire", ComponentsListSO.RightTiresList,
             ComponentsListSO.RightTireSprites);
+        backRightTireSelector.OnSelectionAction += tireTransform =>
+        {
+            assembleController.SetNewTire(CarBody.TireLocation.BackRight, tireTransform);
+        };
 
         // AddonSlot
-        InitializeComponentSelector("FrontAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
+        var frontAddonSelector =InitializeComponentSelector("FrontAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
+        frontAddonSelector.OnSelectionAction+= addonTransform =>
+        {
+            assembleController.SetNewAddon(AddonSlot.AddonSlotType.Front, addonTransform);
+        };
+        
 
-        InitializeComponentSelector("SideLeftAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
+        var sideLeftAddonSelector =InitializeComponentSelector("SideLeftAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
+        sideLeftAddonSelector.OnSelectionAction+= addonTransform =>
+        {
+            assembleController.SetNewAddon(AddonSlot.AddonSlotType.SideLeft, addonTransform);
+        };
 
-        InitializeComponentSelector("SideRightAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
-
-        InitializeComponentSelector("BackAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
-
-        InitializeComponentSelector("TopAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
+        var sideRightAddonSelector =InitializeComponentSelector("SideRightAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
+        sideRightAddonSelector.OnSelectionAction+= addonTransform =>
+        {
+            assembleController.SetNewAddon(AddonSlot.AddonSlotType.SideRight, addonTransform);
+        };
+        var backAddonSelector =InitializeComponentSelector("BackAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
+        backAddonSelector.OnSelectionAction+= addonTransform =>
+        {
+            assembleController.SetNewAddon(AddonSlot.AddonSlotType.Back, addonTransform);
+        };
+        var topAddonSelector =InitializeComponentSelector("TopAddon", ComponentsListSO.AddonsList, ComponentsListSO.AddonsSprites);
+        topAddonSelector.OnSelectionAction+= addonTransform =>
+        {
+            assembleController.SetNewAddon(AddonSlot.AddonSlotType.Top, addonTransform);
+        };
     }
 
     private ComponentSelector InitializeComponentSelector(string componentName, List<Transform> addonsList,
@@ -105,9 +140,9 @@ public class SelectorListUI : MonoBehaviour
     {
         var componentSelector = Instantiate(componentSelectorTemplate, transform);
         componentSelector.ComponentName.text = componentName;
-
+        
         componentSelectors.Add(componentSelector);
-
+        
         for (int i = 0; i < addonsList.Count; i++)
         {
             componentSelector.AddSelectableComponent(addonsList[i], spriteList[i]);

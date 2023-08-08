@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TirePhysics : MonoBehaviour
 {
-    [Header("Basic Properties")]
+    [Header("Basic Properties")] public int TireID;
     [SerializeField] private float tireRadius;
 
     [SerializeField] private float tireWidth;
@@ -121,6 +121,13 @@ public class TirePhysics : MonoBehaviour
 
         //update tire position;
         tirePosition = connectPointPos + wheelPosOffset;
+        transform.position = tirePosition;
+    }
+
+    public void InitializeTirePosition(Transform tireConnectPoint, Rigidbody carRigidbody)
+    {
+        var wheelPosOffset = -carRigidbody.transform.up * springDefaultLength;
+        var tirePosition = tireConnectPoint.position + wheelPosOffset;
         transform.position = tirePosition;
     }
 

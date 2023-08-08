@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class CarBody : MonoBehaviour, ICanBeExploded
 {
+    public int CarID;
     [SerializeField] private float fixedDeltaTime = 0.005f;
     
     [SerializeField] private float maxEngineVelocity;
@@ -147,6 +148,12 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         maxEngineVelocity = engineMaxTorque / (CarRigidbody.mass + totalTireMass) * maxEngineVelocityCoefficient;
     }
 
+    private void Start()
+    {
+        // set initial tire position
+        
+    }
+
     private void ResetAddonStates(bool enable)
     {
         var addonsCount = CarsAddonsTransform.childCount;
@@ -197,6 +204,10 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
     public void EquipCarAddon(AddonSlot.AddonSlotType slotType, Transform addonContainerPrefab)
     {
+        if (addonContainerPrefab == null)
+        {
+            RemoveCarAddon(slotType);
+        }
         var addonSlot = GetAddonSlot(slotType);
         if (addonSlot.SlotType == slotType)
         {
@@ -389,7 +400,16 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
     public void SetTireAndInstantiate(TireLocation location, Transform tireTransformPrefab)
     {
-        Destroy(tiresMap[location].transform);
+        if (tireTransformPrefab == null)
+        {
+            return;
+        }
+        if (tireTransformPrefab.GetComponent<TirePhysics>().TireID == tiresMap[location].TireID)
+        {
+            return;
+        }
+
+        var oldTire = tiresMap[location];
         var tireTransformInstance = Instantiate(tireTransformPrefab, WheelsTransform);
         
         switch (location)
@@ -407,7 +427,10 @@ public class CarBody : MonoBehaviour, ICanBeExploded
                 backRightTire = tireTransformInstance;
                 break;
         }
-        tiresMap.Add(location, tireTransformInstance.GetComponent<TirePhysics>());
+
+        tiresMap[location] = tireTransformInstance.GetComponent<TirePhysics>();
+        Destroy(oldTire.gameObject);
+        tiresMap[location].InitializeTirePosition(tireConnectPointsMap[location], CarRigidbody);
     }
     
     
@@ -442,10 +465,20 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         tiresAbleToSteerMap.Add(TireLocation.BackLeft, tireSteerMode != TireSteerMode.FrontSteer);
         tiresAbleToSteerMap.Add(TireLocation.BackRight, tireSteerMode != TireSteerMode.FrontSteer);
 
+        InitializeTirePosition();
+
         totalTireMass = 0f;
         foreach (var pair in tiresMap)
         {
             totalTireMass += pair.Value.Mass;
+        }
+    }
+
+    private void InitializeTirePosition()
+    {
+        foreach (var pair in tiresMap)
+        {
+            pair.Value.InitializeTirePosition(tireConnectPointsMap[pair.Key], CarRigidbody);
         }
     }
 

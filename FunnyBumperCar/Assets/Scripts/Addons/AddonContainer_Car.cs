@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
  */
 public class AddonContainer_Car : AddonContainer
 {
-    [SerializeField] private Sprite selectSprite;
     [SerializeField] public Transform Calibrator;
     public void TriggerAddon(InputAction.CallbackContext context)
     {

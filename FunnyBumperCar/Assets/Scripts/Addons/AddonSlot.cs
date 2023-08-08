@@ -85,7 +85,7 @@ public class AddonSlot : MonoBehaviour
             return;
         }
         addon.OnRemoveFromCar(carBody);
-        Destroy(carAddonContainerInstance);
+        Destroy(carAddonContainerInstance.gameObject);
 
 
         carAddonContainerInstance = null;

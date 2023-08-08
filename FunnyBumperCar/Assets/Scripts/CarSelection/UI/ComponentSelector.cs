@@ -24,6 +24,10 @@ public class ComponentSelector : MonoBehaviour
 
     public void OnSelect()
     {
+        if (currentSelectionIndex == currentFocusIndex)
+        {
+            return;
+        }
         var oldIndex = currentSelectionIndex;
         currentSelectionIndex = currentFocusIndex;
         components[currentSelectionIndex].Select();
