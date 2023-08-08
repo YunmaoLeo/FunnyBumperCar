@@ -11,6 +11,7 @@ public class CarAssembleController : MonoBehaviour
     [HideInInspector]
     public Transform carSpawnTransform;
 
+    private SelectorListUI selectorListUI;
     public Player player;
     private Transform carAssembleUI;
 
@@ -68,6 +69,11 @@ public class CarAssembleController : MonoBehaviour
         }
     }
 
+    public void onAssembleDone()
+    {
+        selectorListUI.showIsDoneUI();
+    }
+
     public void SetNewAddon(AddonSlot.AddonSlotType slotType, Transform addon)
     {
         carBody.EquipCarAddon(slotType, addon);
@@ -117,10 +123,10 @@ public class CarAssembleController : MonoBehaviour
 
     private void InitializeUI()
     {
-        var selectorList = Instantiate(selectorListUITemplate, carAssembleUI);
-        selectorList.ComponentsListSO = componentsListSO;
-        selectorList.assembleController = this;
-        player.BindSelectionInputActions(selectorList);
+        selectorListUI = Instantiate(selectorListUITemplate, carAssembleUI);
+        selectorListUI.ComponentsListSO = componentsListSO;
+        selectorListUI.assembleController = this;
+        player.BindSelectionInputActions(selectorListUI);
     }
     
     private void InitializeCar()

@@ -1,17 +1,26 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SelectorListUI : MonoBehaviour
 {
     [SerializeField] private ComponentSelector componentSelectorTemplate;
+    [SerializeField] private Transform IsDoneUI;
     private List<ComponentSelector> componentSelectors = new List<ComponentSelector>();
 
+    [HideInInspector]
     public CarAssembleController assembleController;
 
     [HideInInspector] public CarComponentsListSO ComponentsListSO;
 
     private int currentFocusIndex = 0;
 
+    public void showIsDoneUI()
+    {
+        IsDoneUI.SetAsLastSibling();
+        IsDoneUI.gameObject.SetActive(true);
+    }
+    
     private void Awake()
     {
     }

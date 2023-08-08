@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     private void OnAssembleDone()
     {
         carTransform = assembleController.GetCar();
+        assembleController.onAssembleDone();
         DontDestroyOnLoad(carTransform);
         CarAssembleManager.Instance.OnCarAssembleStateChange(playerIndex);
         selection.Disable();
