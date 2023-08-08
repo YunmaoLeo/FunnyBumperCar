@@ -3,11 +3,13 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Transform CarPrefab;
-
+    [SerializeField] private CarAssembleController controllerPrefab;
+    private CarAssembleController assembleController;
     private Transform carTransform;
-    private CarBody _carBodyComponent;
+    private CarBody carBody;
     private InputActionMap player;
+    private InputActionMap selection;
+    private bool isGamePlaying = false;
 
     private int playerIndex;
 
@@ -15,14 +17,33 @@ public class Player : MonoBehaviour
     {
         var playerInput = GetComponent<PlayerInput>();
         player = playerInput.actions.FindActionMap("Player");
+        selection = playerInput.actions.FindActionMap("Selection");
         playerIndex = playerInput.playerIndex;
     }
 
     private void Start()
     {
-        carTransform = Instantiate(CarPrefab, transform);
-        _carBodyComponent = carTransform.GetComponent<CarBody>();
-        _carBodyComponent.BindAddonInputActions(player);
+        var instance = Instantiate(controllerPrefab);
+        assembleController = instance.GetComponent<CarAssembleController>();
+        assembleController.carSpawnTransform = CarAssembleManager.Instance.GetAssemblePositionForCar(playerIndex);
+        assembleController.player = this;
+    }
+
+    public void BindSelectionInputActions(SelectorListUI listUI)
+    {
+        selection.FindAction("MoveUp").performed += context => { listUI.OnCursorUp(); };
+        selection.FindAction("MoveDown").performed += context => { listUI.OnCursorDown(); };
+        selection.FindAction("MoveRight").performed += context => { listUI.OnCursorRight(); };
+        selection.FindAction("MoveLeft").performed += context => { listUI.OnCursorLeft(); };
+        selection.FindAction("Select").performed += context => { listUI.OnSelect(); };
+    }
+
+    public void OnGameModeStart()
+    {
+        selection.Enable();
+        isGamePlaying = true;
+        carBody = carTransform.GetComponent<CarBody>();
+        carBody.BindAddonInputActions(player);
 
         //initialize carManager;
         CarsAndCameraManager.Instance.RegisterCar(carTransform, playerIndex);
@@ -31,16 +52,20 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         player.Enable();
+        selection.Enable();
     }
 
     private void FixedUpdate()
     {
-        var moveInputVector = player.FindAction("Move").ReadValue<Vector2>();
-        var isBraking = player.FindAction("CarBrake").ReadValue<float>() != 0;
-        var isDrifting = player.FindAction("Drifting").ReadValue<float>() != 0;
-        _carBodyComponent.TireRotateSignal = moveInputVector.x;
-        _carBodyComponent.CarDriveSignal = moveInputVector.y;
-        _carBodyComponent.IsBraking = isBraking;
-        _carBodyComponent.IsDrifting = isDrifting;
+        if (isGamePlaying)
+        {
+            var moveInputVector = player.FindAction("Move").ReadValue<Vector2>();
+            var isBraking = player.FindAction("CarBrake").ReadValue<float>() != 0;
+            var isDrifting = player.FindAction("Drifting").ReadValue<float>() != 0;
+            carBody.TireRotateSignal = moveInputVector.x;
+            carBody.CarDriveSignal = moveInputVector.y;
+            carBody.IsBraking = isBraking;
+            carBody.IsDrifting = isDrifting;
+        }
     }
 }

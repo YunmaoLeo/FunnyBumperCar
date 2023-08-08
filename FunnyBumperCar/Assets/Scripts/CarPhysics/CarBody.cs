@@ -503,7 +503,10 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     {
         if (collision.gameObject.CompareTag("Car"))
         {
-         VisualEffectManager.Instance.PlayCarCrashEffectLists(collision.contacts[0].point);   
+            if (VisualEffectManager.Instance != null)
+            {
+                VisualEffectManager.Instance.PlayCarCrashEffectLists(collision.contacts[0].point); 
+            }  
         }
     }
 

@@ -8,22 +8,12 @@ public class SelectorListUI : MonoBehaviour
 
     public CarAssembleController assembleController;
 
-    private GameInputActions inputActions;
     [HideInInspector] public CarComponentsListSO ComponentsListSO;
 
     private int currentFocusIndex = 0;
 
     private void Awake()
     {
-        inputActions = new GameInputActions();
-        inputActions.Enable();
-
-        inputActions.Selection.MoveUp.performed += (context => OnCursorUp());
-        inputActions.Selection.MoveDown.performed += (context => OnCursorDown());
-        inputActions.Selection.MoveRight.performed += (context => OnCursorRight());
-        inputActions.Selection.MoveLeft.performed += (context => OnCursorLeft());
-
-        inputActions.Selection.Select.performed += (context => OnSelect());
     }
 
     public void OnSelect()

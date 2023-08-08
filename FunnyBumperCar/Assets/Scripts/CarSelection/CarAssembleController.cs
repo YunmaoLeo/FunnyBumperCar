@@ -7,9 +7,12 @@ using UnityEngine;
 public class CarAssembleController : MonoBehaviour
 {
     [SerializeField] private CarComponentsListSO componentsListSO;
-    [SerializeField] private Transform carSpawnTransform;
     [SerializeField] private SelectorListUI selectorListUITemplate;
-    [SerializeField] private Transform carAssembleUI;
+    [HideInInspector]
+    public Transform carSpawnTransform;
+
+    public Player player;
+    private Transform carAssembleUI;
 
     private CarBody carBody;
     private Transform frontLeftTire;
@@ -22,6 +25,11 @@ public class CarAssembleController : MonoBehaviour
     private Transform sideRightAddon;
     private Transform backAddon;
     private Transform topAddon;
+
+    private void Awake()
+    {
+        carAssembleUI = CarAssembleUIManager.Instance.transform;
+    }
 
     private void Start()
     {
@@ -107,6 +115,7 @@ public class CarAssembleController : MonoBehaviour
         var selectorList = Instantiate(selectorListUITemplate, carAssembleUI);
         selectorList.ComponentsListSO = componentsListSO;
         selectorList.assembleController = this;
+        player.BindSelectionInputActions(selectorList);
     }
     
     private void InitializeCar()
