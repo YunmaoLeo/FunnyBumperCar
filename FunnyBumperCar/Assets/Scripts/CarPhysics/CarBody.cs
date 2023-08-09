@@ -349,7 +349,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
             bool isAssistSteerTire = tireLocation == TireLocation.BackLeft || tireLocation == TireLocation.BackRight;
 
-            bool raycastResult = tirePhysicsComponent.SteerRaycast(tireConnectPoint, out float minRaycastDistance);
+            bool raycastResult = tirePhysicsComponent.SteerRaycast(this, tireConnectPoint, out float minRaycastDistance);
 
             tirePhysicsComponent.HandleTireVisual(CarRigidbody);
             

@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TirePhysics : MonoBehaviour
@@ -42,6 +44,7 @@ public class TirePhysics : MonoBehaviour
     [SerializeField] private float brakeFrictionMultiplier = 10f;
 
     private float tireGripFactor;
+    private Dictionary<Collider, bool> isColliderSameCarDict = new Dictionary<Collider, bool>();
 
 
     [Space][Header("Debug Properties")]
@@ -194,7 +197,7 @@ public class TirePhysics : MonoBehaviour
     }
 
 
-    public bool SteerRaycast(Transform tireConnectPoint, out float minRaycastDistance)
+    public bool SteerRaycast(CarBody carBody, Transform tireConnectPoint, out float minRaycastDistance)
     {
         bool raycastResult = false;
         minRaycastDistance = Single.MaxValue;
@@ -215,14 +218,45 @@ public class TirePhysics : MonoBehaviour
                 //
                 var unitRayResult = Physics.Raycast(rayOrigin, rayDirection, out RaycastHit raycastHit,
                     (float)rayMaxDistance);
-
+                
+                
                 if (drawRaycastDebugLine)
                 {
                     Debug.DrawLine(rayOrigin, rayOrigin + direction * (float)rayMaxDistance, Color.green);
                 }
-
+                
                 if (unitRayResult)
                 {
+                    
+                    // check whether this collider is the sub object of this car;
+                    if (isColliderSameCarDict.ContainsKey(raycastHit.collider))
+                    {
+                        if (isColliderSameCarDict[raycastHit.collider])
+                        {
+                            return raycastResult;
+                        }
+                    }
+                    else
+                    {
+                        var possibleCarBody = raycastHit.collider.transform.GetComponentInParent<CarBody>();
+                        if (possibleCarBody != null)
+                        {
+                            if (possibleCarBody.PlayerIndex == carBody.PlayerIndex)
+                            {
+                                isColliderSameCarDict[raycastHit.collider] = true;
+                                return raycastResult;
+                            }
+                            else
+                            {
+                                isColliderSameCarDict[raycastHit.collider] = false;
+                            }
+                        }
+                        else
+                        {
+                            isColliderSameCarDict[raycastHit.collider] = false;
+                        }
+                    }
+
                     raycastResult = true;
 
                     float rayPointOffset = (float)(raycastHit.distance - rayRadius);

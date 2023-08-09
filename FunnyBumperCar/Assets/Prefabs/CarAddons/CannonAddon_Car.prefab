@@ -102,6 +102,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3543289598363116449}
     m_Modifications:
+    - target: {fileID: 49143564014954353, guid: 5017c1e2a912c3e4d8a915d25d45dfe1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 154494019017693057, guid: 5017c1e2a912c3e4d8a915d25d45dfe1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
     - target: {fileID: 1425534778759240218, guid: 5017c1e2a912c3e4d8a915d25d45dfe1,
         type: 3}
       propertyPath: m_RootOrder
@@ -163,6 +173,31 @@ PrefabInstance:
       value: RectangleThruster
       objectReference: {fileID: 0}
     - target: {fileID: 1766348905342599328, guid: 5017c1e2a912c3e4d8a915d25d45dfe1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132455207782078626, guid: 5017c1e2a912c3e4d8a915d25d45dfe1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 2321156714369700242, guid: 5017c1e2a912c3e4d8a915d25d45dfe1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 3854450798864250879, guid: 5017c1e2a912c3e4d8a915d25d45dfe1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156174595153735954, guid: 5017c1e2a912c3e4d8a915d25d45dfe1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 6599725597940041436, guid: 5017c1e2a912c3e4d8a915d25d45dfe1,
         type: 3}
       propertyPath: m_TagString
       value: Car

@@ -470,16 +470,3 @@ MonoBehaviour:
   ConfigFloatSlideRangeCommandsList: []
   targetHeightMinOffset: -0.06
   targetHeightMaxOffset: -1
---- !u!65 &4836848140124717512
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7178519655750295231}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.5263748, y: 0.30945265, z: 0.837062}
-  m_Center: {x: -0.00797677, y: -0.45258087, z: 0.34122258}

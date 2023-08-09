@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EmagnetAddon_Car
       objectReference: {fileID: 0}
+    - target: {fileID: 1211470846111029424, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
     - target: {fileID: 2870271067732260759, guid: f96b5c9bec3f5a1489724dd47adcd8d5,
         type: 3}
       propertyPath: m_RootOrder
@@ -122,6 +127,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 478803169245902050}
     m_Modifications:
+    - target: {fileID: 7567098308220785110, guid: b202752c07c1e24449109b0cd0ba4fde,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
     - target: {fileID: 7567098308450375142, guid: b202752c07c1e24449109b0cd0ba4fde,
         type: 3}
       propertyPath: m_RootOrder
@@ -181,6 +191,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EmagnetAddon
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567098308450375143, guid: b202752c07c1e24449109b0cd0ba4fde,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567098308936585172, guid: b202752c07c1e24449109b0cd0ba4fde,
+        type: 3}
+      propertyPath: m_TagString
+      value: Car
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b202752c07c1e24449109b0cd0ba4fde, type: 3}
