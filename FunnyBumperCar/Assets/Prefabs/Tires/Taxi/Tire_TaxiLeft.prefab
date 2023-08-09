@@ -108,7 +108,22 @@ PrefabInstance:
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: tireRadius
-      value: 0.35
+      value: 0.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
+      propertyPath: springStrength
+      value: 3700
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
+      propertyPath: springMinLength
+      value: 0.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
+      propertyPath: springDefaultLength
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871267, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}

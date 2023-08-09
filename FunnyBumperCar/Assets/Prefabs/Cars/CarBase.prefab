@@ -271,10 +271,10 @@ MonoBehaviour:
   FrontRightTireConnectionPoint: {fileID: 2142469187287257617}
   BackLeftTireConnectionPoint: {fileID: 2142469187180448324}
   BackRightTireConnectionPoint: {fileID: 2142469185966637294}
-  carFlipOverMaxForceCoefficient: 30
+  carFlipOverMaxForceCoefficient: 100
   carFlipOverMinForceCoefficient: 4
   carFlipOverDragAngleLimitation: 120
-  carFlipOverAngularVelocityLimitation: 1
+  carFlipOverAngularVelocityLimitation: 3
   CarRigidbody: {fileID: 0}
   WheelsTransform: {fileID: 2142469186480035259}
   CarsAddonsTransform: {fileID: 4792150834538076397}
