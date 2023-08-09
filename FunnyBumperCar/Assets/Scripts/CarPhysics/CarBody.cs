@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -523,13 +524,17 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     {
         CarRigidbody.AddExplosionForce(explosionIntensity, explosionCenter, explosionRadius);
     }
+    
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Car"))
         {
+            float strength = 0;
+            strength = collision.relativeVelocity.magnitude * (CarRigidbody.mass);
+
             if (VisualEffectManager.Instance != null)
             {
-                VisualEffectManager.Instance.PlayCarCrashEffectLists(collision.contacts[0].point); 
+                VisualEffectManager.Instance.PlayCarCrashEffectLists(collision.contacts[0].point, strength); 
             }  
         }
     }
