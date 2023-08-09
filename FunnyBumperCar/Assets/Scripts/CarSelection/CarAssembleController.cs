@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CarAssembleController : MonoBehaviour
@@ -9,6 +10,7 @@ public class CarAssembleController : MonoBehaviour
     private SelectorListUI selectorListUI;
     public Player player;
     private Transform carAssembleUI;
+    private CarPresentPlatform presentPlatform;
 
     private CarBody carBody;
     private Transform frontLeftTire;
@@ -31,6 +33,7 @@ public class CarAssembleController : MonoBehaviour
     {
         InitializeCar();
         InitializeUI();
+        presentPlatform = carSpawnTransform.parent.GetComponent<CarPresentPlatform>();
     }
 
     public Transform GetCar()
@@ -76,13 +79,16 @@ public class CarAssembleController : MonoBehaviour
         {
             case AddonSlot.AddonSlotType.Front:
                 frontAddon = addon;
+                presentPlatform.DoShowFront();
                 break;
             case AddonSlot.AddonSlotType.SideLeft:
                 sideLeftAddon = addon;
+                presentPlatform.DoShowSideLeft();
                 break;
 
             case AddonSlot.AddonSlotType.SideRight:
                 sideRightAddon = addon;
+                presentPlatform.DoShowSideRight();
                 break;
 
             case AddonSlot.AddonSlotType.Top:
@@ -91,6 +97,7 @@ public class CarAssembleController : MonoBehaviour
 
             case AddonSlot.AddonSlotType.Back:
                 backAddon = addon;
+                presentPlatform.DoShowBack();
                 break;
         }
 
@@ -106,14 +113,18 @@ public class CarAssembleController : MonoBehaviour
         {
             case CarBody.TireLocation.FrontLeft:
                 frontLeftTire = tireTransform;
+                presentPlatform.DoShowSideLeft();
                 break;
             case CarBody.TireLocation.FrontRight:
+                presentPlatform.DoShowSideRight();
                 frontRightTire = tireTransform;
                 break;
             case CarBody.TireLocation.BackLeft:
+                presentPlatform.DoShowSideLeft();
                 backLeftTire = tireTransform;
                 break;
             case CarBody.TireLocation.BackRight:
+                presentPlatform.DoShowSideRight();
                 backRightTire = tireTransform;
                 break;
         }

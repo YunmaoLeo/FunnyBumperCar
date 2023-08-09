@@ -8,7 +8,15 @@ public class CarPresentPlatform : MonoBehaviour
 {
 
     [SerializeField] private float rotateSpeed = 20f;
+    [SerializeField] private float showPartSpeed = 3f;
     [SerializeField] private Transform CarSpawnTransform;
+
+    [SerializeField] private Transform ShowFront;
+    [SerializeField] private Transform ShowSideRight;
+    [SerializeField] private Transform ShowSideLeft;
+    [SerializeField] private Transform ShowBack;
+
+    
     public Vector2 RotateSignal { get; set; }
 
     public Transform GetSpawnTransform()
@@ -16,6 +24,36 @@ public class CarPresentPlatform : MonoBehaviour
         return CarSpawnTransform;
     }
 
+    public void ShowSpecificTransform(Transform showTransform)
+    {
+        var variation = Math.Abs(showTransform.localEulerAngles.y - transform.eulerAngles.y);
+        transform.DORotate(showTransform.localEulerAngles, variation / 360f * showPartSpeed);
+    }
+
+    public void DoShowSideRight()
+    {
+        ShowSpecificTransform(ShowSideRight);
+    }
+
+    
+    public void DoShowSideLeft()
+    {
+        ShowSpecificTransform(ShowSideLeft);
+    }
+    
+    
+    public void DoShowBack()
+    {
+        ShowSpecificTransform(ShowBack);
+    }
+    
+    
+    public void DoShowFront()
+    {
+        ShowSpecificTransform(ShowFront);
+    }
+    
+    
     private void FixedUpdate()
     {
         var currentAngle = transform.eulerAngles;
