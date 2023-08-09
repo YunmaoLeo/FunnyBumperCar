@@ -8,8 +8,10 @@ using UnityEngine;
 public class Missile : MonoBehaviour
 {
     [SerializeField] private float maxSpeed = 50f;
+    [SerializeField] private float initSpeed = 20f;
     [SerializeField] private float acceleration = 5f;
-    [SerializeField] private float angularSpeed = 0.5f;
+    [SerializeField] private float maxAngularSpeed = 270f;
+    [SerializeField] private float angularSpeedAcceleration = 20f;
     
     [SerializeField] private float maxPredictionTime = 1f;
     [SerializeField] private float maxPredictionDistance = 50f;
@@ -24,6 +26,7 @@ public class Missile : MonoBehaviour
     [SerializeField] private Transform ExplosionPrefab;
 
     private float currentSpeed = 0f;
+    private float currentAngularSpeed = 0f;
     
     private Rigidbody homingTargetRb;
     private Rigidbody rb;
@@ -31,6 +34,11 @@ public class Missile : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        currentSpeed = initSpeed;
     }
 
     public void AssignHomingTarget(Rigidbody rigidbody)
@@ -65,7 +73,10 @@ public class Missile : MonoBehaviour
         currentSpeed += acceleration * Time.fixedDeltaTime;
         currentSpeed = Mathf.Min(currentSpeed, maxSpeed);
         rb.velocity = currentSpeed * transform.forward;
-        
+
+        currentAngularSpeed += angularSpeedAcceleration * Time.fixedDeltaTime;
+        currentAngularSpeed = MathF.Min(currentAngularSpeed, maxAngularSpeed);
+
         // 2. missile pose adjustment;
 
         if (homingTargetRb != null)
@@ -93,7 +104,7 @@ public class Missile : MonoBehaviour
         var rotation = Quaternion.LookRotation(heading);
 
         var partialRotation =
-            Quaternion.RotateTowards(transform.rotation, rotation, angularSpeed * Time.fixedDeltaTime);
+            Quaternion.RotateTowards(transform.rotation, rotation, currentAngularSpeed * Time.fixedDeltaTime);
         rb.MoveRotation(partialRotation);
     }
 

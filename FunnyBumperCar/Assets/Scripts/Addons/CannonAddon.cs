@@ -25,7 +25,6 @@ public class CannonAddon : AddonObject
 
     private FixedJoint fixedJoint;
 
-    private bool isAimingTarget = false;
     private Transform targetCar;
 
     public override void InitializeBasePlatformRigidbody(Rigidbody rigidbody)
@@ -38,11 +37,6 @@ public class CannonAddon : AddonObject
     private void FixedUpdate()
     {
         missileCDTimer -= Time.fixedDeltaTime;
-
-        if (isAimingTarget)
-        {
-            AimingAtTargetPerFrame(targetCar);
-        }
     }
 
     private void AimingAtTargetPerFrame(Transform target)
@@ -73,11 +67,10 @@ public class CannonAddon : AddonObject
             return;
         }
 
-        //2. Rotate cannon platform and barrel;
-        isAimingTarget = true;
 
-        //3. Send Missile & Add recoil force on car rigidbody;
-        StartCoroutine(EjectMissileCoroutine(aimTargetTimeConsumed));
+        //2. Send Missile & Add recoil force on car rigidbody;
+        EjectMissile();
+        targetCar = null;
     }
 
     IEnumerator EjectMissileCoroutine(float aimTimeConsumed)
@@ -85,7 +78,6 @@ public class CannonAddon : AddonObject
         yield return new WaitForSeconds(aimTimeConsumed);
         EjectMissile();
 
-        isAimingTarget = false;
         targetCar = null;
     }
 

@@ -33886,8 +33886,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 50
+  initSpeed: 20
   acceleration: 80
-  angularSpeed: 270
+  maxAngularSpeed: 270
+  angularSpeedAcceleration: 270
   maxPredictionTime: 1
   maxPredictionDistance: 50
   minPredictionDistance: 5
