@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,7 @@ public class EMagnetAddon : AddonObject
     [SerializeField] private float magnetLastsDuration = 4f;
 
     [SerializeField] private LayerMask magneticLayerMask;
+    [SerializeField] private ParticleSystem OnActiveParticle;
 
     private float currentMagnetFactor;
     private Rigidbody addonRb;
@@ -31,7 +33,7 @@ public class EMagnetAddon : AddonObject
         fixedJoint.connectedBody = rigidbody;
         addonRb = GetComponent<Rigidbody>();
     }
-    
+
     private void FixedUpdate()
     {
        magnetCDTimer -= Time.fixedDeltaTime;
@@ -81,6 +83,10 @@ public class EMagnetAddon : AddonObject
         magnetCDTimer = activeMagnetCoolDownTime;
         isMagnetOn = true;
         StartCoroutine(TurnOffMagnet(magnetLastsDuration));
+        
+        OnActiveParticle.gameObject.SetActive(true);
+        OnActiveParticle.transform.localScale = Vector3.zero;
+        OnActiveParticle.transform.DOScale(Vector3.one, magnetMaxFactor/magnetFactorAccelerationPerSecond);
     }
 
     IEnumerator TurnOffMagnet(float delay)
@@ -88,5 +94,6 @@ public class EMagnetAddon : AddonObject
         yield return new WaitForSeconds(delay);
         currentMagnetFactor = 0;
         isMagnetOn = false;
-    }
+        
+        OnActiveParticle.gameObject.SetActive(false);}
 }
