@@ -121,12 +121,12 @@ MonoBehaviour:
   AddonType: 4
   AddonName: 
   ConfigFloatSlideRangeCommandsList: []
-  magnetRange: 10
-  magnetIntensity: 1
-  magnetFactorAccelerationPerSecond: 2
+  magnetRange: 50
+  magnetIntensity: 30
+  magnetFactorAccelerationPerSecond: 0.2
   magnetMaxFactor: 1
-  activeMagnetCoolDownTime: 2.5
-  magnetLastsDuration: 2
+  activeMagnetCoolDownTime: 4
+  magnetLastsDuration: 3
   magneticLayerMask:
     serializedVersion: 2
     m_Bits: 64

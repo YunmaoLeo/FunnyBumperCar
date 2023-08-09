@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -51,15 +52,14 @@ public class EMagnetAddon : AddonObject
         Vector3 forceOnMagnet = Vector3.zero;
         foreach (var other in colliders)
         {
-            Debug.Log(other.transform.root.name);
-            //compute magnet
             if (other.attachedRigidbody != null && other.attachedRigidbody!= basePlatformRigidbody && !detectedRbSet.Contains(other.attachedRigidbody))
             {
                 detectedRbSet.Add(other.attachedRigidbody);
                 var distance = Vector3.Distance(other.transform.position, transform.position);
+                distance = Mathf.Min(distance, 1f);
                 var forceMagnitude = (magnetIntensity * currentMagnetFactor * other.attachedRigidbody.mass) /
                                      Mathf.Pow(distance, 2);
-                var magneticForce = (transform.position - other.transform.position) * forceMagnitude;
+                var magneticForce = Vector3.Normalize(transform.position - other.transform.position) * forceMagnitude;
                 other.attachedRigidbody.AddForce(magneticForce);
                 forceOnMagnet += (-magneticForce);
             }
