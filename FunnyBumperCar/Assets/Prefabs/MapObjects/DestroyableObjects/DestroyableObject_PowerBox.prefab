@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_PowerBox_01
       objectReference: {fileID: 0}
+    - target: {fileID: 100388, guid: 627f78867a195924ab8cd8a55429db26, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 476738, guid: 627f78867a195924ab8cd8a55429db26, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -67,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 3829823245204987660, guid: c087c05c1a301a14ba521cc58127c159,
         type: 3}
       propertyPath: m_Name
-      value: DestroyableObject_ParkingMeter 1
+      value: DestroyableObject_PowerBox
       objectReference: {fileID: 0}
     - target: {fileID: 7469424605942394579, guid: c087c05c1a301a14ba521cc58127c159,
         type: 3}

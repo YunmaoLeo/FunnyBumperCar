@@ -761,7 +761,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1221075607770034137}
   - component: {fileID: 3653825086028138882}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Top (1)
   m_TagString: Car
   m_Icon: {fileID: 0}
@@ -889,7 +889,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2042736685953372471}
   - component: {fileID: 8151348272485172481}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Top
   m_TagString: Car
   m_Icon: {fileID: 0}
@@ -1185,7 +1185,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1983562601210211760}
   - component: {fileID: 7092901027528893143}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bottom
   m_TagString: Car
   m_Icon: {fileID: 0}

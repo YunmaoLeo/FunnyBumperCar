@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 3829823245204987660, guid: c087c05c1a301a14ba521cc58127c159,
         type: 3}
       propertyPath: m_Name
-      value: DestroyableObject_TrafficLight 1
+      value: DestroyableObject_ParkingMeter
       objectReference: {fileID: 0}
     - target: {fileID: 7469424605942394579, guid: c087c05c1a301a14ba521cc58127c159,
         type: 3}
@@ -85,6 +85,10 @@ PrefabInstance:
     - target: {fileID: 171374, guid: 94a7e311b5cf22f4898fa342bfef126e, type: 3}
       propertyPath: m_Name
       value: SM_Prop_ParkingMeter_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 171374, guid: 94a7e311b5cf22f4898fa342bfef126e, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 481994, guid: 94a7e311b5cf22f4898fa342bfef126e, type: 3}
       propertyPath: m_RootOrder

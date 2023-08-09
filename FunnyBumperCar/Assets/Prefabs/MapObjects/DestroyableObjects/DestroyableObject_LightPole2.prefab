@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_LightPole_Base_02
       objectReference: {fileID: 0}
+    - target: {fileID: 128712, guid: 684edc7838bf89d4b933a49c85d72080, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 441074, guid: 684edc7838bf89d4b933a49c85d72080, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -67,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 3829823245204987660, guid: c087c05c1a301a14ba521cc58127c159,
         type: 3}
       propertyPath: m_Name
-      value: DestroyableObject_TrafficLight
+      value: DestroyableObject_LightPole2
       objectReference: {fileID: 0}
     - target: {fileID: 7469424605942394579, guid: c087c05c1a301a14ba521cc58127c159,
         type: 3}

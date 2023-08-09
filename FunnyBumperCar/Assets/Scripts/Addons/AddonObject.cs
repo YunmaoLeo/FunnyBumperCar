@@ -14,6 +14,7 @@ public class AddonObject : MonoBehaviour
         CircleThruster,
         SpringPillar,
         Shovel,
+        EMagnet,
     }
 
     [SerializeField] public AddonObjectEnum AddonType;

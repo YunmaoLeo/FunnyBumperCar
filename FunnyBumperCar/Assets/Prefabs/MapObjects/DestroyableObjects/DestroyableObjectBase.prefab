@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224287406753974255}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8646393170519190333}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7469424605942394579}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DestroyableObjectBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1060217908936488225}
   - component: {fileID: 9137892653768012168}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BasePlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 6135809997834045555}
   - component: {fileID: 6990495796095706008}
   - component: {fileID: 5284371413074338116}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 4493076981917561097}
   - component: {fileID: 2133073618981674294}
   - component: {fileID: 4752787252378930589}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

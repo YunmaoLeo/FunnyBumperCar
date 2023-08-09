@@ -86,6 +86,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_LightPole_Base_01
       objectReference: {fileID: 0}
+    - target: {fileID: 164056, guid: 06a9858b4309bcf4cbe7ef09ae436c1d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 441798, guid: 06a9858b4309bcf4cbe7ef09ae436c1d, type: 3}
       propertyPath: m_RootOrder
       value: 0

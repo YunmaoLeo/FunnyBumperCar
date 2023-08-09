@@ -126,6 +126,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_SecurityCamera_01
       objectReference: {fileID: 0}
+    - target: {fileID: 183054, guid: 804b4d4621262c6449916edf7614a719, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 434358, guid: 804b4d4621262c6449916edf7614a719, type: 3}
       propertyPath: m_RootOrder
       value: 0

@@ -9,8 +9,6 @@ public class CannonAddon : AddonObject
     [SerializeField] private Transform cannonBarrel;
 
     [SerializeField] private Transform missileEjectTransform;
-    [SerializeField] private float barrelXAngleMin = -20f;
-    [SerializeField] private float barrelXAngleMax = 20f;
     [SerializeField] private float missileCoolDownTime = 0.5f;
 
     [SerializeField] private float aimTargetTimeConsumed = 0.5f;

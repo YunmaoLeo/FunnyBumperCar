@@ -122,9 +122,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6922223630305737439}
     m_Modifications:
+    - target: {fileID: 119726, guid: 928a99e5a0200f24fb2084c90b0b88c4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 171464, guid: 928a99e5a0200f24fb2084c90b0b88c4, type: 3}
       propertyPath: m_Name
       value: SM_Prop_SecurityCamera_Arm_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 171464, guid: 928a99e5a0200f24fb2084c90b0b88c4, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 496720, guid: 928a99e5a0200f24fb2084c90b0b88c4, type: 3}
       propertyPath: m_RootOrder
