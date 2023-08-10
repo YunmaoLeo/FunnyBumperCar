@@ -48,6 +48,7 @@ public class Missile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        HashSet<Rigidbody> rbSet = new HashSet<Rigidbody>();
         var explosion = Instantiate(ExplosionPrefab, position:other.ClosestPoint(transform.position), Quaternion.identity);
         explosion.localScale = Vector3.one * (explosionRadius / 2.5f);
         Destroy(explosion.gameObject, 1f);
@@ -55,10 +56,16 @@ public class Missile : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(explosion.position, explosionRadius);
         foreach (var explodedCollider in colliders)
         {
-            if (explodedCollider.TryGetComponent<ICanBeExploded>(out ICanBeExploded exploded))
+            // if (explodedCollider.TryGetComponent<ICanBeExploded>(out ICanBeExploded exploded))
+            // {
+            //     // var localExplosionIntensity = Vector3.Distance(explodedCollider.transform.position, explosion.position) / explosionRadius * explosionIntensity;
+            //     exploded.BeExploded(explosion.position, explosionIntensity, explosionRadius);
+            // }
+            var explodeRb = explodedCollider.attachedRigidbody;
+            if (explodeRb != null && !rbSet.Contains(explodeRb))
             {
-                // var localExplosionIntensity = Vector3.Distance(explodedCollider.transform.position, explosion.position) / explosionRadius * explosionIntensity;
-                exploded.BeExploded(explosion.position, explosionIntensity, explosionRadius);
+                rbSet.Add(explodeRb);
+                explodeRb.AddExplosionForce(explosionIntensity, explosion.position, explosionRadius);
             }
         }
         
