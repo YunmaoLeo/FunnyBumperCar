@@ -460,13 +460,13 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0.4347406, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -24.423233, y: 1.0937331, z: 5.382141}
+  m_ConnectedAnchor: {x: 0.9375176, y: 1.0937335, z: 0.7369969}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
   m_YMotion: 0
   m_ZMotion: 0
-  m_AngularXMotion: 1
+  m_AngularXMotion: 0
   m_AngularYMotion: 0
   m_AngularZMotion: 0
   m_LinearLimitSpring:
@@ -520,7 +520,7 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 10
+    positionSpring: 5
     positionDamper: 5
     maximumForce: 3.4028233e+38
   m_AngularYZDrive:
@@ -1347,13 +1347,13 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0.43474022, z: 0}
   m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.93738556, y: 1.0937331, z: 0.73699665}
+  m_ConnectedAnchor: {x: -0.9373861, y: 1.0937331, z: 0.7369968}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
   m_YMotion: 0
   m_ZMotion: 0
-  m_AngularXMotion: 1
+  m_AngularXMotion: 0
   m_AngularYMotion: 0
   m_AngularZMotion: 0
   m_LinearLimitSpring:
@@ -1407,7 +1407,7 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 10
+    positionSpring: 5
     positionDamper: 5
     maximumForce: 3.4028233e+38
   m_AngularYZDrive:
@@ -1927,6 +1927,16 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 400
       objectReference: {fileID: 0}
+    - target: {fileID: 2142469186497459610, guid: d499865e0909aaa43bd2d8c881dca643,
+        type: 3}
+      propertyPath: leftDoorJoint
+      value: 
+      objectReference: {fileID: 839629572851001603}
+    - target: {fileID: 2142469186497459610, guid: d499865e0909aaa43bd2d8c881dca643,
+        type: 3}
+      propertyPath: rightDoorJoint
+      value: 
+      objectReference: {fileID: 7170933783559502980}
     - target: {fileID: 2142469186497459610, guid: d499865e0909aaa43bd2d8c881dca643,
         type: 3}
       propertyPath: backLeftTirePrefab

@@ -66,6 +66,11 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
     [SerializeField] private Transform CarsAddonsTransform;
 
+    [SerializeField] private ConfigurableJoint leftDoorJoint;
+    [SerializeField] private ConfigurableJoint rightDoorJoint;
+    [SerializeField] private float doorMaxCollideStrength = 10f;
+
+    
     private List<AddonSlot> slotLists = new List<AddonSlot>();
 
     public float TireRotateSignal { get; set; }
@@ -536,6 +541,29 @@ public class CarBody : MonoBehaviour, ICanBeExploded
             {
                 VisualEffectManager.Instance.PlayCarCrashEffectLists(collision.contacts[0].point, strength); 
             }  
+        }
+        HandleCollisionDestroy(collision);
+    }
+    private void HandleCollisionDestroy(Collision collision)
+    {
+        float collideStrength = collision.relativeVelocity.magnitude;
+        var collidePoint = collision.contacts[0].point;
+
+        // handle door destroy
+        HandleDoorCollisionDestroy(collideStrength, collidePoint);
+    }
+
+    private void HandleDoorCollisionDestroy(float collideStrength, Vector3 collidePoint)
+    {
+        if (leftDoorJoint == null || rightDoorJoint == null)
+        {
+            return;
+        }
+
+        if (collideStrength > doorMaxCollideStrength)
+        {
+            leftDoorJoint.angularXMotion = ConfigurableJointMotion.Limited;
+            rightDoorJoint.angularXMotion = ConfigurableJointMotion.Limited;
         }
     }
 
