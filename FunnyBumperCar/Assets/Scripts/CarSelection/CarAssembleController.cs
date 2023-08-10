@@ -54,6 +54,7 @@ public class CarAssembleController : MonoBehaviour
             var carBodyTransform =
                 Instantiate(bodyComponent.transform, carSpawnTransform);
             carBody = carBodyTransform.GetComponent<CarBody>();
+            carBody.PlayerIndex = player.playerIndex;
 
             carBody.SetTireAndInstantiate(CarBody.TireLocation.FrontLeft, frontLeftTire);
             carBody.SetTireAndInstantiate(CarBody.TireLocation.FrontRight, frontRightTire);

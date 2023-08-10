@@ -218,6 +218,10 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     public bool EquipCarAddon(AddonSlot.AddonSlotType slotType, Transform addonContainerPrefab)
     {
         var addonSlot = GetAddonSlot(slotType);
+        if (addonSlot == null)
+        {
+            return false;
+        }
         
         if (addonContainerPrefab == null)
         {
@@ -246,6 +250,11 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     public bool RemoveCarAddon(AddonSlot.AddonSlotType slotType)
     {
         var addonSlot = GetAddonSlot(slotType);
+        if (addonSlot == null)
+        {
+            return false;
+        }
+        
         if (addonSlot.SlotType == slotType)
         {
             return addonSlot.RemoveAddon(this);
@@ -318,10 +327,13 @@ public class CarBody : MonoBehaviour, ICanBeExploded
             TestChangeCommand = false;
 
             var addonSlot = GetAddonSlot(AddonSlot.AddonSlotType.SideRight);
-            foreach (var configSlideRangeCommand in addonSlot.GetAddon().ConfigFloatSlideRangeCommandsList)
+            if (addonSlot != null)
             {
-                configSlideRangeCommand.OnValueLegallyChanged(TestChangeCommandTargetValue);
-                Debug.Log(configSlideRangeCommand.description);
+                foreach (var configSlideRangeCommand in addonSlot.GetAddon().ConfigFloatSlideRangeCommandsList)
+                {
+                    configSlideRangeCommand.OnValueLegallyChanged(TestChangeCommandTargetValue);
+                    Debug.Log(configSlideRangeCommand.description);
+                }
             }
         }
     }

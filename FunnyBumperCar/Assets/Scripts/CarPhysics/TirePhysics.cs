@@ -213,9 +213,7 @@ public class TirePhysics : MonoBehaviour
                 var rayRadius = Math.Sqrt(Math.Pow(tireRadius, 2f) -
                                           Math.Pow((i - 0.5f) * 2 * tireRadius, 2));
                 var rayMaxDistance = springMaxLength + rayRadius;
-                //
-                // int layerMask = ~(1 << LayerMask.NameToLayer("IgnoreRaycast"));
-                //
+
                 var unitRayResult = Physics.Raycast(rayOrigin, rayDirection, out RaycastHit raycastHit,
                     (float)rayMaxDistance);
                 
@@ -227,13 +225,12 @@ public class TirePhysics : MonoBehaviour
                 
                 if (unitRayResult)
                 {
-                    
                     // check whether this collider is the sub object of this car;
                     if (isColliderSameCarDict.ContainsKey(raycastHit.collider))
                     {
                         if (isColliderSameCarDict[raycastHit.collider])
                         {
-                            return raycastResult;
+                            continue;
                         }
                     }
                     else
@@ -241,10 +238,10 @@ public class TirePhysics : MonoBehaviour
                         var possibleCarBody = raycastHit.collider.transform.GetComponentInParent<CarBody>();
                         if (possibleCarBody != null)
                         {
-                            if (possibleCarBody.PlayerIndex == carBody.PlayerIndex)
+                            if (possibleCarBody == carBody)
                             {
                                 isColliderSameCarDict[raycastHit.collider] = true;
-                                return raycastResult;
+                                continue;
                             }
                             else
                             {
