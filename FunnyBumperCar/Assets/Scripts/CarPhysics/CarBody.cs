@@ -368,14 +368,15 @@ public class CarBody : MonoBehaviour, ICanBeExploded
             bool isAssistSteerTire = tireLocation == TireLocation.BackLeft || tireLocation == TireLocation.BackRight;
 
             bool raycastResult = tirePhysicsComponent.ColliderBasedRaycast(this, tireConnectPoint, out float minRaycastDistance);
-
+            tirePhysicsComponent.IsContactToGround = raycastResult;
+            
             tirePhysicsComponent.HandleTireVisual(CarRigidbody);
             
             if (ableToSteer)
             {
                 tirePhysicsComponent.SteerTireRotation(TireRotateSignal, transform, steerRotateTime, isAssistSteerTire);
             }
-            
+
             if (!raycastResult)
             {
                 tiresContactToGroundCount--;
@@ -384,11 +385,6 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
             tirePhysicsComponent.SimulateSuspensionSystem(tireConnectPoint, CarRigidbody, minRaycastDistance, out Vector3 suspensionForceOnSpring);
             
-            tirePhysicsComponent.SimulateSteeringForces(CarRigidbody, maxEngineVelocity, isDrifting);
-
-            tirePhysicsComponent.IsBraking = isBraking;
-            tirePhysicsComponent.SimulateFriction(CarRigidbody, suspensionForceOnSpring);
-
             if (ableToDrive)
             {
                 float engineTorque = 0f;
@@ -396,6 +392,13 @@ public class CarBody : MonoBehaviour, ICanBeExploded
                                engineMaxTorque;
                 tirePhysicsComponent.SimulateAccelerating(CarDriveSignal, CarRigidbody, engineTorque);
             }
+            
+            tirePhysicsComponent.SimulateSteeringForces(CarRigidbody, maxEngineVelocity, isDrifting);
+
+            tirePhysicsComponent.IsBraking = isBraking;
+            tirePhysicsComponent.SimulateFriction(CarRigidbody, suspensionForceOnSpring);
+
+            tirePhysicsComponent.AddInverseForceToHitPoint();
         }
 
         if (tiresContactToGroundCount != 4)

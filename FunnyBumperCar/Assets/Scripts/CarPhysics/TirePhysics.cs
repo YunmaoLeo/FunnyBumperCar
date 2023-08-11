@@ -24,7 +24,7 @@ public class TirePhysics : MonoBehaviour
     [SerializeField] private float springMinLength;
 
 
-    [Space][Header("Steering Properties")] [SerializeField]
+    [Space] [Header("Steering Properties")] [SerializeField]
     private float frictionCoefficient;
 
     [SerializeField] private float driftingTireGripFactor = 0.1f;
@@ -39,11 +39,15 @@ public class TirePhysics : MonoBehaviour
     private Dictionary<Collider, bool> isColliderSameCarDict = new Dictionary<Collider, bool>();
 
 
-    [Space][Header("Debug Properties")]
-    [SerializeField]
+    [Space] [Header("Debug Properties")] [SerializeField]
     private bool drawRaycastDebugLine = false;
 
     private TireVisual tireVisual;
+
+    private TireUtils.HitPointInfo _currentHitPoint;
+    public bool IsContactToGround = false;
+    private Vector3 _suspensionForce;
+    private Vector3 _frictionForce;
 
     public float Mass
     {
@@ -56,7 +60,9 @@ public class TirePhysics : MonoBehaviour
         get => isBraking;
         set => isBraking = value;
     }
+
     private Rigidbody tireRb;
+
     private void Awake()
     {
         tireVisual = GetComponent<TireVisual>();
@@ -75,12 +81,14 @@ public class TirePhysics : MonoBehaviour
 
         else if (controlSignal < 0f)
         {
-            Quaternion newQuaternion = Quaternion.Euler(carFrame.rotation.eulerAngles + new Vector3(0, -steerRotateAngle, 0));
+            Quaternion newQuaternion =
+                Quaternion.Euler(carFrame.rotation.eulerAngles + new Vector3(0, -steerRotateAngle, 0));
             transform.DORotateQuaternion(newQuaternion, steerRotateTime);
         }
         else
         {
-            Quaternion newQuaternion = Quaternion.Euler(carFrame.rotation.eulerAngles + new Vector3(0, steerRotateAngle, 0));
+            Quaternion newQuaternion =
+                Quaternion.Euler(carFrame.rotation.eulerAngles + new Vector3(0, steerRotateAngle, 0));
             transform.DORotateQuaternion(newQuaternion, steerRotateTime);
         }
     }
@@ -88,8 +96,10 @@ public class TirePhysics : MonoBehaviour
     /**
      * 1. Simulate Suspension Force and add on carRigidbody;
      * 2. Update Tire Position According to the suspension system.
+     * 3. Check if hit point is higher the current tire position.
      */
-    public void SimulateSuspensionSystem(Transform tireConnectPoint, Rigidbody carRigidbody, float minRaycastDistance, out Vector3 suspensionForceOnSpring)
+    public void SimulateSuspensionSystem(Transform tireConnectPoint, Rigidbody carRigidbody, float minRaycastDistance,
+        out Vector3 suspensionForceOnSpring)
     {
         var springDirection = tireConnectPoint.up;
         var connectPointPos = tireConnectPoint.position;
@@ -108,10 +118,7 @@ public class TirePhysics : MonoBehaviour
             connectPointPos + springDirection * suspensionForce / carRigidbody.mass / 2f, Color.blue);
 
         suspensionForceOnSpring = springDirection * suspensionForce;
-        
-        // Vector3 wheelPosOffset =
-        //     -springDirection * Math.Max(minRaycastDistance, springMinLength);
-        
+
         Vector3 wheelPosOffset =
             -springDirection * (minRaycastDistance + springMinLength);
 
@@ -119,6 +126,7 @@ public class TirePhysics : MonoBehaviour
         tirePosition = connectPointPos + wheelPosOffset;
         carRigidbody.AddForceAtPosition(suspensionForceOnSpring,
             connectPointPos, ForceMode.Force);
+
         transform.position = tirePosition;
     }
 
@@ -140,7 +148,9 @@ public class TirePhysics : MonoBehaviour
         float steeringVelocity = Vector3.Dot(wheelVelocity, steeringDirection);
 
 
-        tireGripFactor = !isDrifting ? steeringCurve.Evaluate(Math.Abs(wheelForwardVelocity / maxEngineVelocity)) : driftingTireGripFactor;
+        tireGripFactor = !isDrifting
+            ? steeringCurve.Evaluate(Math.Abs(wheelForwardVelocity / maxEngineVelocity))
+            : driftingTireGripFactor;
 
         float expectedVelChange = -steeringVelocity * tireGripFactor;
 
@@ -158,7 +168,7 @@ public class TirePhysics : MonoBehaviour
         var tirePosition = transform.position;
         Vector3 forwardDir = carRigidbody.transform.forward;
         carRigidbody.AddForceAtPosition(forwardDir * (engineTorque * controlSignal), tirePosition);
-        
+
         Debug.DrawLine(tirePosition,
             tirePosition + forwardDir * (engineTorque * controlSignal) / carRigidbody.mass / 2f, Color.magenta);
     }
@@ -176,7 +186,7 @@ public class TirePhysics : MonoBehaviour
             //friction clamp
             var frictionAbsMax = tireMass * Math.Abs(tireForwardVelocity) / Time.fixedDeltaTime;
             frictionForce = Mathf.Clamp(frictionForce, -frictionAbsMax, +frictionAbsMax);
-            
+
             carRigidbody.AddForceAtPosition(transform.forward * (directionControl * frictionForce), transform.position);
 
             Debug.DrawLine(transform.position,
@@ -200,9 +210,10 @@ public class TirePhysics : MonoBehaviour
     {
         bool raycastResult = false;
         minRaycastDistance = Single.MaxValue;
-        var origin = tireConnectPoint.position + 0 * springMinLength * (-tireConnectPoint.up);
+
+        var origin = tireConnectPoint.position + springMinLength * (-tireConnectPoint.up);
         var direction = -tireConnectPoint.up;
-        
+
         var initialPosition = transform.position;
         var rbPosition = tireRb.position;
 
@@ -211,7 +222,6 @@ public class TirePhysics : MonoBehaviour
         raycastResult = tireRb.SweepTest(direction, out var raycastHit,
             springMaxLength - springMinLength, QueryTriggerInteraction.Ignore);
 
-
         transform.position = initialPosition;
         tireRb.position = initialPosition;
         if (!raycastResult)
@@ -219,47 +229,68 @@ public class TirePhysics : MonoBehaviour
             return false;
         }
 
-        var yDistance = Vector3.Distance(origin, raycastHit.point);
-
-        // foreach (var raycastHit in hits)
-        // {
-            // check whether this collider is the sub object of this car;
-            if (isColliderSameCarDict.ContainsKey(raycastHit.collider))
+        // check whether this collider is the sub object of this car;
+        if (isColliderSameCarDict.ContainsKey(raycastHit.collider))
+        {
+            if (isColliderSameCarDict[raycastHit.collider])
             {
-                if (isColliderSameCarDict[raycastHit.collider])
-                {
-                    // continue;
-                    return true;
-                }
+                return false;
             }
-            else
+        }
+        else
+        {
+            var possibleCarBody = raycastHit.collider.transform.GetComponentInParent<CarBody>();
+            if (possibleCarBody != null)
             {
-                var possibleCarBody = raycastHit.collider.transform.GetComponentInParent<CarBody>();
-                if (possibleCarBody != null)
+                if (possibleCarBody == carBody)
                 {
-                    if (possibleCarBody == carBody)
-                    {
-                        isColliderSameCarDict[raycastHit.collider] = true;
-                        // continue;
-                        return true;
-                    }
-                    else
-                    {
-                        isColliderSameCarDict[raycastHit.collider] = false;
-                    }
+                    isColliderSameCarDict[raycastHit.collider] = true;
+                    return false;
                 }
                 else
                 {
                     isColliderSameCarDict[raycastHit.collider] = false;
                 }
             }
-
-            float rayPointOffset = raycastHit.distance;
-            
-            if (minRaycastDistance > rayPointOffset)
+            else
             {
-                minRaycastDistance = rayPointOffset;
+                isColliderSameCarDict[raycastHit.collider] = false;
             }
-            return true;
+        }
+
+        TireUtils.HitPointInfo hitPointInfo = default;
+        hitPointInfo.raycastHit = raycastHit;
+        
+        var hitRb = raycastHit.collider.attachedRigidbody;
+        
+        // hit collider has a rb, then we compute its velocity and store.
+        if (hitRb != null)
+        {
+            hitPointInfo.rb = hitRb;
+        }
+
+        _currentHitPoint = hitPointInfo;
+
+        float rayPointOffset = raycastHit.distance;
+
+        if (minRaycastDistance > rayPointOffset)
+        {
+            minRaycastDistance = rayPointOffset;
+        }
+
+        return true;
+    }
+
+    public void AddInverseForceToHitPoint()
+    {
+        if (IsContactToGround)
+        {
+            if (_currentHitPoint.rb != null)
+            {
+                Vector3 allForce;
+                allForce = - _suspensionForce;
+                _currentHitPoint.rb.AddForceAtPosition(transform.position, allForce);
+            }
+        }
     }
 }
