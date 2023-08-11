@@ -406,8 +406,8 @@ GameObject:
   - component: {fileID: 2598273589429938345}
   - component: {fileID: 8520372336940092533}
   - component: {fileID: 672955712805911213}
-  - component: {fileID: 3633537553822034345}
   - component: {fileID: 7170933783559502980}
+  - component: {fileID: 666993061110348543}
   m_Layer: 0
   m_Name: right_door_gloss
   m_TagString: Untagged
@@ -497,19 +497,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &3633537553822034345
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2357041083498673573}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.15, y: 0.82669854, z: 1.1360574}
-  m_Center: {x: -0.0481741, y: 0.021391332, z: -0.538041}
 --- !u!153 &7170933783559502980
 ConfigurableJoint:
   m_ObjectHideFlags: 0
@@ -606,6 +593,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!65 &666993061110348543
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2357041083498673573}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.2, y: 0.82669854, z: 1.1360574}
+  m_Center: {x: -0.0481741, y: 0.021391332, z: -0.538041}
 --- !u!1 &3628777757765231015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1293,8 +1293,8 @@ GameObject:
   - component: {fileID: 6127989210698832449}
   - component: {fileID: 3698122209512751386}
   - component: {fileID: 4480888929287708426}
-  - component: {fileID: 8708162547362984443}
   - component: {fileID: 839629572851001603}
+  - component: {fileID: 7291411747661966036}
   m_Layer: 0
   m_Name: left_door_gloss
   m_TagString: Untagged
@@ -1384,19 +1384,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &8708162547362984443
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299823580182243504}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.15, y: 0.8266985, z: 1.1360573}
-  m_Center: {x: 0.048042815, y: 0.021390975, z: -0.53804046}
 --- !u!153 &839629572851001603
 ConfigurableJoint:
   m_ObjectHideFlags: 0
@@ -1493,6 +1480,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!65 &7291411747661966036
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299823580182243504}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.2, y: 0.8266985, z: 1.1360573}
+  m_Center: {x: 0.048042815, y: 0.021390975, z: -0.53804046}
 --- !u!1 &5670259176074051797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1965,6 +1965,7 @@ GameObject:
   - component: {fileID: 8649703101789954407}
   - component: {fileID: 5355732669754129578}
   - component: {fileID: 1393444387187517935}
+  - component: {fileID: 9142857041265142812}
   m_Layer: 0
   m_Name: Car_Carrrera
   m_TagString: Car
@@ -2027,7 +2028,7 @@ MonoBehaviour:
   fixedDeltaTime: 0.005
   maxEngineVelocity: 0
   maxEngineVelocityCoefficient: 12
-  engineMaxTorque: 800
+  engineMaxTorque: 1800
   tireDriveMode: 2
   tireSteerMode: 2
   steerRotateTime: 0.2
@@ -2135,6 +2136,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.58545446, z: 1.2433875}
   m_Center: {x: 0, y: 1.2499058, z: -0.015559822}
+--- !u!114 &9142857041265142812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8649703101789954410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a131c1a813be3146ba3d61fdc245571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshFilters:
+  - {fileID: 6792076710968083705}
+  colliders:
+  - {fileID: 6400000, guid: 187f969f1c3705149a7884043194c2e8, type: 3}
+  impactDamage: 10
+  deformationRadius: 0.5
+  maxDeformation: 10
+  minVelocity: 2
 --- !u!1 &8649703101809459527
 GameObject:
   m_ObjectHideFlags: 0
