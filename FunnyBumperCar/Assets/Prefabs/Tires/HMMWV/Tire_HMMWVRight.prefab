@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2324072272626065568}
   - component: {fileID: 6537935196621259515}
   - component: {fileID: 6476068442402162004}
+  - component: {fileID: 6171176960376161380}
   m_Layer: 0
   m_Name: HMMWV_front_wheel_1_br
   m_TagString: Untagged
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6171176960376161380
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6373737194386539739}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -841530153247597723, guid: 37aeb2b58cdfc4638846a71d775a33af, type: 3}
 --- !u!1001 &2452956347143493462
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -122,6 +137,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
+      propertyPath: TireName
+      value: HMMWV
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
       propertyPath: tireMass
       value: 15
       objectReference: {fileID: 0}
@@ -138,22 +158,27 @@ PrefabInstance:
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: springDamping
-      value: 500
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
+      propertyPath: springStrength
+      value: 33500
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: springMaxLength
-      value: 0.75
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: springMinLength
-      value: 0.55
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: springDefaultLength
-      value: 0.6
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
@@ -250,7 +275,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7464195602401709275, guid: 21b911a1bb57ccf4b8b1c902c98626be, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 21b911a1bb57ccf4b8b1c902c98626be, type: 3}
 --- !u!4 &1416034815672363301 stripped
 Transform:

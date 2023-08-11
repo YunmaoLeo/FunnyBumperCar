@@ -367,7 +367,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
             bool isAssistSteerTire = tireLocation == TireLocation.BackLeft || tireLocation == TireLocation.BackRight;
 
-            bool raycastResult = tirePhysicsComponent.SteerRaycast(this, tireConnectPoint, out float minRaycastDistance);
+            bool raycastResult = tirePhysicsComponent.ColliderBasedRaycast(this, tireConnectPoint, out float minRaycastDistance);
 
             tirePhysicsComponent.HandleTireVisual(CarRigidbody);
             
@@ -444,7 +444,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         {
             return false;
         }
-        if (tireTransformPrefab.GetComponent<TirePhysics>().TireID == tiresMap[location].TireID)
+        if (tireTransformPrefab.GetComponent<TirePhysics>().TireName == tiresMap[location].TireName)
         {
             return false;
         }
@@ -547,7 +547,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         if (collision.gameObject.CompareTag("Car"))
         {
             float strength = 0;
-            strength = collision.relativeVelocity.magnitude * (CarRigidbody.mass);
+            strength = collision.impulse.magnitude;
 
             if (VisualEffectManager.Instance != null)
             {

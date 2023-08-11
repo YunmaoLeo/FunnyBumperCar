@@ -56,7 +56,7 @@ public class CarAssembleManager : MonoBehaviour
     {
         var player1 = playerInputManager.JoinPlayer(0, controlScheme: "Gamepad");
         var player2 = playerInputManager.JoinPlayer(1, controlScheme: "Keyboard");
-
+        
         DontDestroyOnLoad(player1);
         DontDestroyOnLoad(player2);
         

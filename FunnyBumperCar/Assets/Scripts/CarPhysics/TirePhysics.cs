@@ -1,22 +1,15 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TirePhysics : MonoBehaviour
 {
     [Header("Basic Properties")] public int TireID;
-    [SerializeField] private float tireRadius;
-
-    [SerializeField] private float tireWidth;
+    public string TireName;
 
     [SerializeField] private float tireMass;
-
-    [SerializeField] [Range(0.01f, 1f)] private float raycastPrecision = 0.2f;
-
-    [SerializeField] [Range(0.1f, 1f)] private float widthRaycastPrecision = 0.3f;
-
+    [SerializeField] private float tireRadius;
 
     [Space] [Header("Suspension Properties")] [SerializeField]
     private float springStrength;
@@ -24,7 +17,6 @@ public class TirePhysics : MonoBehaviour
     [SerializeField] private float springDamping;
 
     [SerializeField] private float springDefaultLength;
-
 
     [SerializeField] private float springMaxLength;
 
@@ -64,11 +56,12 @@ public class TirePhysics : MonoBehaviour
         get => isBraking;
         set => isBraking = value;
     }
-
+    private Rigidbody tireRb;
     private void Awake()
     {
         tireVisual = GetComponent<TireVisual>();
         tireVisual.Radius = tireRadius;
+        tireRb = GetComponent<Rigidbody>();
     }
 
     public void SteerTireRotation(float controlSignal, Transform carFrame, float steerRotateTime, bool isAssistTire)
@@ -102,28 +95,30 @@ public class TirePhysics : MonoBehaviour
         var connectPointPos = tireConnectPoint.position;
         var wheelWorldVelocity = carRigidbody.GetPointVelocity(connectPointPos);
 
-        var suspensionRestDist = springDefaultLength + tireRadius;
+        var suspensionRestDist = springDefaultLength;
 
-        float offset = suspensionRestDist - minRaycastDistance;
+        float offset = springDefaultLength - (springMinLength + minRaycastDistance);
 
         float springVelocity = Vector3.Dot(springDirection, wheelWorldVelocity);
 
         float suspensionForce = (offset * springStrength) - (springVelocity * springDamping);
 
         var tirePosition = transform.position;
-        Debug.DrawLine(tirePosition,
-            tirePosition + springDirection * suspensionForce / carRigidbody.mass / 2f, Color.blue);
+        Debug.DrawLine(connectPointPos,
+            connectPointPos + springDirection * suspensionForce / carRigidbody.mass / 2f, Color.blue);
 
         suspensionForceOnSpring = springDirection * suspensionForce;
-
-        carRigidbody.AddForceAtPosition(suspensionForceOnSpring,
-            tirePosition, ForceMode.Force);
-
+        
+        // Vector3 wheelPosOffset =
+        //     -springDirection * Math.Max(minRaycastDistance, springMinLength);
+        
         Vector3 wheelPosOffset =
-            -carRigidbody.transform.up * Math.Max(minRaycastDistance, springMinLength);
+            -springDirection * (minRaycastDistance + springMinLength);
 
         //update tire position;
         tirePosition = connectPointPos + wheelPosOffset;
+        carRigidbody.AddForceAtPosition(suspensionForceOnSpring,
+            connectPointPos, ForceMode.Force);
         transform.position = tirePosition;
     }
 
@@ -176,7 +171,7 @@ public class TirePhysics : MonoBehaviour
         {
             int directionControl = tireForwardVelocity > 0 ? 1 : -1;
             var frictionForce = Vector3.Dot(suspensionForceOnSpring + (tireMass) * Physics.gravity, Vector3.down) *
-                                frictionCoefficient * tireWidth * (isBraking ? brakeFrictionMultiplier : 1f);
+                                frictionCoefficient * (isBraking ? brakeFrictionMultiplier : 1f);
 
             //friction clamp
             var frictionAbsMax = tireMass * Math.Abs(tireForwardVelocity) / Time.fixedDeltaTime;
@@ -197,85 +192,74 @@ public class TirePhysics : MonoBehaviour
     }
 
 
-    public bool SteerRaycast(CarBody carBody, Transform tireConnectPoint, out float minRaycastDistance)
+    private void Start()
+    {
+    }
+
+    public bool ColliderBasedRaycast(CarBody carBody, Transform tireConnectPoint, out float minRaycastDistance)
     {
         bool raycastResult = false;
         minRaycastDistance = Single.MaxValue;
-        var origin = tireConnectPoint.position;
+        var origin = tireConnectPoint.position + 0 * springMinLength * (-tireConnectPoint.up);
         var direction = -tireConnectPoint.up;
-        for (float i = 0; i <= 1; i += raycastPrecision)
-        {
-            for (float k = 0; k <= 1; k += widthRaycastPrecision)
-            {
-                var rayOrigin = origin + transform.forward * ((i - 0.5f) * 2 * tireRadius) +
-                                transform.right * ((k - 0.5f) * tireWidth);
-                var rayDirection = direction;
-                var rayRadius = Math.Sqrt(Math.Pow(tireRadius, 2f) -
-                                          Math.Pow((i - 0.5f) * 2 * tireRadius, 2));
-                var rayMaxDistance = springMaxLength + rayRadius;
+        
+        var initialPosition = transform.position;
+        var rbPosition = tireRb.position;
 
-                var unitRayResult = Physics.Raycast(rayOrigin, rayDirection, out RaycastHit raycastHit,
-                    (float)rayMaxDistance);
-                
-                
-                if (drawRaycastDebugLine)
+        tireRb.position = origin;
+        transform.position = origin;
+        raycastResult = tireRb.SweepTest(direction, out var raycastHit,
+            springMaxLength - springMinLength, QueryTriggerInteraction.Ignore);
+
+
+        transform.position = initialPosition;
+        tireRb.position = initialPosition;
+        if (!raycastResult)
+        {
+            return false;
+        }
+
+        var yDistance = Vector3.Distance(origin, raycastHit.point);
+
+        // foreach (var raycastHit in hits)
+        // {
+            // check whether this collider is the sub object of this car;
+            if (isColliderSameCarDict.ContainsKey(raycastHit.collider))
+            {
+                if (isColliderSameCarDict[raycastHit.collider])
                 {
-                    Debug.DrawLine(rayOrigin, rayOrigin + direction * (float)rayMaxDistance, Color.green);
+                    // continue;
+                    return true;
                 }
-                
-                if (unitRayResult)
+            }
+            else
+            {
+                var possibleCarBody = raycastHit.collider.transform.GetComponentInParent<CarBody>();
+                if (possibleCarBody != null)
                 {
-                    // check whether this collider is the sub object of this car;
-                    if (isColliderSameCarDict.ContainsKey(raycastHit.collider))
+                    if (possibleCarBody == carBody)
                     {
-                        if (isColliderSameCarDict[raycastHit.collider])
-                        {
-                            continue;
-                        }
+                        isColliderSameCarDict[raycastHit.collider] = true;
+                        // continue;
+                        return true;
                     }
                     else
                     {
-                        var possibleCarBody = raycastHit.collider.transform.GetComponentInParent<CarBody>();
-                        if (possibleCarBody != null)
-                        {
-                            if (possibleCarBody == carBody)
-                            {
-                                isColliderSameCarDict[raycastHit.collider] = true;
-                                continue;
-                            }
-                            else
-                            {
-                                isColliderSameCarDict[raycastHit.collider] = false;
-                            }
-                        }
-                        else
-                        {
-                            isColliderSameCarDict[raycastHit.collider] = false;
-                        }
-                    }
-
-                    raycastResult = true;
-
-                    float rayPointOffset = (float)(raycastHit.distance - rayRadius);
-                    if (minRaycastDistance > rayPointOffset)
-                    {
-                        minRaycastDistance = rayPointOffset;
-                    }
-
-                    if (drawRaycastDebugLine)
-                    {
-                        var defaultColor = Color.red;
-                        if (raycastHit.distance - rayRadius < springMinLength)
-                        {
-                            defaultColor = Color.yellow;
-                        }
-
-                        Debug.DrawLine(rayOrigin, rayOrigin + rayDirection * (raycastHit.distance), defaultColor);
+                        isColliderSameCarDict[raycastHit.collider] = false;
                     }
                 }
+                else
+                {
+                    isColliderSameCarDict[raycastHit.collider] = false;
+                }
             }
-        }
 
-        return raycastResult;
+            float rayPointOffset = raycastHit.distance;
+            
+            if (minRaycastDistance > rayPointOffset)
+            {
+                minRaycastDistance = rayPointOffset;
+            }
+            return true;
     }
 }

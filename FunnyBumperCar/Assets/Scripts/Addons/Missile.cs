@@ -25,15 +25,18 @@ public class Missile : MonoBehaviour
 
     [SerializeField] private Transform ExplosionPrefab;
 
+    [HideInInspector]
+    public Rigidbody BasePlatformRigidbody;
+
     private float currentSpeed = 0f;
     private float currentAngularSpeed = 0f;
     
     private Rigidbody homingTargetRb;
-    private Rigidbody rb;
+    private Rigidbody missileRb;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        missileRb = GetComponent<Rigidbody>();
     }
 
     private void Start()
@@ -48,6 +51,12 @@ public class Missile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        var otherCar = other.GetComponentInParent<CarBody>();
+        if (otherCar != null && otherCar.CarRigidbody == BasePlatformRigidbody)
+        {
+            return;
+        }
+        
         HashSet<Rigidbody> rbSet = new HashSet<Rigidbody>();
         var explosion = Instantiate(ExplosionPrefab, position:other.ClosestPoint(transform.position), Quaternion.identity);
         explosion.localScale = Vector3.one * (explosionRadius / 2.5f);
@@ -56,12 +65,16 @@ public class Missile : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(explosion.position, explosionRadius);
         foreach (var explodedCollider in colliders)
         {
-            // if (explodedCollider.TryGetComponent<ICanBeExploded>(out ICanBeExploded exploded))
-            // {
-            //     // var localExplosionIntensity = Vector3.Distance(explodedCollider.transform.position, explosion.position) / explosionRadius * explosionIntensity;
-            //     exploded.BeExploded(explosion.position, explosionIntensity, explosionRadius);
-            // }
-            var explodeRb = explodedCollider.attachedRigidbody;
+            Rigidbody explodeRb;
+            var carBody = explodedCollider.transform.GetComponentInParent<CarBody>();
+            if (carBody != null)
+            {
+                explodeRb = carBody.CarRigidbody;
+            }
+            else
+            {
+                explodeRb = explodedCollider.attachedRigidbody;
+            }
             if (explodeRb != null && !rbSet.Contains(explodeRb))
             {
                 rbSet.Add(explodeRb);
@@ -79,11 +92,11 @@ public class Missile : MonoBehaviour
         // 1. provide driving force/velocity;
         currentSpeed += acceleration * Time.fixedDeltaTime;
         currentSpeed = Mathf.Min(currentSpeed, maxSpeed);
-        rb.velocity = currentSpeed * transform.forward;
+        missileRb.velocity = currentSpeed * transform.forward;
 
         currentAngularSpeed += angularSpeedAcceleration * Time.fixedDeltaTime;
         currentAngularSpeed = MathF.Min(currentAngularSpeed, maxAngularSpeed);
-
+        
         // 2. missile pose adjustment;
 
         if (homingTargetRb != null)
@@ -99,6 +112,10 @@ public class Missile : MonoBehaviour
             
             RotateMissile(targetPosition);
         }
+        else
+        {
+            missileRb.MoveRotation(Quaternion.identity);
+        }
     }
 
     /**
@@ -112,7 +129,7 @@ public class Missile : MonoBehaviour
 
         var partialRotation =
             Quaternion.RotateTowards(transform.rotation, rotation, currentAngularSpeed * Time.fixedDeltaTime);
-        rb.MoveRotation(partialRotation);
+        missileRb.MoveRotation(partialRotation);
     }
 
     private Vector3 PredictTargetPosition(float predictionTimePercentage)

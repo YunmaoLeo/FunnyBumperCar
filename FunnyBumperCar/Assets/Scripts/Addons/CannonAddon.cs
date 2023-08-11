@@ -1,5 +1,6 @@
 using System.Collections;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -90,7 +91,9 @@ public class CannonAddon : AddonObject
                 return;
             }
 
-            missile.GetComponent<Missile>().AssignHomingTarget(targetCar.GetComponent<Rigidbody>());
+            var missileComponent = missile.GetComponent<Missile>();
+            missileComponent.AssignHomingTarget(targetCar.GetComponent<Rigidbody>());
+            missileComponent.BasePlatformRigidbody = basePlatformRigidbody;
         }
 
 
