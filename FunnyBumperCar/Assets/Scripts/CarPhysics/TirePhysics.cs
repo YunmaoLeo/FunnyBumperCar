@@ -8,6 +8,7 @@ public class TirePhysics : MonoBehaviour
     [Header("Basic Properties")] public int TireID;
     public string TireName;
 
+    [SerializeField] private float tireWidth;
     [SerializeField] private float tireMass;
     [SerializeField] private float tireRadius;
 
@@ -24,6 +25,7 @@ public class TirePhysics : MonoBehaviour
     [SerializeField] private float springMinLength;
 
 
+    [SerializeField] private float sphereCastPrecision = 0.1f;
     [Space] [Header("Steering Properties")] [SerializeField]
     private float frictionCoefficient;
 
@@ -206,6 +208,7 @@ public class TirePhysics : MonoBehaviour
     {
     }
 
+   
     public bool ColliderBasedRaycast(CarBody carBody, Transform tireConnectPoint, out float minRaycastDistance)
     {
         bool raycastResult = false;
@@ -216,18 +219,94 @@ public class TirePhysics : MonoBehaviour
 
         var initialPosition = transform.position;
         var rbPosition = tireRb.position;
-
+        
+        // let sphere cast do a filter job;
+        bool sphereCastResult = Physics.SphereCast(origin, tireRadius, direction, out var raycastHit, springMaxLength - springMinLength);
+        if (!sphereCastResult)
+        {
+            return false;
+        }
+        
         tireRb.position = origin;
         transform.position = origin;
-        raycastResult = tireRb.SweepTest(direction, out var raycastHit,
+        raycastResult = tireRb.SweepTest(direction, out raycastHit,
             springMaxLength - springMinLength, QueryTriggerInteraction.Ignore);
-
+        
         transform.position = initialPosition;
         tireRb.position = initialPosition;
         if (!raycastResult)
         {
             return false;
         }
+
+        // RaycastHit finalHitResult = default;
+        // bool finalResult = false;
+        //
+        // for (float z = 0; z < 1 - 1e-10; z += sphereCastPrecision)
+        // {
+        //     var castOrigin = origin + transform.right * ((z - 0.5f) * tireWidth);
+        //     bool hasDetect = Physics.SphereCast(castOrigin, tireRadius, direction, out var raycastHit, springMaxLength - springMinLength);
+        //
+        //     if (hasDetect)
+        //     {
+        //         Debug.DrawLine(castOrigin, raycastHit.point, Color.red);
+        //         if (isColliderSameCarDict.ContainsKey(raycastHit.collider))
+        //         {
+        //             if (isColliderSameCarDict[raycastHit.collider])
+        //             {
+        //                 continue;
+        //             }
+        //         }
+        //         else
+        //         {
+        //             var possibleCarBody = raycastHit.collider.transform.GetComponentInParent<CarBody>();
+        //             if (possibleCarBody != null)
+        //             {
+        //                 if (possibleCarBody == carBody)
+        //                 {
+        //                     isColliderSameCarDict[raycastHit.collider] = true;
+        //                     continue;
+        //                 }
+        //                 else
+        //                 {
+        //                     isColliderSameCarDict[raycastHit.collider] = false;
+        //                 }
+        //             }
+        //             else
+        //             {
+        //                 isColliderSameCarDict[raycastHit.collider] = false;
+        //             }
+        //         }
+        //
+        //         finalResult = true;
+        //         
+        //         var rayPointOffset = raycastHit.distance;
+        //
+        //         if (minRaycastDistance > rayPointOffset)
+        //         {
+        //             minRaycastDistance = rayPointOffset;
+        //             finalHitResult = raycastHit;
+        //         }
+        //     }
+        // }
+        //
+        // if (finalResult)
+        // {
+        //     TireUtils.HitPointInfo hitPointInfo = default;
+        //     hitPointInfo.raycastHit = finalHitResult;
+        //     
+        //     var hitRb = finalHitResult.collider.attachedRigidbody;
+        //     
+        //     // hit collider has a rb, then we compute its velocity and store.
+        //     if (hitRb != null)
+        //     {
+        //         hitPointInfo.rb = hitRb;
+        //     }
+        //     
+        //     _currentHitPoint = hitPointInfo;
+        // }
+        //
+        // return finalResult;
 
         // check whether this collider is the sub object of this car;
         if (isColliderSameCarDict.ContainsKey(raycastHit.collider))
@@ -268,11 +347,11 @@ public class TirePhysics : MonoBehaviour
         {
             hitPointInfo.rb = hitRb;
         }
-
+        
         _currentHitPoint = hitPointInfo;
-
+        
         float rayPointOffset = raycastHit.distance;
-
+        
         if (minRaycastDistance > rayPointOffset)
         {
             minRaycastDistance = rayPointOffset;
@@ -292,5 +371,10 @@ public class TirePhysics : MonoBehaviour
                 _currentHitPoint.rb.AddForceAtPosition(transform.position, allForce);
             }
         }
+    }
+
+    public bool DetectHitAboveHalfTire()
+    {
+        return Vector3.Dot(transform.position - _currentHitPoint.raycastHit.point, transform.up) < 0;
     }
 }
