@@ -367,49 +367,43 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
             bool isAssistSteerTire = tireLocation == TireLocation.BackLeft || tireLocation == TireLocation.BackRight;
 
-            bool raycastResult = tirePhysics.ColliderBasedRaycast(this, tireConnectPoint, out float minRaycastDistance);
-            tirePhysics.IsContactToGround = raycastResult;
+            bool isOnGround = tirePhysics.ColliderBasedRaycast(this, tireConnectPoint, out float minRaycastDistance);
 
-
-            if (!raycastResult)
+            if (!isOnGround)
             {
                 tiresContactToGroundCount--;
-                continue;
             }
+            
             
             bool isHitAboveHalfTire = tirePhysics.DetectHitAboveHalfTire();
             
-            if (isHitAboveHalfTire)
+            if (isHitAboveHalfTire && isOnGround)
             {
                 // is hit top half, active mesh collider of bottom half;
                 // and we disable tire self adaption;
             }
             else
             {            
-                tirePhysics.SimulateSuspensionSystem(tireConnectPoint, CarRigidbody, minRaycastDistance, out Vector3 suspensionForceOnSpring);
+                tirePhysics.SimulateSuspensionSystem(tireConnectPoint, CarRigidbody, minRaycastDistance);
             }
-            
 
-            tirePhysics.HandleTireVisual(CarRigidbody);
-            
             if (ableToSteer)
             {
                 tirePhysics.SteerTireRotation(TireRotateSignal, transform, steerRotateTime, isAssistSteerTire);
             }
-
-            if (ableToDrive)
-            {
-                float engineTorque = 0f;
-                engineTorque = engineTorqueCurve.Evaluate(Math.Abs(Vector3.Dot(CarRigidbody.velocity, CarRigidbody.transform.forward) / maxEngineVelocity)) *
-                               engineMaxTorque;
-                tirePhysics.SimulateAccelerating(CarDriveSignal, CarRigidbody, engineTorque);
-            }
             
-            tirePhysics.SimulateSteeringForces(CarRigidbody, maxEngineVelocity, isDrifting);
-
+            tirePhysics.StoreHitInfo(this);
+            
+            // set current engine Torque
+            tirePhysics.motorTorque = ableToDrive ? CarDriveSignal * engineMaxTorque : 0f;
             tirePhysics.IsBraking = isBraking;
 
+            tirePhysics.SimulateFriction(this);
+
+            tirePhysics.ApplyForces(this);
+            
             tirePhysics.AddInverseForceToHitPoint();
+            
         }
 
         if (tiresContactToGroundCount != 4)

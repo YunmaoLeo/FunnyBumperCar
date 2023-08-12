@@ -27,10 +27,19 @@ public class TireVisual : MonoBehaviour
         set => radius = value;
     }
 
+    public Transform MeshTransform => wheelMeshTransform;
+
     private void FixedUpdate()
     {
-        float cycleTime = (float)(2f * Math.PI * radius / worldVelocity);
-        var rotateAngle = 1f * 360f / cycleTime * Time.fixedDeltaTime;
+        // float cycleTime = (float)(2f * Math.PI * radius / worldVelocity);
+        // var rotateAngle = 1f * 360f / cycleTime * Time.fixedDeltaTime;
+        // var newQuaternion = Quaternion.Euler(new Vector3(rotateAngle,0,0));
+        // wheelMeshTransform.localRotation *= newQuaternion;
+    }
+
+    public void UpdateRotation(float angularVelocity)
+    {
+        var rotateAngle = (float)(360f / (2f * Math.PI) * angularVelocity * Time.fixedDeltaTime);
         var newQuaternion = Quaternion.Euler(new Vector3(rotateAngle,0,0));
         wheelMeshTransform.localRotation *= newQuaternion;
     }

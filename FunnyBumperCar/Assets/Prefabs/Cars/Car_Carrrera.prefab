@@ -2028,8 +2028,8 @@ MonoBehaviour:
   fixedDeltaTime: 0.005
   maxEngineVelocity: 0
   maxEngineVelocityCoefficient: 12
-  engineMaxTorque: 1800
-  tireDriveMode: 2
+  engineMaxTorque: 700
+  tireDriveMode: 1
   tireSteerMode: 2
   steerRotateTime: 0.2
   engineTorqueCurve:
