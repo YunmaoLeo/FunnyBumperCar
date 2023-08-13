@@ -181,7 +181,7 @@ public class TirePhysics : MonoBehaviour
 
         var springDirection = tireConnectPoint.up;
         var connectPointPos = tireConnectPoint.position;
-        var wheelWorldVelocity = carRigidbody.GetPointVelocity(connectPointPos);
+        var wheelWorldVelocity = carRigidbody.GetPointVelocity(transform.position);
 
         var suspensionRestDist = springDefaultLength;
 
