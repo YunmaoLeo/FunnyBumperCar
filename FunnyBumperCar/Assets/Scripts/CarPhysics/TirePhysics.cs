@@ -100,7 +100,7 @@ public class TirePhysics : MonoBehaviour
 
     private float carMass;
 
-    private float maxForwardFrictionForceTireProvided;
+    private float maxForwardFrictionForceRelativeSlideProvided;
 
     private float maxForwardFrictionGroundProvided;
 
@@ -174,6 +174,7 @@ public class TirePhysics : MonoBehaviour
     {
         if (!isContactToGround)
         {
+            suspensionScalarForce = 0;
             suspensionForce = Vector3.zero;
             return;
         }
@@ -210,12 +211,12 @@ public class TirePhysics : MonoBehaviour
     private void CalculateFrictionMaxProvided()
     {
         // F = m * a * contribution factor;
-        maxForwardFrictionForceTireProvided =
+        maxForwardFrictionForceRelativeSlideProvided =
             carMass * 0.25f * Mathf.Abs(_currentHitPoint.hitPointForwardSpeed) / Time.fixedDeltaTime;
         // compute max forward friction force that ground can provide;
         maxForwardFrictionGroundProvided =
             frictionPeak * suspensionScalarForce * forwardLoadCoeff * forwardFrictionGrip;
-        maxForwardForce = Math.Min(maxForwardFrictionGroundProvided, maxForwardFrictionForceTireProvided);
+        maxForwardForce = Math.Min(maxForwardFrictionGroundProvided, maxForwardFrictionForceRelativeSlideProvided);
     }
 
     public void InitializeTirePosition(Transform tireConnectPoint, Rigidbody carRigidbody)
@@ -319,6 +320,7 @@ public class TirePhysics : MonoBehaviour
         }
         else
         {
+            contactFaceCausedBrakeTorque = 0f;
             _currentHitPoint.hitPointForwardSpeed = 0f;
             _currentHitPoint.hitPointLateralSpeed = 0f;
         }
@@ -572,10 +574,10 @@ public class TirePhysics : MonoBehaviour
         {
             //max brake torque = torqueMakeWheelStop + motorTorque;
             float maxBrakeTorque =
-                Mathf.Abs(GetForceForDeltaAngularV(angularVelocity, inertia, Time.fixedDeltaTime) + motorTorque);
+                Mathf.Abs(GetForceForDeltaAngularV(angularVelocity, inertia, Time.fixedDeltaTime) * tireRadius + motorTorque);
             float tireTorque = Mathf.Clamp(overallBrakeTorqueOnAir, -maxBrakeTorque, maxBrakeTorque);
             angularVelocity +=
-                GetDeltaAngularVForForce(motorTorque - GetDirection(angularVelocity) * tireTorque, inertia,
+                GetDeltaAngularVForForce((motorTorque - GetDirection(angularVelocity) * tireTorque) / tireRadius, inertia,
                     Time.fixedDeltaTime);
         }
 
