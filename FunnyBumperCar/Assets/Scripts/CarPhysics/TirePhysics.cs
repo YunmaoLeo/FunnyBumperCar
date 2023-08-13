@@ -83,7 +83,7 @@ public class TirePhysics : MonoBehaviour
     private float overallBrakeTorqueOnGround;
     private float overallBrakeTorqueOnAir;
     private float signedOverallBrakeTorqueOnGround;
-    private float overallBrakeForce;
+    private float overallBrakeForceOnGround;
     private float signedOverallBrakeForceOnGround;
     private float brakeSign;
 
@@ -471,7 +471,7 @@ public class TirePhysics : MonoBehaviour
         scalarSteerBrakeTorque = defaultMaxBrakeTorque * (isBraking ? 1f : 0f);
         overallBrakeTorqueOnGround =
             scalarSteerBrakeTorque + gearDamperCausedBrakeTorque + contactFaceCausedBrakeTorque;
-        overallBrakeForce = overallBrakeTorqueOnGround / tireRadius;
+        overallBrakeForceOnGround = overallBrakeTorqueOnGround / tireRadius;
 
         overallBrakeTorqueOnAir = scalarSteerBrakeTorque + gearDamperCausedBrakeTorque;
         brakeSign = -GetDirection(_currentHitPoint.hitPointForwardSpeed);
@@ -484,7 +484,7 @@ public class TirePhysics : MonoBehaviour
         absOverallTireForwardForce = Mathf.Abs(signedOverallTireForwardForce);
 
         float tireBrakeSign = -GetDirection(angularVelocity);
-        signedOverallBrakeForceOnTireGear = overallBrakeTorqueOnGround * tireBrakeSign;
+        signedOverallBrakeForceOnTireGear = overallBrakeForceOnGround * tireBrakeSign;
         signedOverallForceOnTireGear = motorForce + signedOverallBrakeForceOnTireGear;
 
         overallTireForwardForceSign = GetDirection(signedOverallTireForwardForce);
