@@ -80,23 +80,29 @@ public class TirePhysics : MonoBehaviour
     private float motorForce;
 
     private float scalarSteerBrakeTorque;
-    private float overallBrakeTorque;
-    private float signedOverallBrakeTorque;
+    private float overallBrakeTorqueOnGround;
+    private float overallBrakeTorqueOnAir;
+    private float signedOverallBrakeTorqueOnGround;
     private float overallBrakeForce;
-    private float signedOverallBrakeForce;
+    private float signedOverallBrakeForceOnGround;
     private float brakeSign;
 
     private float signedOverallTireForwardForce;
     private float absOverallTireForwardForce;
     private float overallTireForwardForceSign;
 
+    private float signedOverallBrakeForceOnTireGear;
+    private float signedOverallForceOnTireGear;
+    
+    float sideSlipSign;
+    float peakSideFrictionForce;
+    float sideForce;
+
     private float carMass;
 
     private float maxForwardFrictionForceTireProvided;
 
     private float maxForwardFrictionGroundProvided;
-
-    private float slipLoadFactor;
 
     private float angularVelocity;
     private float relativeAngularVelocityToGround;
@@ -239,7 +245,7 @@ public class TirePhysics : MonoBehaviour
         float desiredAccel = expectedVelChange / Time.fixedDeltaTime;
 
         var steeringForce = steeringDirection * (tireMass * desiredAccel);
-        // carRigidbody.AddForceAtPosition(steeringForce, tireTransform);
+        
         lateralFrictionForce += tireMass * desiredAccel;
 
         Debug.DrawLine(tireTransform, tireTransform + steeringForce / carRigidbody.mass, Color.red, 0f, false);
@@ -436,7 +442,7 @@ public class TirePhysics : MonoBehaviour
 
     public void SimulateFriction(CarBody carBody)
     {
-        //initialize friction force;
+        //reset friction force;
         forwardFrictionForce = 0;
         lateralFrictionForce = 0;
 
@@ -447,119 +453,36 @@ public class TirePhysics : MonoBehaviour
         CalculateBrakeAndEngineTorques();
 
         forwardFrictionForce = CalculateForwardFrictionForce();
-
-        //angular velocity
-        if (isContactToGround)
-        {
-            bool isForwardForceOverflow = false;
-            float forwardForceOverflowed = 0;
-
-            // when forward force is going to reverse the tire rotation;
-            if (signedOverallTireForwardForce * angularVelocity < 0)
-            {
-                float minForceToReverseTire = GetForceForDeltaAngularV(Mathf.Abs(angularVelocity), inertia, Time.fixedDeltaTime);
-                if (absOverallTireForwardForce > minForceToReverseTire)
-                {
-                    isForwardForceOverflow = true;
-                    signedOverallTireForwardForce = Mathf.Clamp(signedOverallTireForwardForce, -minForceToReverseTire,
-                        minForceToReverseTire);
-                    forwardForceOverflowed = (absOverallTireForwardForce - minForceToReverseTire) *
-                                              overallTireForwardForceSign;
-                }
-            }
-
-
-            angularVelocity += GetDeltaAngularVForForce(signedOverallTireForwardForce, inertia, Time.fixedDeltaTime);
-
-            // 1. surface and tire has relative different speed;
-            // 2. friction of surface and tire are constantly trying to make their relative velocity same;
-            relativeAngularVelocityToGround = _currentHitPoint.hitPointForwardSpeed / tireRadius;
-            float angularVelocityDiff = angularVelocity - relativeAngularVelocityToGround;
-            
-            float angularVelocityFixForce = GetForceForDeltaAngularV(-angularVelocityDiff, inertia, Time.fixedDeltaTime);
-            
-            angularVelocityFixForce = Mathf.Clamp(angularVelocityFixForce, -maxForwardForce, maxForwardForce);
-            
-            if (Mathf.Abs(motorTorque) < scalarSteerBrakeTorque &&
-                Mathf.Abs(forwardForceOverflowed) > Mathf.Abs(angularVelocityFixForce))
-            {
-                angularVelocity += _currentHitPoint.hitPointForwardSpeed > 0 ? 1e-10f : -1e-10f;
-            }
-            else
-            {
-                angularVelocity += GetDeltaAngularVForForce(angularVelocityFixForce, inertia, Time.fixedDeltaTime);
-            }
-        }
-        else
-        {
-            float maxBrakeTorque = Mathf.Abs(angularVelocity * inertia / Time.fixedDeltaTime + motorTorque);
-            float brakeTorqueSign = GetDirection(angularVelocity);
-            angularVelocity += (motorTorque - brakeTorqueSign * overallBrakeTorque) / inertia *
-                               Time.fixedDeltaTime;
-        }
-
-        tireVisual.UpdateRotation(angularVelocity);
-
-
-        slipLoadFactor = 1 - springOffsetRate * 0.4f;
-        var absForwardSpeed = Mathf.Abs(_currentHitPoint.hitPointForwardSpeed);
-        float absAngularVelocity = Mathf.Abs(angularVelocity);
-        hitPointForwardSlip = (_currentHitPoint.hitPointForwardSpeed - angularVelocity * tireRadius) / absForwardSpeed;
-        hitPointForwardSlip *= forwardFrictionStiffness * slipLoadFactor;
-
-        // 处理轮胎接触平面与自身产生横向相对滑动时的力
-        float absLateralSpeed = Mathf.Abs(_currentHitPoint.hitPointLateralSpeed);
-        float lateralForceMax = carMass * 0.25f * absLateralSpeed / Time.fixedDeltaTime;
-
-        hitPointLateralSlip = (Mathf.Atan2(_currentHitPoint.hitPointLateralSpeed, absForwardSpeed) * Mathf.Rad2Deg) *
-                              0.01111f;
-        hitPointLateralSlip *= lateralFrictionStiffness * slipLoadFactor;
-        float sideSlipSign = hitPointLateralSlip < 0 ? -1f : 1f;
-        float absSideSlip = hitPointLateralSlip < 0 ? -hitPointLateralSlip : hitPointLateralSlip;
-        float peakSideFrictionForce = frictionPeak * suspensionScalarForce * sideLoadCoeff * lateralFrictionGrip;
-        float sideForce = -sideSlipSign * frictionPeak * suspensionScalarForce * sideLoadCoeff * lateralFrictionGrip;
-        lateralFrictionForce = Mathf.Clamp(sideForce, -lateralForceMax, lateralForceMax);
-
-        // 主动施加轮胎横向的力实现转向效果
-        var tireTransform = transform.position;
-        Vector3 steeringDirection = transform.right;
-
-        Vector3 wheelVelocity = carBody.CarRigidbody.GetPointVelocity(tireTransform);
-        float wheelForwardVelocity = Vector3.Dot(wheelVelocity, transform.forward);
-
-        float steeringVelocity = Vector3.Dot(wheelVelocity, steeringDirection);
-
-
-        tireGripFactor = !carBody.IsDrifting
-            ? steeringCurve.Evaluate(Math.Abs(wheelForwardVelocity / carBody.MaxEngineVelocity))
-            : driftingTireGripFactor;
-
-        float expectedVelChange = -steeringVelocity * tireGripFactor;
-
-        float desiredAccel = expectedVelChange / Time.fixedDeltaTime;
-
-        lateralFrictionForce += tireMass * desiredAccel;
-
-        //clamp
         forwardFrictionForce = Mathf.Clamp(forwardFrictionForce, -maxForwardFrictionGroundProvided,
             +maxForwardFrictionGroundProvided);
-        lateralFrictionForce = Mathf.Clamp(lateralFrictionForce, -peakSideFrictionForce, +peakSideFrictionForce);
+
+        CalculateAngularVelocity();
+
+        CalculateTireSideFriction(carBody);
+
     }
 
     private void CalculateBrakeAndEngineTorques()
     {
         //brake torque = proactive torque + gearDamperCausedTorque + environment cause torque;
         scalarSteerBrakeTorque = defaultMaxBrakeTorque * (isBraking ? 1f : 0f);
-        overallBrakeTorque = scalarSteerBrakeTorque + gearDamperCausedBrakeTorque + contactFaceCausedBrakeTorque;
-        overallBrakeForce = overallBrakeTorque / tireRadius;
+        overallBrakeTorqueOnGround =
+            scalarSteerBrakeTorque + gearDamperCausedBrakeTorque + contactFaceCausedBrakeTorque;
+        overallBrakeForce = overallBrakeTorqueOnGround / tireRadius;
+
+        overallBrakeTorqueOnAir = scalarSteerBrakeTorque + gearDamperCausedBrakeTorque;
         brakeSign = -GetDirection(_currentHitPoint.hitPointForwardSpeed);
 
-        signedOverallBrakeTorque = overallBrakeTorque * brakeSign;
-        signedOverallBrakeForce = signedOverallBrakeTorque / tireRadius;
+        signedOverallBrakeTorqueOnGround = overallBrakeTorqueOnGround * brakeSign;
+        signedOverallBrakeForceOnGround = signedOverallBrakeTorqueOnGround / tireRadius;
 
         // calculate overall forward force = motor + all brake torque force
-        signedOverallTireForwardForce = motorForce + signedOverallBrakeForce;
+        signedOverallTireForwardForce = motorForce + signedOverallBrakeForceOnGround;
         absOverallTireForwardForce = Mathf.Abs(signedOverallTireForwardForce);
+
+        float tireBrakeSign = -GetDirection(angularVelocity);
+        signedOverallBrakeForceOnTireGear = overallBrakeTorqueOnGround * tireBrakeSign;
+        signedOverallForceOnTireGear = motorForce + signedOverallBrakeForceOnTireGear;
 
         overallTireForwardForceSign = GetDirection(signedOverallTireForwardForce);
     }
@@ -583,8 +506,8 @@ public class TirePhysics : MonoBehaviour
         if (isContactToGround)
         {
             overallFrictionForce =
-                transform.right * lateralFrictionForce +
-                transform.forward * forwardFrictionForce;
+                _currentHitPoint.hitPointForwardDirection * forwardFrictionForce
+                + _currentHitPoint.hitPointLateralDirection * lateralFrictionForce;
             Vector3 forcePosition;
             forcePosition = _currentHitPoint.raycastHit.point +
                             transform.up * (springDefaultLength * distanceToApplyFriction);
@@ -594,7 +517,6 @@ public class TirePhysics : MonoBehaviour
             Debug.DrawLine(forcePosition,
                 forcePosition + _currentHitPoint.hitPointForwardDirection * forwardFrictionForce / 400f, Color.green);
         }
-
         else
         {
             overallFrictionForce = Vector3.zero;
@@ -617,5 +539,84 @@ public class TirePhysics : MonoBehaviour
     private float GetDeltaAngularVForForce(float force, float tireInertia, float time)
     {
         return force / tireInertia * time;
+    }
+
+    private void CalculateAngularVelocity()
+    {
+        if (isContactToGround)
+        {
+            // when forward force is going to reverse the tire rotation;
+            if (signedOverallForceOnTireGear * angularVelocity <= 0)
+            {
+                float minForceToStopTire =
+                    GetForceForDeltaAngularV(Mathf.Abs(angularVelocity), inertia, Time.fixedDeltaTime);
+                if (Mathf.Abs(signedOverallForceOnTireGear) > minForceToStopTire)
+                {
+                    signedOverallForceOnTireGear = Mathf.Clamp(signedOverallForceOnTireGear, -minForceToStopTire,
+                        minForceToStopTire);
+                }
+            }
+
+            angularVelocity += GetDeltaAngularVForForce(signedOverallForceOnTireGear, inertia, Time.fixedDeltaTime);
+
+            // 1. surface and tire has relatively different speed;
+            // 2. friction of surface and tire are constantly trying to make their relative velocity 0;
+            relativeAngularVelocityToGround = _currentHitPoint.hitPointForwardSpeed / tireRadius;
+            float angularVelocityDiff = angularVelocity - relativeAngularVelocityToGround;
+            float angularVelocityFixForce =
+                GetForceForDeltaAngularV(-angularVelocityDiff, inertia, Time.fixedDeltaTime);
+            angularVelocityFixForce = Mathf.Clamp(angularVelocityFixForce, -maxForwardForce, maxForwardForce);
+            angularVelocity += GetDeltaAngularVForForce(angularVelocityFixForce, inertia, Time.fixedDeltaTime);
+        }
+        else
+        {
+            //max brake torque = torqueMakeWheelStop + motorTorque;
+            float maxBrakeTorque =
+                Mathf.Abs(GetForceForDeltaAngularV(angularVelocity, inertia, Time.fixedDeltaTime) + motorTorque);
+            float tireTorque = Mathf.Clamp(overallBrakeTorqueOnAir, -maxBrakeTorque, maxBrakeTorque);
+            angularVelocity +=
+                GetDeltaAngularVForForce(motorTorque - GetDirection(angularVelocity) * tireTorque, inertia,
+                    Time.fixedDeltaTime);
+        }
+
+        tireVisual.UpdateRotation(angularVelocity);
+    }
+
+
+    private void CalculateTireSideFriction(CarBody carBody)
+    {
+        if (!isContactToGround)
+        {
+            return;
+        }
+        // 处理轮胎接触平面与自身产生横向相对滑动时的力
+        float absLateralSpeed = Mathf.Abs(_currentHitPoint.hitPointLateralSpeed);
+        float lateralForceMax = carMass * 0.25f * absLateralSpeed / Time.fixedDeltaTime;
+
+        sideSlipSign = GetDirection(_currentHitPoint.hitPointLateralSpeed);
+        peakSideFrictionForce = frictionPeak * suspensionScalarForce * sideLoadCoeff * lateralFrictionGrip;
+        sideForce = -sideSlipSign * frictionPeak * suspensionScalarForce * sideLoadCoeff * lateralFrictionGrip;
+        lateralFrictionForce = Mathf.Clamp(sideForce, -lateralForceMax, lateralForceMax);
+
+        // 主动施加轮胎横向的力实现转向效果
+        var tireTransform = transform.position;
+        Vector3 steeringDirection = transform.right;
+
+        Vector3 wheelVelocity = carBody.CarRigidbody.GetPointVelocity(tireTransform);
+        float wheelForwardVelocity = Vector3.Dot(wheelVelocity, transform.forward);
+
+        float steeringVelocity = Vector3.Dot(wheelVelocity, steeringDirection);
+        
+        tireGripFactor = !carBody.IsDrifting
+            ? steeringCurve.Evaluate(Math.Abs(wheelForwardVelocity / carBody.MaxEngineVelocity))
+            : driftingTireGripFactor;
+
+        float expectedVelChange = -steeringVelocity * tireGripFactor;
+
+        float desiredAccel = expectedVelChange / Time.fixedDeltaTime;
+
+        lateralFrictionForce += tireMass * desiredAccel;
+        
+        lateralFrictionForce = Mathf.Clamp(lateralFrictionForce, -peakSideFrictionForce, +peakSideFrictionForce);
     }
 }
