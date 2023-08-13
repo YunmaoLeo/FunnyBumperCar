@@ -373,6 +373,7 @@ MonoBehaviour:
   - {fileID: 809752330}
   - {fileID: 846291944}
   GameScenes:
+  - {fileID: 102900000, guid: 425675fc7c9a241439254e6b825aea87, type: 3}
   - {fileID: 102900000, guid: 94cc7bd8c95206341888a23803639df6, type: 3}
 --- !u!4 &202761940
 Transform:
@@ -1070,31 +1071,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CarPresentPlatform
-      objectReference: {fileID: 0}
-    - target: {fileID: 7432408478213731123, guid: 59b184a15aeec1a43812243964d073a0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7432408478213731123, guid: 59b184a15aeec1a43812243964d073a0,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7432408478213731123, guid: 59b184a15aeec1a43812243964d073a0,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7432408478213731123, guid: 59b184a15aeec1a43812243964d073a0,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7432408478213731123, guid: 59b184a15aeec1a43812243964d073a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59b184a15aeec1a43812243964d073a0, type: 3}
