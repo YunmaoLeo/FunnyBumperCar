@@ -197,6 +197,7 @@ public class TirePhysics : MonoBehaviour
 
         suspensionForce = springDirection * suspensionScalarForce;
 
+        suspensionScalarForce = Mathf.Max(suspensionScalarForce, 0f);
         Vector3 wheelPosOffset =
             -springDirection * (minRaycastDistance + springMinLength);
 
