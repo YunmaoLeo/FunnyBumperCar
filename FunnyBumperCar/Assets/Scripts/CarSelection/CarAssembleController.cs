@@ -55,7 +55,8 @@ public class CarAssembleController : MonoBehaviour
                 Instantiate(bodyComponent.transform, carSpawnTransform);
             carBody = carBodyTransform.GetComponent<CarBody>();
             carBody.PlayerIndex = player.playerIndex;
-
+            carBody.playerIndicatorTargetCamera = Camera.main;
+            
             carBody.SetTireAndInstantiate(CarBody.TireLocation.FrontLeft, frontLeftTire);
             carBody.SetTireAndInstantiate(CarBody.TireLocation.FrontRight, frontRightTire);
             carBody.SetTireAndInstantiate(CarBody.TireLocation.BackLeft, backLeftTire);
@@ -66,6 +67,7 @@ public class CarAssembleController : MonoBehaviour
             carBody.EquipCarAddon(AddonSlot.AddonSlotType.SideLeft, sideLeftAddon);
             carBody.EquipCarAddon(AddonSlot.AddonSlotType.Top, topAddon);
             carBody.EquipCarAddon(AddonSlot.AddonSlotType.Back, backAddon);
+
         }
     }
 
@@ -149,13 +151,14 @@ public class CarAssembleController : MonoBehaviour
         var carBodyTransform =
             Instantiate(componentsListSO.CarBodysList[0].transform, carSpawnTransform);
         carBody = carBodyTransform.GetComponent<CarBody>();
+        carBody.PlayerIndex = player.playerIndex;
+        carBody.playerIndicatorTargetCamera = Camera.main;
     }
 
     private void ResetCarState()
     {
         carBody.transform.localPosition = Vector3.zero;
         carBody.transform.localRotation = Quaternion.identity;
-        
         carBody.ResetPhysicalState();
     }
 }

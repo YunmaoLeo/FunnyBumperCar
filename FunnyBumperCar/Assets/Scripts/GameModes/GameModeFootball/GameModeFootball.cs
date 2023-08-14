@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.PlayerLoop;
 
 public class GameModeFootball : GameModeBase
 {
@@ -139,8 +136,6 @@ public class GameModeFootball : GameModeBase
         player1.CarTransform = players[p1].carTransform;
         player2.CarTransform = players[p2].carTransform;
         
-        
-
         var cameraInstance1 = Instantiate(cameraPrefab);
         var cameraInstance2 = Instantiate(cameraPrefab);
         player1.playerInput.camera = cameraInstance1.GetComponentInChildren<Camera>();
@@ -154,12 +149,20 @@ public class GameModeFootball : GameModeBase
 
         var cm1 = cameraInstance1.GetComponentInChildren<CinemachineFreeLook>();
         cm1.gameObject.layer = layerOfPlayer1;
+        
         var cm2 = cameraInstance2.GetComponentInChildren<CinemachineFreeLook>();
         cm2.gameObject.layer = layerOfPlayer2;
+        
+        var carBodyP1 = player1.CarTransform.GetComponent<CarBody>();
+        var carBodyP2 = player2.CarTransform.GetComponent<CarBody>();
+        carBodyP1.SetIndicatorLookAtCamera(player1.playerInput.camera);
+        carBodyP2.SetIndicatorLookAtCamera(player2.playerInput.camera);
+
+        carBodyP1.HidePlayerIndicatorUIWithDelay(4f);
+        carBodyP2.HidePlayerIndicatorUIWithDelay(4f);
 
         cm1.m_Follow = player1.CarTransform;
         cm1.m_LookAt = player1.CarTransform;
-
         
         cm2.m_Follow = player2.CarTransform;
         cm2.m_LookAt = player2.CarTransform;

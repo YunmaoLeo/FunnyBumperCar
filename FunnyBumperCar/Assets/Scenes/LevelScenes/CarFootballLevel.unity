@@ -439,6 +439,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 629078554}
     m_Modifications:
+    - target: {fileID: 3633798545629245497, guid: 16670c5341c3dc1489c1e7d40bc715d3,
+        type: 3}
+      propertyPath: m_text
+      value: 'P2''s Goal!
+
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 4280824210006429676, guid: 16670c5341c3dc1489c1e7d40bc715d3,
         type: 3}
       propertyPath: m_RootOrder
@@ -452,22 +460,22 @@ PrefabInstance:
     - target: {fileID: 4280824210006429676, guid: 16670c5341c3dc1489c1e7d40bc715d3,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4280824210006429676, guid: 16670c5341c3dc1489c1e7d40bc715d3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.734488
+      value: -9.27
       objectReference: {fileID: 0}
     - target: {fileID: 4280824210006429676, guid: 16670c5341c3dc1489c1e7d40bc715d3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.077023804
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4280824210006429676, guid: 16670c5341c3dc1489c1e7d40bc715d3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 66.37941
+      value: 65.1
       objectReference: {fileID: 0}
     - target: {fileID: 4280824210006429676, guid: 16670c5341c3dc1489c1e7d40bc715d3,
         type: 3}
@@ -508,11 +516,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SoccerGoal (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4560841508098767289, guid: 16670c5341c3dc1489c1e7d40bc715d3,
-        type: 3}
-      propertyPath: PlayerIndex
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16670c5341c3dc1489c1e7d40bc715d3, type: 3}
@@ -2602,7 +2605,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh67032
+  m_Name: pb_Mesh88842
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3746,22 +3749,22 @@ PrefabInstance:
     - target: {fileID: 4280824210006429676, guid: 16670c5341c3dc1489c1e7d40bc715d3,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4280824210006429676, guid: 16670c5341c3dc1489c1e7d40bc715d3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.734488
+      value: -9.1092
       objectReference: {fileID: 0}
     - target: {fileID: 4280824210006429676, guid: 16670c5341c3dc1489c1e7d40bc715d3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.077023804
+      value: -0.077024
       objectReference: {fileID: 0}
     - target: {fileID: 4280824210006429676, guid: 16670c5341c3dc1489c1e7d40bc715d3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -67.06059
+      value: -65.15
       objectReference: {fileID: 0}
     - target: {fileID: 4280824210006429676, guid: 16670c5341c3dc1489c1e7d40bc715d3,
         type: 3}
@@ -3802,11 +3805,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SoccerGoal
-      objectReference: {fileID: 0}
-    - target: {fileID: 4560841508098767289, guid: 16670c5341c3dc1489c1e7d40bc715d3,
-        type: 3}
-      propertyPath: PlayerIndex
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16670c5341c3dc1489c1e7d40bc715d3, type: 3}

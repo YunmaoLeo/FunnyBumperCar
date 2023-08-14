@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -70,7 +71,9 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     [SerializeField] private ConfigurableJoint rightDoorJoint;
     [SerializeField] private float doorMaxCollideStrength = 10f;
 
-
+    [SerializeField] private PlayerIndicator PlayerIndicatorUIPrefab;
+    private PlayerIndicator PlayerIndicatorUI;
+    
     private List<AddonSlot> slotLists = new List<AddonSlot>();
 
     private List<GameObject> colliderObjects;
@@ -161,6 +164,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     {
         // set initial tire position
         InitializeCarBodyCollider();
+        InitializePlayerIndicatorUI();
     }
 
     private void ResetAddonStates(bool enable)
@@ -648,5 +652,34 @@ public class CarBody : MonoBehaviour, ICanBeExploded
                 colliderObjects[i].layer = initColliderLayers[i];
             }
         }
+    }
+
+    public Camera playerIndicatorTargetCamera;
+    public void InitializePlayerIndicatorUI()
+    {
+        PlayerIndicatorUI = Instantiate(PlayerIndicatorUIPrefab, transform);
+        PlayerIndicatorUI.GetComponentInChildren<TextMeshProUGUI>().text = "Player" + (PlayerIndex + 1).ToString();
+        SetIndicatorLookAtCamera(playerIndicatorTargetCamera);
+    }
+
+    public void ShowPlayerIndicatorUI()
+    {
+        PlayerIndicatorUI.ShowUI();
+    }
+
+    public void HidePlayerIndicatorUI()
+    {
+        PlayerIndicatorUI.HideUI();;
+    }
+    
+    
+    public void SetIndicatorLookAtCamera(Camera targetCamera)
+    {
+        PlayerIndicatorUI.SetLookAtCamera(targetCamera);
+    }
+
+    public void HidePlayerIndicatorUIWithDelay(float f)
+    {
+        PlayerIndicatorUI.HideWithDelay(f);
     }
 }

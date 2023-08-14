@@ -28,20 +28,7 @@ public class MeshDeformation : MonoBehaviour
             meshFilters[i].mesh.MarkDynamic();
         }
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (!isRepairing)
-            {
-                isRepairing = true;
-            }
-        }
-
-        RestoreMesh();
-    }
-
+    
     private void DeformationMesh(Mesh mesh, Transform localTransform, Vector3 contactPoint, Vector3 contactVelocity, int i)
     {
         bool hasDeformated = false;
