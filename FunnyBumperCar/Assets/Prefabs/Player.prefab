@@ -47,6 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerPrefab: {fileID: 4146000909096157582, guid: 7b50e2ae30ba10f43bb28005a68b95e2,
     type: 3}
+  carTransform: {fileID: 0}
+  playerIndex: 0
 --- !u!114 &-4203338154518481189
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -107,6 +107,15 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""490ff821-cf1c-4d9c-b5d0-4400fac7a663"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -393,6 +402,28 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Join"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""20c1c811-3677-43af-a9c8-285c0fbc031c"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""794f60c6-b580-4565-83f4-62332d841ee5"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -721,6 +752,11 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""devicePath"": ""<Keyboard>"",
                     ""isOptional"": false,
                     ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
                 }
             ]
         },
@@ -748,6 +784,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         m_Player_ParachuteTrigger = m_Player.FindAction("ParachuteTrigger", throwIfNotFound: true);
         m_Player_Drifting = m_Player.FindAction("Drifting", throwIfNotFound: true);
         m_Player_Join = m_Player.FindAction("Join", throwIfNotFound: true);
+        m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         // Selection
         m_Selection = asset.FindActionMap("Selection", throwIfNotFound: true);
         m_Selection_MoveUp = m_Selection.FindAction("MoveUp", throwIfNotFound: true);
@@ -827,6 +864,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ParachuteTrigger;
     private readonly InputAction m_Player_Drifting;
     private readonly InputAction m_Player_Join;
+    private readonly InputAction m_Player_Look;
     public struct PlayerActions
     {
         private @GameInputActions m_Wrapper;
@@ -840,6 +878,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         public InputAction @ParachuteTrigger => m_Wrapper.m_Player_ParachuteTrigger;
         public InputAction @Drifting => m_Wrapper.m_Player_Drifting;
         public InputAction @Join => m_Wrapper.m_Player_Join;
+        public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -876,6 +915,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @Join.started += instance.OnJoin;
             @Join.performed += instance.OnJoin;
             @Join.canceled += instance.OnJoin;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -907,6 +949,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @Join.started -= instance.OnJoin;
             @Join.performed -= instance.OnJoin;
             @Join.canceled -= instance.OnJoin;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1047,6 +1092,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         void OnParachuteTrigger(InputAction.CallbackContext context);
         void OnDrifting(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
     }
     public interface ISelectionActions
     {

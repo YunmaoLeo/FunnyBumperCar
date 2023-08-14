@@ -27,6 +27,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
     [SerializeField] public Transform CenterOfMass;
     [SerializeField] public Transform Parachute;
+    [SerializeField] public Transform CameraLookAtPosition;
 
     [HideInInspector] public int PlayerIndex;
     private bool isDrifting = false;
