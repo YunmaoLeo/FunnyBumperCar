@@ -9,7 +9,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 {
     public int CarID;
     [SerializeField] private float fixedDeltaTime = 0.005f;
-    
+
     [SerializeField] private float maxEngineVelocity;
     [SerializeField] private float maxEngineVelocityCoefficient = 5f;
     [SerializeField] private float engineMaxTorque = 100f;
@@ -31,7 +31,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
     [HideInInspector] public int PlayerIndex;
     private bool isDrifting = false;
-    
+
     private Transform frontLeftTire;
     private Transform frontRightTire;
     private Transform backLeftTire;
@@ -41,7 +41,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     [SerializeField] public Transform FrontRightTireConnectionPoint;
     [SerializeField] public Transform BackLeftTireConnectionPoint;
     [SerializeField] public Transform BackRightTireConnectionPoint;
-    
+
     [SerializeField] private float carFlipOverMaxForceCoefficient = 30f;
     [SerializeField] private float carFlipOverMinForceCoefficient = 4f;
     [SerializeField] private float carFlipOverDragAngleLimitation = 120;
@@ -57,10 +57,9 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     private Dictionary<TireLocation, bool> tiresAbleToDriveMap = new Dictionary<TireLocation, bool>();
 
     private float totalTireMass;
-    
-    [HideInInspector]
-    public Rigidbody CarRigidbody;
-    
+
+    [HideInInspector] public Rigidbody CarRigidbody;
+
     private Vector3 carFrameSize;
 
     [SerializeField] private Transform WheelsTransform;
@@ -71,8 +70,11 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     [SerializeField] private ConfigurableJoint rightDoorJoint;
     [SerializeField] private float doorMaxCollideStrength = 10f;
 
-    
+
     private List<AddonSlot> slotLists = new List<AddonSlot>();
+
+    private List<GameObject> colliderObjects;
+    private List<int> initColliderLayers;
 
     public float TireRotateSignal { get; set; }
 
@@ -82,7 +84,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     {
         get => maxEngineVelocity;
     }
-    
+
     public bool IsBraking
     {
         get => isBraking;
@@ -99,7 +101,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     {
         get => (GetComponentInChildren<MeshRenderer>().bounds.extents.magnitude);
     }
-    
+
     public bool IsParachuteActive
     {
         get => isParachuteActive;
@@ -145,12 +147,12 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         var parachute = Parachute.GetComponent<Parachute>();
         parachute.SetCarRigidbody(CarRigidbody);
         parachute.SetCarSimulation(this);
-        
+
         InitializeTires();
-        
+
         //initialize car addons;
         InitializeCarAddons();
-        
+
         //precompute max engine velocity
         maxEngineVelocity = engineMaxTorque / (CarRigidbody.mass + totalTireMass) * maxEngineVelocityCoefficient;
     }
@@ -158,7 +160,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     private void Start()
     {
         // set initial tire position
-        
+        InitializeCarBodyCollider();
     }
 
     private void ResetAddonStates(bool enable)
@@ -177,23 +179,22 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
     public void ResetPhysicalState(Transform spawnPointTransform, float delay = 1f)
     {
-
         ResetAddonStates(false);
         CarRigidbody.isKinematic = true;
         CarRigidbody.detectCollisions = false;
         CarRigidbody.velocity = Vector3.zero;
-        CarRigidbody.angularVelocity = Vector3.zero; 
+        CarRigidbody.angularVelocity = Vector3.zero;
         CarRigidbody.ResetInertiaTensor();
         CarRigidbody.position = spawnPointTransform.position;
         CarRigidbody.rotation = spawnPointTransform.rotation;
 
         StartCoroutine(ActivePhysicalBodyWithDelay(delay));
     }
-    
+
     public void ResetPhysicalState()
     {
         CarRigidbody.velocity = Vector3.zero;
-        CarRigidbody.angularVelocity = Vector3.zero; 
+        CarRigidbody.angularVelocity = Vector3.zero;
         CarRigidbody.ResetInertiaTensor();
     }
 
@@ -223,13 +224,13 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         {
             return false;
         }
-        
+
         if (addonContainerPrefab == null)
         {
             return RemoveCarAddon(slotType);
         }
-        
-        if (addonSlot.GetAddonContainer()!=null && addonSlot.GetAddonContainer().ContainerID ==
+
+        if (addonSlot.GetAddonContainer() != null && addonSlot.GetAddonContainer().ContainerID ==
             addonContainerPrefab.GetComponent<AddonContainer_Car>().ContainerID)
         {
             return false;
@@ -242,10 +243,9 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
 
         addonSlot.EquipSpecificCarAddon(this, addonContainerPrefab);
- 
-
+        
+        InitializeCarBodyCollider();
         return true;
-
     }
 
     public bool RemoveCarAddon(AddonSlot.AddonSlotType slotType)
@@ -255,7 +255,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         {
             return false;
         }
-        
+
         if (addonSlot.SlotType == slotType)
         {
             return addonSlot.RemoveAddon(this);
@@ -297,7 +297,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
                 case AddonSlot.AddonSlotType.Bottom:
                     actionName = "CarAddonTriggerBottom";
                     break;
-                
+
                 default:
                     break;
             }
@@ -318,6 +318,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
     [SerializeField] private bool TestChangeCommand = false;
     [SerializeField] private float TestChangeCommandTargetValue = 0f;
+
     private void FixedUpdate()
     {
         Time.fixedDeltaTime = fixedDeltaTime;
@@ -357,6 +358,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     private void CarTireSimulation()
     {
         int tiresContactToGroundCount = 4;
+        SetCollidersToTrigger();
         for (int i = (int)TireLocation.FrontLeft; i <= (int)TireLocation.BackRight; i++)
         {
             TireLocation tireLocation = (TireLocation)i;
@@ -368,23 +370,25 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
             bool isAssistSteerTire = tireLocation == TireLocation.BackLeft || tireLocation == TireLocation.BackRight;
 
+
             bool isOnGround = tirePhysics.ColliderBasedRaycast(this, tireConnectPoint, out float minRaycastDistance);
+
 
             if (!isOnGround)
             {
                 tiresContactToGroundCount--;
             }
-            
-            
+
+
             bool isHitAboveHalfTire = tirePhysics.DetectHitAboveHalfTire();
-            
+
             if (isHitAboveHalfTire && isOnGround)
             {
                 // is hit top half, active mesh collider of bottom half;
                 // and we disable tire self adaption;
             }
             else
-            {            
+            {
                 tirePhysics.SimulateSuspensionSystem(tireConnectPoint, CarRigidbody, minRaycastDistance);
             }
 
@@ -392,9 +396,9 @@ public class CarBody : MonoBehaviour, ICanBeExploded
             {
                 tirePhysics.SteerTireRotation(TireRotateSignal, transform, steerRotateTime, isAssistSteerTire);
             }
-            
+
             tirePhysics.StoreHitInfo(this);
-            
+
             // set current engine Torque
             tirePhysics.motorTorque = ableToDrive ? CarDriveSignal * engineMaxTorque : 0f;
             tirePhysics.IsBraking = isBraking;
@@ -402,10 +406,10 @@ public class CarBody : MonoBehaviour, ICanBeExploded
             tirePhysics.SimulateFriction(this);
 
             tirePhysics.ApplyForces(this);
-            
+
             tirePhysics.AddInverseForceToHitPoint();
-            
         }
+        ResetColliders();
 
         if (tiresContactToGroundCount != 4)
         {
@@ -419,10 +423,13 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         {
             return;
         }
+
         var angle = Mathf.Abs(Vector3.Angle(-transform.up, Vector3.up));
         if (angle < carFlipOverDragAngleLimitation)
         {
-            var carFlipOverDragForceCoefficient = angle / carFlipOverDragAngleLimitation * carFlipOverMaxForceCoefficient + carFlipOverMinForceCoefficient;
+            var carFlipOverDragForceCoefficient =
+                angle / carFlipOverDragAngleLimitation * carFlipOverMaxForceCoefficient +
+                carFlipOverMinForceCoefficient;
             Vector3 dragForce = transform.up * (CarRigidbody.mass * carFlipOverDragForceCoefficient);
             if (TireRotateSignal < 0f)
             {
@@ -440,7 +447,9 @@ public class CarBody : MonoBehaviour, ICanBeExploded
             }
         }
     }
-    private void AddForceAndDrawLine(Vector3 startPoint, Vector3 force, Color color, ForceMode forceMode = ForceMode.Force)
+
+    private void AddForceAndDrawLine(Vector3 startPoint, Vector3 force, Color color,
+        ForceMode forceMode = ForceMode.Force)
     {
         CarRigidbody.AddForceAtPosition(force, startPoint, forceMode);
         Debug.DrawLine(startPoint,
@@ -453,6 +462,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         {
             return false;
         }
+
         if (tireTransformPrefab.GetComponent<TirePhysics>().TireName == tiresMap[location].TireName)
         {
             return false;
@@ -460,7 +470,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
         var oldTire = tiresMap[location];
         var tireTransformInstance = Instantiate(tireTransformPrefab, WheelsTransform);
-        
+
         switch (location)
         {
             case TireLocation.FrontLeft:
@@ -481,10 +491,10 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         Destroy(oldTire.gameObject);
         tiresMap[location].InitializeTirePosition(tireConnectPointsMap[location], CarRigidbody);
 
+        InitializeCarBodyCollider();
         return true;
     }
-    
-    
+
 
     private void InitializeTires()
     {
@@ -495,8 +505,8 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         backLeftTire = Instantiate(backLeftTirePrefab, WheelsTransform);
         backRightTire = Instantiate(backRightTirePrefab, WheelsTransform);
 
-        
-        tiresMap.Add(TireLocation.FrontLeft,frontLeftTire.GetComponent<TirePhysics>());
+
+        tiresMap.Add(TireLocation.FrontLeft, frontLeftTire.GetComponent<TirePhysics>());
         tiresMap.Add(TireLocation.FrontRight, frontRightTire.GetComponent<TirePhysics>());
         tiresMap.Add(TireLocation.BackLeft, backLeftTire.GetComponent<TirePhysics>());
         tiresMap.Add(TireLocation.BackRight, backRightTire.GetComponent<TirePhysics>());
@@ -539,7 +549,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         {
             Destroy(keyValuePair.Value.gameObject);
         }
-        
+
         tiresMap.Clear();
         tireConnectPointsMap.Clear();
         tiresAbleToDriveMap.Clear();
@@ -550,7 +560,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     {
         CarRigidbody.AddExplosionForce(explosionIntensity, explosionCenter, explosionRadius);
     }
-    
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Car"))
@@ -560,11 +570,13 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
             if (VisualEffectManager.Instance != null)
             {
-                VisualEffectManager.Instance.PlayCarCrashEffectLists(collision.contacts[0].point, strength); 
-            }  
+                VisualEffectManager.Instance.PlayCarCrashEffectLists(collision.contacts[0].point, strength);
+            }
         }
+
         HandleCollisionDestroy(collision);
     }
+
     private void HandleCollisionDestroy(Collision collision)
     {
         float collideStrength = collision.relativeVelocity.magnitude;
@@ -599,5 +611,42 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         }
 
         return null;
+    }
+
+    private void InitializeCarBodyCollider()
+    {
+        colliderObjects = new List<GameObject>();
+        initColliderLayers = new List<int>();
+
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        foreach (var c in colliders)
+        {
+            GameObject colliderObject = c.gameObject;
+            if (colliderObject.layer == 2) continue;
+            colliderObjects.Add(colliderObject);
+            initColliderLayers.Add(colliderObject.layer);
+        }
+    }
+
+    private void SetCollidersToTrigger()
+    {
+        foreach (var colliderObject in colliderObjects)
+        {
+            if (colliderObject != null)
+            {
+                colliderObject.layer = 2;
+            }
+        }
+    }
+
+    private void ResetColliders()
+    {
+        for (int i = 0; i < colliderObjects.Count; i++)
+        {
+            if (colliderObjects[i] != null)
+            {
+                colliderObjects[i].layer = initColliderLayers[i];
+            }
+        }
     }
 }

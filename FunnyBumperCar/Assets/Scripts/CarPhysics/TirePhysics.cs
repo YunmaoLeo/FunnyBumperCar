@@ -358,43 +358,8 @@ public class TirePhysics : MonoBehaviour
         if (!raycastResult)
         {
             isContactToGround = false;
-            return false;
-        }
-
-        // check whether this collider is the sub object of this car;
-        if (isColliderSameCarDict.ContainsKey(raycastHit.collider))
-        {
-            if (isColliderSameCarDict[raycastHit.collider])
-            {
-                raycastResult = false;
-            }
-        }
-        else
-        {
-            var possibleCarBody = raycastHit.collider.transform.GetComponentInParent<CarBody>();
-            if (possibleCarBody != null)
-            {
-                if (possibleCarBody == carBody)
-                {
-                    isColliderSameCarDict[raycastHit.collider] = true;
-                    raycastResult = false;
-                }
-                else
-                {
-                    isColliderSameCarDict[raycastHit.collider] = false;
-                }
-            }
-            else
-            {
-                isColliderSameCarDict[raycastHit.collider] = false;
-            }
-        }
-
-        if (!raycastResult)
-        {
             _currentHitPoint.rb = null;
             _currentHitPoint.raycastHit = default;
-            isContactToGround = false;
             return false;
         }
 
