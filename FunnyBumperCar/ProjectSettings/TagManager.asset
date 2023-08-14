@@ -9,6 +9,7 @@ TagManager:
   - Car
   - Ground
   - Tire
+  - Soccer
   layers:
   - Default
   - TransparentFX

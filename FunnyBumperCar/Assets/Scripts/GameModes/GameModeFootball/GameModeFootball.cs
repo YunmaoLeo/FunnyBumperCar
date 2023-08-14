@@ -1,34 +1,43 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.PlayerLoop;
 
 public class GameModeFootball : GameModeBase
 {
     public class PlayerFootball : PlayerBase
     {
+        public Transform CarTransform;
         public int score = 0;
     }
 
+    [SerializeField] private int scoreToWinTheGame = 5;
     [SerializeField] private Transform cameraPrefab;
     private List<PlayerFootball> playerFootballs = new List<PlayerFootball>();
     [SerializeField] private Transform footballPrefab;
     [SerializeField] private SoccerGoal goal1;
     [SerializeField] private SoccerGoal goal2;
-
     [SerializeField] private Transform footBallSpawnPosition;
+    [SerializeField] private CinemachineVirtualCamera focusBallCamera;
+    [SerializeField] private float onSoccerInGoalWinShowTime = 3f;
+
+    [SerializeField] private List<SoccerScoreBoard> scoreBoardList;
     private Transform footBallInstance;
 
+    private bool isGameOver = false;
+    
     private PlayerFootball player1;
     private PlayerFootball player2;
 
     protected override void InitializeGameMode()
     {
         base.InitializeGameMode();
-        goal1.OnFootballInGoal += OnSoccerInGoal;
-        goal2.OnFootballInGoal += OnSoccerInGoal;
+        goal1.OnPlayerGetScore += OnPlayerGoaled;
+        goal2.OnPlayerGetScore += OnPlayerGoaled;
 
         SpawnFootball();
 
@@ -37,20 +46,75 @@ public class GameModeFootball : GameModeBase
 
     private void SpawnFootball()
     {
-        Destroy(footBallInstance);
+        if (footBallInstance != null)
+        {
+            Destroy(footBallInstance.gameObject);
+        }
         footBallInstance = Instantiate(footballPrefab, footBallSpawnPosition.position,
             footBallSpawnPosition.rotation);
+        AssignFocusBallCamera();
     }
 
-    private void OnSoccerInGoal(int playerIndex)
+    private void RespawnCars()
     {
-        if (playerIndex == 0)
+        players[0].carTransform.GetComponent<CarBody>().ResetPhysicalState(carSpawnPoints[players[0].playerIndex]);
+        players[1].carTransform.GetComponent<CarBody>().ResetPhysicalState(carSpawnPoints[players[1].playerIndex]);
+    }
+
+    private void ControlFocusBallCamera(bool enable)
+    {
+        focusBallCamera.Priority = enable ? 100 : -1;
+    }
+
+    private void AssignFocusBallCamera()
+    {
+        focusBallCamera.m_Follow = footBallInstance;
+        focusBallCamera.m_LookAt = footBallInstance;
+    }
+
+    private void ResetGameState(float delay)
+    {
+        StartCoroutine(ResetGameStateCoroutine(delay));
+    }
+
+    IEnumerator ResetGameStateCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        //respawn football
+        SpawnFootball();
+        //respawn cars;
+        RespawnCars();
+        ControlFocusBallCamera(false);
+    }
+
+    private void OnPlayerGoaled(int playerIndex)
+    {
+        playerFootballs[playerIndex].score++;
+        ControlFocusBallCamera(true);
+        UpdateScoreBoard();
+        
+        CheckWinState();
+
+        ResetGameState(onSoccerInGoalWinShowTime);
+    }
+
+    protected override void OnGameOver()
+    {
+        base.OnGameOver();
+    }
+
+    private void CheckWinState()
+    {
+        isGameOver = true;
+    }
+
+    private void UpdateScoreBoard()
+    {
+        foreach (var soccerScoreBoard in scoreBoardList)
         {
-            player2.score++;
-        }
-        else
-        {
-            player1.score++;
+            soccerScoreBoard.UpdateScore(
+                player1.score,
+                player2.score);
         }
     }
 
@@ -60,10 +124,22 @@ public class GameModeFootball : GameModeBase
         player2 = new PlayerFootball();
         playerFootballs.Add(player1);
         playerFootballs.Add(player2);
-        player1.PlayerIndex = players[0].playerIndex;
-        player2.PlayerIndex = players[1].playerIndex;
-        player1.playerInput = players[0].GetComponent<PlayerInput>();
-        player2.playerInput = players[1].GetComponent<PlayerInput>();
+
+        var p1 = 0;
+        var p2 = 1;
+        if (players[p1].playerIndex != p1)
+        {
+            p1 = 1;
+            p2 = 0;
+        }
+        player1.PlayerIndex = players[p1].playerIndex;
+        player2.PlayerIndex = players[p2].playerIndex;
+        player1.playerInput = players[p1].GetComponent<PlayerInput>();
+        player2.playerInput = players[p2].GetComponent<PlayerInput>();
+        player1.CarTransform = players[p1].carTransform;
+        player2.CarTransform = players[p2].carTransform;
+        
+        
 
         var cameraInstance1 = Instantiate(cameraPrefab);
         var cameraInstance2 = Instantiate(cameraPrefab);
@@ -81,12 +157,12 @@ public class GameModeFootball : GameModeBase
         var cm2 = cameraInstance2.GetComponentInChildren<CinemachineFreeLook>();
         cm2.gameObject.layer = layerOfPlayer2;
 
-        cm1.m_Follow = players[0].carTransform;
-        cm1.m_LookAt = players[0].carTransform;
+        cm1.m_Follow = player1.CarTransform;
+        cm1.m_LookAt = player1.CarTransform;
 
         
-        cm2.m_Follow = players[1].carTransform;
-        cm2.m_LookAt = players[1].carTransform;
+        cm2.m_Follow = player2.CarTransform;
+        cm2.m_LookAt = player2.CarTransform;
         
         PlayerInputManager.instance.splitScreen = true;
         
@@ -108,15 +184,5 @@ public class GameModeFootball : GameModeBase
         {
             cm2InputHandler.isMouse = true;
         }
-    }
-    
-
-    private void FixedUpdate()
-    {
-        var lookValue = playerFootballs[1].playerInput.actions.FindAction("Look").ReadValue<Vector2>();
-
-        var lookValue2 = playerFootballs[0].playerInput.actions.FindAction("Look").ReadValue<Vector2>();
-        Debug.Log("LookValue of mouse: "+lookValue);
-        Debug.Log("LookValue of gamepad: "+lookValue2);
     }
 }
