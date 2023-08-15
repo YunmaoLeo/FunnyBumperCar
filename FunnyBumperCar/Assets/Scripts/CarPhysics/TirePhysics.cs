@@ -48,6 +48,7 @@ public class TirePhysics : MonoBehaviour
     private float tireForwardGripFactor = 1.2f;
 
     [SerializeField] private float tireLateralGripFactor = 2f;
+    [SerializeField] private Transform BottomHalfCollider;
 
     private float forwardFrictionForce;
 
@@ -165,6 +166,9 @@ public class TirePhysics : MonoBehaviour
         }
     }
 
+    [HideInInspector]
+    public float springOffset;
+
     /**
      * 1. Simulate Suspension Force and add on carRigidbody;
      * 2. Update Tire Position According to the suspension system.
@@ -186,6 +190,7 @@ public class TirePhysics : MonoBehaviour
         var suspensionRestDist = springDefaultLength;
 
         float offset = springDefaultLength - (springMinLength + minRaycastDistance);
+        springOffset = offset;
 
         float springVelocity = Vector3.Dot(springDirection, wheelWorldVelocity);
 
@@ -391,9 +396,11 @@ public class TirePhysics : MonoBehaviour
         }
     }
 
+    [SerializeField] private float ActiveBottomColliderMaxOffset = 0f;
     public bool DetectHitAboveHalfTire()
     {
-        return Vector3.Dot(transform.position - _currentHitPoint.raycastHit.point, transform.up) < 0;
+        var startPosition = transform.position - (transform.up) * (ActiveBottomColliderMaxOffset * tireRadius);
+        return Vector3.Dot( startPosition- _currentHitPoint.raycastHit.point, transform.up) < 0;
     }
 
     [SerializeField] private float distanceToApplyFriction = 0.5f;
@@ -586,5 +593,10 @@ public class TirePhysics : MonoBehaviour
         lateralFrictionForce += tireMass * desiredAccel;
         
         lateralFrictionForce = Mathf.Clamp(lateralFrictionForce, -peakSideFrictionForce, +peakSideFrictionForce);
+    }
+
+    public void SetBottomHalfCollider(bool enable)
+    {
+        BottomHalfCollider.gameObject.SetActive(enable);
     }
 }

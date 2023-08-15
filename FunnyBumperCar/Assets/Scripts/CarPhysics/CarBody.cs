@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -73,7 +72,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
     [SerializeField] private PlayerIndicator PlayerIndicatorUIPrefab;
     private PlayerIndicator PlayerIndicatorUI;
-    
+
     private List<AddonSlot> slotLists = new List<AddonSlot>();
 
     private List<GameObject> colliderObjects;
@@ -247,7 +246,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
 
         addonSlot.EquipSpecificCarAddon(this, addonContainerPrefab);
-        
+
         InitializeCarBodyCollider();
         return true;
     }
@@ -390,10 +389,12 @@ public class CarBody : MonoBehaviour, ICanBeExploded
             {
                 // is hit top half, active mesh collider of bottom half;
                 // and we disable tire self adaption;
+                tirePhysics.SetBottomHalfCollider(true);
             }
             else
             {
                 tirePhysics.SimulateSuspensionSystem(tireConnectPoint, CarRigidbody, minRaycastDistance);
+                tirePhysics.SetBottomHalfCollider(false);
             }
 
             if (ableToSteer)
@@ -413,6 +414,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
             tirePhysics.AddInverseForceToHitPoint();
         }
+
         ResetColliders();
 
         if (tiresContactToGroundCount != 4)
@@ -655,6 +657,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     }
 
     public Camera playerIndicatorTargetCamera;
+
     public void InitializePlayerIndicatorUI()
     {
         PlayerIndicatorUI = Instantiate(PlayerIndicatorUIPrefab, transform);
@@ -669,10 +672,11 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
     public void HidePlayerIndicatorUI()
     {
-        PlayerIndicatorUI.HideUI();;
+        PlayerIndicatorUI.HideUI();
+        ;
     }
-    
-    
+
+
     public void SetIndicatorLookAtCamera(Camera targetCamera)
     {
         PlayerIndicatorUI.SetLookAtCamera(targetCamera);
