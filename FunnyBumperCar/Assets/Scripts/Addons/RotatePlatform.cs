@@ -6,8 +6,11 @@ using UnityEngine;
 public class RotatePlatform : MonoBehaviour
 {
     [SerializeField] private float angularVelocity = 0.5f;
-    [SerializeField] private Rigidbody rb;
+    private Rigidbody rb;
     [SerializeField] private float speed = 0.001f;
+
+    [SerializeField] private Vector3 axisOfRotation;
+    
     
     private void Awake()
     {
@@ -18,11 +21,18 @@ public class RotatePlatform : MonoBehaviour
     {
         var rotateAngle = (float)(360f / (2f * Math.PI) * angularVelocity * Time.fixedDeltaTime);
         rotateAngle %= 360.0f;
-        var newQuaternion = Quaternion.Euler(new Vector3(0,rotateAngle,0));
-        
-        rb.MoveRotation(rb.rotation* newQuaternion);
+
+        var deltaQ = Quaternion.AngleAxis(rotateAngle, axisOfRotation);
+        var targetRotation = transform.rotation * deltaQ;
+
+        rb.MoveRotation(targetRotation);
         var newPosition = rb.position;
         newPosition.z += speed;
         rb.MovePosition(newPosition);
+    }
+
+    public int getBoolInt(bool input)
+    {
+        return input ? 1 : 0;
     }
 }

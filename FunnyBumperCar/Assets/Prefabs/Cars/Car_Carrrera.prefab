@@ -2060,8 +2060,8 @@ MonoBehaviour:
   fixedDeltaTime: 0.005
   maxEngineVelocity: 0
   maxEngineVelocityCoefficient: 12
-  engineMaxTorque: 700
-  tireDriveMode: 1
+  engineMaxTorque: 500
+  tireDriveMode: 2
   tireSteerMode: 2
   steerRotateTime: 0.2
   engineTorqueCurve:
@@ -2145,6 +2145,7 @@ MonoBehaviour:
     type: 3}
   TestChangeCommand: 0
   TestChangeCommandTargetValue: 0
+  playerIndicatorTargetCamera: {fileID: 0}
 --- !u!65 &5355732669754129578
 BoxCollider:
   m_ObjectHideFlags: 0
