@@ -136,7 +136,7 @@ public class TirePhysics : MonoBehaviour
     {
         tireVisual = GetComponent<TireVisual>();
         tireVisual.Radius = tireRadius;
-        tireRb = GetComponent<Rigidbody>();
+        tireRb = GetComponentInChildren<Rigidbody>();
     }
 
     /**

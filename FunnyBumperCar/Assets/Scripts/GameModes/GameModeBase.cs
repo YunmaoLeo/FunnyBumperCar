@@ -8,7 +8,7 @@ public class GameModeBase : MonoBehaviour
     [SerializeField] protected List<Transform> carSpawnPoints;
     [SerializeField] protected string modeName;
     private PlayerInputManager playerInputManager;
-    [SerializeField] private Canvas GameOverUI;
+    [SerializeField] protected Canvas GameOverUI;
     
     protected List<Player> players = new List<Player>();
 

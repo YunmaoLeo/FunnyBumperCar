@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -91,18 +92,28 @@ public class GameModeFootball : GameModeBase
         UpdateScoreBoard();
         
         CheckWinState();
-
-        ResetGameState(onSoccerInGoalWinShowTime);
+        if (isGameOver)
+        {
+            OnGameOver();
+        }
+        else
+        {
+            ResetGameState(onSoccerInGoalWinShowTime);
+        }
     }
 
     protected override void OnGameOver()
     {
+        GameOverUI.GetComponent<FootballGameOverUI>().SetWinnerText(player1.score>player2.score ? player1.PlayerIndex : player2.PlayerIndex);
         base.OnGameOver();
     }
 
     private void CheckWinState()
     {
-        isGameOver = true;
+        if (player1.score >= scoreToWinTheGame || player2.score >= scoreToWinTheGame)
+        {
+            isGameOver = true;
+        }
     }
 
     private void UpdateScoreBoard()

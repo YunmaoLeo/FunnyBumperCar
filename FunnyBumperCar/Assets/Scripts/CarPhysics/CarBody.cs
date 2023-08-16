@@ -393,9 +393,11 @@ public class CarBody : MonoBehaviour, ICanBeExploded
             }
             else
             {
-                tirePhysics.SimulateSuspensionSystem(tireConnectPoint, CarRigidbody, minRaycastDistance);
+                // tirePhysics.SetBottomHalfCollider(tirePhysics.springOffset < 0f);
                 tirePhysics.SetBottomHalfCollider(false);
             }
+            
+            tirePhysics.SimulateSuspensionSystem(tireConnectPoint, CarRigidbody, minRaycastDistance);
 
             if (ableToSteer)
             {
