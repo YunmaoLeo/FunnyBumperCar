@@ -40,6 +40,7 @@ MonoBehaviour:
   - {fileID: 3543289598363116449, guid: 31db16e50949f174d9dfe3ddadbc328f, type: 3}
   - {fileID: 6981895399783706324, guid: bfb70a556d2142d4da282e6da4db1d2a, type: 3}
   - {fileID: 478803169245902050, guid: f92651877231ea347a87068a398422e8, type: 3}
+  - {fileID: 6525164953091217941, guid: 74a307c1c047a50469ac15dddcbac517, type: 3}
   CarBodysSprites:
   - {fileID: 21300000, guid: 1b20a8c417aa25145be7daff40e2f0d7, type: 3}
   - {fileID: 21300000, guid: 8a9ea63cb6a0bca4795d4ec6f717890e, type: 3}
@@ -68,3 +69,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 0c132cf803a37e740a1decf04907088f, type: 3}
   - {fileID: 21300000, guid: 289f3319573c632419321e717f9c5c18, type: 3}
   - {fileID: 21300000, guid: c191f903425b6c9408b8896218c9ce2e, type: 3}
+  - {fileID: 21300000, guid: ca4eeda666a83724e8955c73497ff06b, type: 3}

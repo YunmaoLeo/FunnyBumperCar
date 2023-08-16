@@ -2,8 +2,7 @@
 
 public class AddonContainer : MonoBehaviour
 {
-    
-    [SerializeField] public int ContainerID;
+    [SerializeField] public string ContainerName;
     [SerializeField] protected AddonObject Addon;
 
 

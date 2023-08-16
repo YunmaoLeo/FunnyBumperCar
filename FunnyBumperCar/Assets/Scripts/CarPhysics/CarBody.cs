@@ -233,8 +233,8 @@ public class CarBody : MonoBehaviour, ICanBeExploded
             return RemoveCarAddon(slotType);
         }
 
-        if (addonSlot.GetAddonContainer() != null && addonSlot.GetAddonContainer().ContainerID ==
-            addonContainerPrefab.GetComponent<AddonContainer_Car>().ContainerID)
+        if (addonSlot.GetAddonContainer() != null && addonSlot.GetAddonContainer().ContainerName ==
+            addonContainerPrefab.GetComponent<AddonContainer_Car>().ContainerName)
         {
             return false;
         }
