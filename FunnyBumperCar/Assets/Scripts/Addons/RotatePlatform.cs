@@ -31,7 +31,7 @@ public class RotatePlatform : MonoBehaviour
         rb.MovePosition(newPosition);
     }
 
-    public int getBoolInt(bool input)
+    public int GetBoolInt(bool input)
     {
         return input ? 1 : 0;
     }
