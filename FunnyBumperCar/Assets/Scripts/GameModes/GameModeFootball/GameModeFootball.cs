@@ -62,7 +62,18 @@ public class GameModeFootball : GameModeBase
     private void ControlFocusBallCamera(bool enable)
     {
         focusBallCamera.Priority = enable ? 100 : -1;
+        
+
+        if (enable)
+        {
+            PlayerInputManager.instance.splitScreen = false;
+        }
+        else
+        {
+            SetScreenSplit();
+        }
     }
+    
 
     private void AssignFocusBallCamera()
     {
@@ -178,10 +189,7 @@ public class GameModeFootball : GameModeBase
         cm2.m_Follow = player2.CarTransform;
         cm2.m_LookAt = player2.CarTransform;
         
-        PlayerInputManager.instance.splitScreen = true;
-        
-        player1.playerInput.camera.rect = new Rect(0, 0, 1, 0.5f);
-        player2.playerInput.camera.rect = new Rect(0, 0.5f, 1, 0.5f);
+        SetScreenSplit();
         //
         var cm1InputHandler = cm1.GetComponent<FreeLookCameraInputHandler>();
         var cm2InputHandler = cm2.GetComponent<FreeLookCameraInputHandler>();
@@ -198,5 +206,13 @@ public class GameModeFootball : GameModeBase
         {
             cm2InputHandler.isMouse = true;
         }
+    }
+
+    private void SetScreenSplit()
+    {
+        PlayerInputManager.instance.splitScreen = true;
+        
+        player1.playerInput.camera.rect = new Rect(0, 0, 1, 0.5f);
+        player2.playerInput.camera.rect = new Rect(0, 0.5f, 1, 0.5f);
     }
 }

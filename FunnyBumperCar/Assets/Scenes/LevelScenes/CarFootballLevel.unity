@@ -4123,8 +4123,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 224649151}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 29.029284, y: -26.16, z: -19.774172}
-  m_LocalScale: {x: 1, y: 1, z: 1.65}
+  m_LocalPosition: {x: 29.029284, y: -26.16, z: -20.26}
+  m_LocalScale: {x: 1, y: 1.1585, z: 1.65}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2126198224}
@@ -4611,6 +4611,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SoccerGoal (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560841508098767289, guid: 16670c5341c3dc1489c1e7d40bc715d3,
+        type: 3}
+      propertyPath: PlayerIndex
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16670c5341c3dc1489c1e7d40bc715d3, type: 3}
@@ -6540,6 +6545,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5083768121795131545, guid: b9cfb4c20939920469b349efa9970dfc,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5353730998398241718, guid: b9cfb4c20939920469b349efa9970dfc,
         type: 3}
       propertyPath: m_Name
@@ -8019,7 +8029,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh496320
+  m_Name: pb_Mesh91740
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10560,7 +10570,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh495344
+  m_Name: pb_Mesh90754
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -11930,8 +11940,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 882820964}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -29.130716, y: -26.16, z: 68.18583}
-  m_LocalScale: {x: 1, y: 1, z: 1.65}
+  m_LocalPosition: {x: -29.130716, y: -26.16, z: 67.57}
+  m_LocalScale: {x: 1, y: 1.0667, z: 1.65}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2126198224}
@@ -18225,7 +18235,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh496276
+  m_Name: pb_Mesh91696
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -21821,7 +21831,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh494856
+  m_Name: pb_Mesh90258
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -22254,7 +22264,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh495986
+  m_Name: pb_Mesh91406
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -23504,7 +23514,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1713027000}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -29.130716, y: -26.16, z: 75.50583}
+  m_LocalPosition: {x: -29.130716, y: -26.12, z: 76}
   m_LocalScale: {x: 1, y: 1, z: 1.65}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24416,7 +24426,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh496100
+  m_Name: pb_Mesh91520
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -25305,6 +25315,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 084d921cb062a3246bd5065ec742867e, type: 2}
+    - target: {fileID: 5897202754229514193, guid: 250b31cee39137e4cbca7efd8324c51c,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 250b31cee39137e4cbca7efd8324c51c, type: 3}
 --- !u!4 &1881148303 stripped
@@ -27661,8 +27676,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1947887731}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.029284, y: -26.16, z: -12.454172}
-  m_LocalScale: {x: 1, y: 1, z: 1.65}
+  m_LocalPosition: {x: 29.029284, y: -26.16, z: -12}
+  m_LocalScale: {x: 1, y: 1.1585, z: 1.65}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2126198224}
@@ -27857,6 +27872,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 6404fd4f175ea634bbf7aa2b223188f8, type: 2}
+    - target: {fileID: 8984408901560244313, guid: bb881ed4d95a2674a9d4e917025ece1d,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb881ed4d95a2674a9d4e917025ece1d, type: 3}
 --- !u!4 &1976215410 stripped
@@ -30609,6 +30629,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SoccerGoal
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560841508098767289, guid: 16670c5341c3dc1489c1e7d40bc715d3,
+        type: 3}
+      propertyPath: PlayerIndex
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16670c5341c3dc1489c1e7d40bc715d3, type: 3}
