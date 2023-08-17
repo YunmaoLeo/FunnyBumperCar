@@ -8,11 +8,13 @@ using UnityEngine.SceneManagement;
 public class CarAssembleManager : MonoBehaviour
 {
     [SerializeField] private List<CarPresentPlatform> assemblePositionLists;
-    [SerializeField] private List<SceneAsset> GameScenes; 
-    
+    [SerializeField] private List<SceneAsset> GameScenes;
+
+    private List<Transform> readyCarList = new List<Transform>();
     private PlayerInputManager playerInputManager;
     protected List<PlayerInput> playerInputs = new List<PlayerInput>();
     private List<bool> playerAssembleDoneList = new List<bool>();
+    private List<InputActionMap> selectionMaps = new List<InputActionMap>();
 
     public static CarAssembleManager Instance { get; private set; }
     private void Awake()
@@ -27,9 +29,11 @@ public class CarAssembleManager : MonoBehaviour
         InitializePlayers();
     }
 
-    public void OnCarAssembleStateChange(int playerIndex)
+    public void OnCarAssembleStateChange(int playerIndex, Transform car, InputActionMap selectionMap )
     {
         playerAssembleDoneList[playerIndex] = !playerAssembleDoneList[playerIndex];
+        readyCarList.Add(car);
+        selectionMaps.Add(selectionMap);
 
         bool isAllDone = true;
         foreach (var b in playerAssembleDoneList)
@@ -42,6 +46,17 @@ public class CarAssembleManager : MonoBehaviour
 
         if (isAllDone)
         {
+            foreach (var transform1 in readyCarList)
+            {
+                transform1.SetParent(null);
+                DontDestroyOnLoad(transform1);
+            }
+            
+            foreach (var inputActionMap in selectionMaps)
+            {
+                inputActionMap.Disable();
+            }
+
             LoadNewScene();
         }
     }

@@ -11,14 +11,11 @@ public class MeshDeformation : MonoBehaviour
     [SerializeField] private float maxDeformation = 0.5f;
     [SerializeField] private float minVelocity = 2f;
     private float delayTimeDeform = 0.1f;
-    private float minVertsDistanceToRestore = 0.002f;
     private float vertsRestoreSpeed = 2f;
     private Vector3[][] originalVertices;
-    private float nextTimeDeform = 0f;   
-    private bool isRepairing = false;
-    private bool isRepaired = false;
+    private float nextTimeDeform = 0f;
 
-	private void Start()
+    private void Start()
     {
         originalVertices = new Vector3[meshFilters.Length][];
 
@@ -77,8 +74,6 @@ public class MeshDeformation : MonoBehaviour
         {
             if (collision.relativeVelocity.magnitude > minVelocity)
             {
-                isRepaired = false;
-                
                 Vector3 contactPoint = collision.contacts[0].point;
                 Vector3 contactVelocity = collision.relativeVelocity * 0.02f;
 
@@ -91,53 +86,6 @@ public class MeshDeformation : MonoBehaviour
                 }
 
                 nextTimeDeform = Time.time + delayTimeDeform;
-            }
-        }
-    }
-
-    private void RestoreMesh()
-    {
-        if (!isRepaired && isRepairing)
-        {
-            isRepaired = true;
-
-            for (int i = 0; i < meshFilters.Length; i++)
-            {
-                Mesh mesh = meshFilters[i].mesh;
-                Vector3[] vertices = mesh.vertices;
-                Vector3[] origVerts = originalVertices[i];
-
-                for (int j = 0; j < vertices.Length; j++)
-                {
-                    vertices[j] += (origVerts[j] - vertices[j]) * Time.deltaTime * vertsRestoreSpeed;
-
-                    if ((origVerts[j] - vertices[j]).magnitude > minVertsDistanceToRestore)
-                    {
-                        isRepaired = false;
-                    }
-                }
-
-                mesh.vertices = vertices;
-                mesh.RecalculateNormals();
-                mesh.RecalculateBounds();
-
-                if (colliders[i] != null)
-                {
-                    colliders[i].sharedMesh = mesh;
-                }
-            }
-
-            if (isRepaired)
-            {
-                isRepairing = false;
-
-                for (int i = 0; i < meshFilters.Length; i++)
-                {
-                    if (colliders[i] != null)
-                    {
-                        colliders[i].sharedMesh = meshFilters[i].mesh;
-                    }
-                }
             }
         }
     }

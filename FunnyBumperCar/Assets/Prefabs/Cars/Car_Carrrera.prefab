@@ -2188,9 +2188,9 @@ MonoBehaviour:
   - {fileID: 6792076710968083705}
   colliders:
   - {fileID: 6400000, guid: 187f969f1c3705149a7884043194c2e8, type: 3}
-  impactDamage: 5
-  deformationRadius: 0.5
-  maxDeformation: 1
+  impactDamage: 1
+  deformationRadius: 0.3
+  maxDeformation: 0.2
   minVelocity: 2
 --- !u!1 &8649703101809459527
 GameObject:
