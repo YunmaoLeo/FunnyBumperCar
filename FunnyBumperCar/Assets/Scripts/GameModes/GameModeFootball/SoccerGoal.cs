@@ -7,6 +7,7 @@ public class SoccerGoal : MonoBehaviour
     public Action<int> OnPlayerGetScore;
 
     public int PlayerIndex;
+    public ParticleSystem OnGoalFX;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,6 +20,7 @@ public class SoccerGoal : MonoBehaviour
         if (soccer.isActive)
         {
             OnPlayerGetScore?.Invoke(PlayerIndex);
+            OnGoalFX.Play();
         }
     }
 }

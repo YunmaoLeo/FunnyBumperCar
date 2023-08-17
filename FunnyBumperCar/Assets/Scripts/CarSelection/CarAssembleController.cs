@@ -45,7 +45,7 @@ public class CarAssembleController : MonoBehaviour
     {
         if (newCar.TryGetComponent<CarBody>(out CarBody bodyComponent))
         {
-            if (carBody.CarID == bodyComponent.CarID)
+            if (carBody.CarName == bodyComponent.CarName)
             {
                 return;
             }

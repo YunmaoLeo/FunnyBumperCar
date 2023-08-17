@@ -58,7 +58,6 @@ public class Player : MonoBehaviour
         player.Enable();
         isGamePlaying = true;
         carBody = carTransform.GetComponent<CarBody>();
-        carBody.CarID = playerIndex;
         carBody.BindAddonInputActions(player);
         //initialize carManager;
         CarsAndCameraManager.Instance.RegisterCar(carTransform, playerIndex);

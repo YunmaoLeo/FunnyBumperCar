@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class CarBody : MonoBehaviour, ICanBeExploded
 {
     public int CarID;
+    public string CarName;
     [SerializeField] private float fixedDeltaTime = 0.005f;
 
     [SerializeField] private float maxEngineVelocity;
@@ -76,6 +77,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     private List<AddonSlot> slotLists = new List<AddonSlot>();
 
     private List<GameObject> colliderObjects;
+    private List<Collider> colliderList;
     private List<int> initColliderLayers;
 
     public float TireRotateSignal { get; set; }
@@ -322,8 +324,14 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     [SerializeField] private bool TestChangeCommand = false;
     [SerializeField] private float TestChangeCommandTargetValue = 0f;
 
+    [SerializeField] private bool triggerInitializeCollider;
     private void FixedUpdate()
     {
+        if (triggerInitializeCollider)
+        {
+            InitializeCarBodyCollider();
+            triggerInitializeCollider = false;
+        }
         Time.fixedDeltaTime = fixedDeltaTime;
         CarTireSimulation();
 
@@ -625,12 +633,18 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     {
         colliderObjects = new List<GameObject>();
         initColliderLayers = new List<int>();
+        colliderList = new List<Collider>();
 
-        Collider[] colliders = GetComponentsInChildren<Collider>();
+        Collider[] colliders = GetComponentsInChildren<Collider>(true);
         foreach (var c in colliders)
         {
             GameObject colliderObject = c.gameObject;
-            if (colliderObject.layer == 2) continue;
+            
+            
+            if (colliderObject.layer == 2)
+            {
+                continue;
+            }
             colliderObjects.Add(colliderObject);
             initColliderLayers.Add(colliderObject.layer);
         }
@@ -645,6 +659,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
                 colliderObject.layer = 2;
             }
         }
+        
     }
 
     private void ResetColliders()

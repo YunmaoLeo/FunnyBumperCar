@@ -335,7 +335,8 @@ public class TirePhysics : MonoBehaviour
 
     public bool ColliderBasedRaycast(CarBody carBody, Transform tireConnectPoint, out float minRaycastDistance)
     {
-        bool raycastResult = false;
+        LayerMask rayCastLayerMask = ~LayerMask.GetMask("Ignore Raycast");
+;        bool raycastResult = false;
         minRaycastDistance = Single.MaxValue;
 
         var origin = tireConnectPoint.position + springMinLength * (-tireConnectPoint.up);
@@ -345,18 +346,38 @@ public class TirePhysics : MonoBehaviour
         var rbPosition = tireRb.position;
 
         // let sphere cast do a filter job;
-        bool sphereCastResult = Physics.SphereCast(origin, tireRadius, direction, out var raycastHit,
-            springMaxLength - springMinLength);
-        if (!sphereCastResult)
-        {
-            isContactToGround = false;
-            return false;
-        }
+        // bool sphereCastResult = Physics.SphereCast(origin, tireRadius, direction, out var raycastHit,
+        //     springMaxLength - springMinLength);
+        // if (!sphereCastResult)
+        // {
+        //     isContactToGround = false;
+        //     return false;
+        // }
 
         tireRb.position = origin;
         transform.position = origin;
-        raycastResult = tireRb.SweepTest(direction, out raycastHit,
-            springMaxLength - springMinLength, QueryTriggerInteraction.Ignore);
+        // raycastResult = tireRb.SweepTest(direction, out var raycastHit,
+        //     );
+        float minDistance = Single.MaxValue;
+
+        RaycastHit raycastHit = new RaycastHit();
+        var raycastResults =
+            tireRb.SweepTestAll(direction, springMaxLength - springMinLength, QueryTriggerInteraction.Ignore);
+        foreach (var hit in raycastResults)
+        {
+            if (hit.collider.gameObject.layer == 2)
+            {
+                continue;
+            }
+
+            if (hit.distance < minDistance)
+            {
+                raycastResult = true;
+                raycastHit = hit;
+                minDistance = hit.distance;
+            }
+        }
+
 
         transform.position = initialPosition;
         tireRb.position = initialPosition;
@@ -380,6 +401,7 @@ public class TirePhysics : MonoBehaviour
         }
 
         isContactToGround = true;
+        Debug.Log("hit: "+ raycastHit.collider.name);
         return true;
     }
 
