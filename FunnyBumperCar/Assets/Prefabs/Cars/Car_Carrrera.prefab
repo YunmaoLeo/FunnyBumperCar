@@ -2829,6 +2829,12 @@ PrefabInstance:
       propertyPath: CarAddonPrefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 103937600709461394, guid: 6faafac07bf123743a809e0a027d24cb,
+        type: 3}
+      propertyPath: CarAddonContainerPrefab
+      value: 
+      objectReference: {fileID: 6979112074168644737, guid: 878752f151d11ab4e955793b203b282e,
+        type: 3}
     - target: {fileID: 6932048180553425496, guid: 6faafac07bf123743a809e0a027d24cb,
         type: 3}
       propertyPath: m_LocalRotation.w

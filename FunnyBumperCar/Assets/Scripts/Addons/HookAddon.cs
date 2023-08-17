@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,6 +21,9 @@ public class HookAddon : AddonObject
     [SerializeField] private float minDistance = 0.2f;
 
     [SerializeField] private float hookCD = 8f;
+
+    public List<Vector3> ropePoints = new List<Vector3>();
+
     // [SerializeField] private ConfigurableJoint hookConfigJoint;
     private float hookCDTimer = 5f;
     private float retrieveTimer = 0f;
@@ -43,11 +47,19 @@ public class HookAddon : AddonObject
         fixedJoint.connectedBody = rigidbody;
 
         hookDefaultPosition = hookTransform.localPosition;
+        
+        ropePoints.Add(hookBase.position);
+        ropePoints.Add(hookTransform.position);
+    }
+
+    private void Update()
+    {
     }
 
     private void FixedUpdate()
     {
-        UpdateRope();
+        UpdateRopePoints();
+        UpdateRopeRenderer();
 
         switch (hookState)
         {
@@ -127,14 +139,38 @@ public class HookAddon : AddonObject
         }
     }
 
-    private void UpdateRope()
+
+    private void UpdateRopePoints()
     {
-        var p1 = hookBase.localPosition;
-        var p2 = hookTransform.localPosition;
+        //update start and end position;
+        ropePoints[0] = hookBase.position;
+        ropePoints[^1] = hookTransform.position;
 
-        hookLine.SetPosition(0, p1);
-        hookLine.SetPosition(1, p2);
+        var lastPointPos = ropePoints[^1];
+        var lastTwoPointPos = ropePoints[^2];
+        RaycastHit hit;
+        if (Physics.Linecast(lastPointPos, lastTwoPointPos, out hit))
+        {
+            ropePoints.RemoveAt(ropePoints.Count - 1);
+            ropePoints.Add(hit.point + hit.normal * 0.02f);
+            ropePoints.Add(lastPointPos);
+        }
 
+        // if (ropePoints.Count > 2)
+        // {
+            while (ropePoints.Count > 2 && !Physics.Linecast(lastPointPos, ropePoints[^3], out hit))
+            {
+                ropePoints.RemoveAt(ropePoints.Count - 2);
+            }
+        // }
+        
+        
 
+    }
+
+    private void UpdateRopeRenderer()
+    {
+        hookLine.positionCount = ropePoints.Count;
+        hookLine.SetPositions(ropePoints.ToArray());
     }
 }
