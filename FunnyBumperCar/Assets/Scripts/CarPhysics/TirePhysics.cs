@@ -401,7 +401,6 @@ public class TirePhysics : MonoBehaviour
         }
 
         isContactToGround = true;
-        Debug.Log("hit: "+ raycastHit.collider.name);
         return true;
     }
 

@@ -19,6 +19,10 @@ MonoBehaviour:
   - {fileID: 4167622156774614021, guid: dfa66eb6079992d43a2592da50a1ae8f, type: 3}
   - {fileID: 6895525635193646519, guid: 3940fce1330307f4aa9b0acda382c7ee, type: 3}
   - {fileID: 912489831784948718, guid: 692b0e3ec14cf89479d5d4cb854f1815, type: 3}
+  - {fileID: 212631455135164271, guid: 44f5f75119a39e141823429d34ca4bc9, type: 3}
+  - {fileID: 5277941747607404472, guid: e53cd62622dad6b42a0add771eecae42, type: 3}
+  - {fileID: 2920703305261902202, guid: 5a99b4cd162e3d84f958ebd04aba8976, type: 3}
+  - {fileID: 2065318851291162047, guid: 0208af77f8bd52e478c07d737f4fb256, type: 3}
   LeftTiresList:
   - {fileID: 1416034816194826421, guid: bacb8f1addcd88441941e2458880bc24, type: 3}
   - {fileID: 1416034816194826421, guid: ac4fee8c5d8c10d418b77b9281b13e13, type: 3}
@@ -50,6 +54,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d1a8c3e6b02b288498dcb687b8ca0304, type: 3}
   - {fileID: 21300000, guid: a5f264e95b8cd094b9acd5b3c9d6604c, type: 3}
   - {fileID: 21300000, guid: a5f264e95b8cd094b9acd5b3c9d6604c, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   LeftTireSprites:
   - {fileID: 21300000, guid: d38c601e94b481d4dbaefd7ea84b8ef6, type: 3}

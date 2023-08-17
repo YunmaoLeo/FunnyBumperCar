@@ -9,6 +9,7 @@ public class TireVisual : MonoBehaviour
     private float radius = 0.3f;
     private float worldVelocity;
     private Transform wheelMeshTransform;
+    [SerializeField] private bool isWheelRotate = true;
 
     private void Awake()
     {
@@ -39,6 +40,10 @@ public class TireVisual : MonoBehaviour
 
     public void UpdateRotation(float angularVelocity)
     {
+        if (!isWheelRotate)
+        {
+            return;
+        }
         var rotateAngle = (float)(360f / (2f * Math.PI) * angularVelocity * Time.fixedDeltaTime);
         var newQuaternion = Quaternion.Euler(new Vector3(rotateAngle,0,0));
         wheelMeshTransform.localRotation *= newQuaternion;
