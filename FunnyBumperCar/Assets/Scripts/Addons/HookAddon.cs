@@ -24,7 +24,7 @@ public class HookAddon : AddonObject
 
     public List<Vector3> ropePoints = new List<Vector3>();
 
-    // [SerializeField] private ConfigurableJoint hookConfigJoint;
+    [SerializeField] private ConfigurableJoint hookConfigJoint;
     private float hookCDTimer = 5f;
     private float retrieveTimer = 0f;
 
@@ -58,7 +58,7 @@ public class HookAddon : AddonObject
 
     private void FixedUpdate()
     {
-        UpdateRopePoints();
+        // UpdateRopePoints();
         UpdateRopeRenderer();
 
         switch (hookState)
@@ -67,7 +67,6 @@ public class HookAddon : AddonObject
                 hookCDTimer += Time.fixedDeltaTime;
                 break;
             case HookState.IsFindingTarget:
-                StretchHook();
                 if (GetCurrentDistance() > maxStretchLength || hook.isAttaching)
                 {
                     Retrieve();
@@ -75,18 +74,13 @@ public class HookAddon : AddonObject
                 break;
             case HookState.IsRetrieving:
                 retrieveTimer += Time.fixedDeltaTime;
-                hook.AddForceOnHookRope(this.hookBaseRb, retrieveForce);
                 if (retrieveTimer > maxDuration)
                 {
                     hook.LoseHook();
+                    hookState = HookState.Static;
                 }
 
-                if (!hook.isAttaching)
-                {
-                    RetrieveHook();
-                }
-
-                if (GetCurrentDistance() < minDistance || Vector3.Dot(hookTransform.position - hookBase.position, hookBase.forward) > 0)
+                if (GetCurrentDistance() < minDistance)
                 {
                     hook.LoseHook();
                     hookState = HookState.Static;
@@ -103,30 +97,27 @@ public class HookAddon : AddonObject
 
         return Vector3.Distance(basePos, hookPos);
     }
-
-    private void StretchHook()
-    {
-        hookTransform.position += -transform.forward * (Time.fixedDeltaTime * hookStretchSpeed);
-    }
     
-    private void RetrieveHook()
-    {
-        hookTransform.position -= -transform.forward * (Time.fixedDeltaTime * retrieveSpeed);
-    }
-    
-
     private void EjectHook()
     {
         hook.isActive = true;
         hookState = HookState.IsFindingTarget;
         hookCDTimer = 0f;
-        // hookConfigJoint.targetPosition = new Vector3(0, 0, maxStretchLength);
+        hookConfigJoint.targetPosition = new Vector3(0, 0, maxStretchLength);
+        var newJointDrive = hookConfigJoint.zDrive;
+        newJointDrive.positionSpring = ejectZDriveForce;
+        hookConfigJoint.zDrive = newJointDrive;
     }
+    [SerializeField] private float ejectZDriveForce = 30f;
+    [SerializeField] private float retrieveZDriveForce = 1000f;
 
     private void Retrieve()
     {
         hookState = HookState.IsRetrieving;
-        // hookConfigJoint.targetPosition = new Vector3(0, 0, 0);
+        hookConfigJoint.targetPosition = new Vector3(0, 0, 0);
+        var newJointDrive = hookConfigJoint.zDrive;
+        newJointDrive.positionSpring = retrieveZDriveForce;
+        hookConfigJoint.zDrive = newJointDrive;
         retrieveTimer = 0f;
     }
 
@@ -168,9 +159,13 @@ public class HookAddon : AddonObject
 
     }
 
+    [SerializeField] private Transform hookBaseConnectTransform;
+    [SerializeField] private Transform hookConnectTransform;
+    
     private void UpdateRopeRenderer()
     {
-        hookLine.positionCount = ropePoints.Count;
-        hookLine.SetPositions(ropePoints.ToArray());
+        hookLine.positionCount = 2;
+        hookLine.SetPosition(0, hookBase.position);
+        hookLine.SetPosition(1, hookConnectTransform.position);
     }
 }

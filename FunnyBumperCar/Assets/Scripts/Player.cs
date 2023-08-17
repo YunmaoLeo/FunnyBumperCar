@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -61,9 +62,9 @@ public class Player : MonoBehaviour
         carBody = carTransform.GetComponent<CarBody>();
         carBody.CarID = playerIndex;
         carBody.BindAddonInputActions(player);
-
         //initialize carManager;
         CarsAndCameraManager.Instance.RegisterCar(carTransform, playerIndex);
+        SceneManager.MoveGameObjectToScene(carBody.gameObject, SceneManager.GetActiveScene());
     }
 
     private void OnEnable()
