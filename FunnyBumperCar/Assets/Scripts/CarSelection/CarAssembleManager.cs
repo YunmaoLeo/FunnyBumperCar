@@ -16,6 +16,9 @@ public class CarAssembleManager : MonoBehaviour
     private List<bool> playerAssembleDoneList = new List<bool>();
     private List<InputActionMap> selectionMaps = new List<InputActionMap>();
 
+    [SerializeField] private Transform PlayerJoinHintText;
+    [SerializeField] private Transform HelpTextUI;
+    
     public static CarAssembleManager Instance { get; private set; }
     private void Awake()
     {
@@ -26,7 +29,7 @@ public class CarAssembleManager : MonoBehaviour
 
     private void Start()
     {
-        InitializePlayers();
+        // InitializePlayers();
     }
 
     public void OnCarAssembleStateChange(int playerIndex, Transform car, InputActionMap selectionMap )
@@ -36,6 +39,10 @@ public class CarAssembleManager : MonoBehaviour
         selectionMaps.Add(selectionMap);
 
         bool isAllDone = true;
+        if (readyCarList.Count < 2)
+        {
+            return;
+        }
         foreach (var b in playerAssembleDoneList)
         {
             if (!b)
@@ -65,6 +72,20 @@ public class CarAssembleManager : MonoBehaviour
     {
         var scene = GameScenes[0];
         SceneManager.LoadSceneAsync(scene.name);
+    }
+
+    public void InitializePlayer(PlayerInput playerInput)
+    {
+        DontDestroyOnLoad(playerInput);
+        playerInputs.Add(playerInput);
+        playerAssembleDoneList.Add(false);
+        if (playerInputs.Count == 2)
+        {
+            PlayerJoinHintText.gameObject.SetActive(false);
+        }
+        
+        HelpTextUI.gameObject.SetActive(true);
+
     }
 
     private void InitializePlayers()

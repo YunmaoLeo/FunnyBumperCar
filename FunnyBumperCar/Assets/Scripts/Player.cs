@@ -15,10 +15,11 @@ public class Player : MonoBehaviour
     private CarPresentPlatform presentPlarform;
 
     public int playerIndex;
+    private PlayerInput playerInput;
 
     private void Awake()
     {
-        var playerInput = GetComponent<PlayerInput>();
+       playerInput = GetComponent<PlayerInput>();
         player = playerInput.actions.FindActionMap("Player");
         selection = playerInput.actions.FindActionMap("Selection");
         playerIndex = playerInput.playerIndex;
@@ -31,6 +32,8 @@ public class Player : MonoBehaviour
         assembleController.carSpawnTransform = CarAssembleManager.Instance.GetAssemblePositionForCar(playerIndex);
         presentPlarform = assembleController.carSpawnTransform.GetComponentInParent<CarPresentPlatform>();
         assembleController.player = this;
+        
+        CarAssembleManager.Instance.InitializePlayer(playerInput);
     }
 
     public void BindSelectionInputActions(SelectorListUI listUI)
