@@ -228,7 +228,7 @@ PrefabInstance:
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: TireName
-      value: SuperCar
+      value: SuperCarSport
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
@@ -242,13 +242,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
+      propertyPath: steerAngle
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
       propertyPath: tireRadius
       value: 0.4888
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: frictionPeak
-      value: 3
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
+      propertyPath: sideLoadCoeff
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
@@ -273,7 +283,17 @@ PrefabInstance:
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: springMinLength
-      value: 0.2
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
+      propertyPath: assistSteerRatio
+      value: 0.076
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
+      propertyPath: forwardLoadCoeff
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
@@ -287,43 +307,58 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
+      propertyPath: tireForwardGripFactor
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
+      propertyPath: tireLateralGripFactor
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
+      propertyPath: gearDamperCausedBrakeTorque
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
       propertyPath: steeringCurve.m_Curve.Array.data[2].time
-      value: 0.89919364
+      value: 1.1301965
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: steeringCurve.m_Curve.Array.data[3].time
-      value: 1.5400391
+      value: 1.572113
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: steeringCurve.m_Curve.Array.data[2].value
-      value: 0.7995897
+      value: 0.8763109
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: steeringCurve.m_Curve.Array.data[3].value
-      value: 0.7533188
+      value: 0.87422943
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: steeringCurve.m_Curve.Array.data[1].inSlope
-      value: -0.433959
+      value: -0.37870538
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: steeringCurve.m_Curve.Array.data[3].inSlope
-      value: -0.07220291
+      value: -0.0047100605
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: steeringCurve.m_Curve.Array.data[1].outSlope
-      value: -0.433959
+      value: -0.37870538
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: steeringCurve.m_Curve.Array.data[3].outSlope
-      value: -0.07220291
+      value: -0.0047100605
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871266, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}

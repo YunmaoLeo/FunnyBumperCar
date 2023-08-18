@@ -297,7 +297,7 @@ MonoBehaviour:
   maxEngineVelocityCoefficient: 20
   engineMaxTorque: 1200
   tireDriveMode: 2
-  tireSteerMode: 2
+  tireSteerMode: 1
   steerRotateTime: 0.2
   engineTorqueCurve:
     serializedVersion: 2
@@ -378,6 +378,9 @@ MonoBehaviour:
   doorMaxCollideStrength: 10
   PlayerIndicatorUIPrefab: {fileID: -4741203564953807832, guid: 374218ebc5df31f449b279aed89495ee,
     type: 3}
+  escapeCD: 20
+  escapeForce: 100
+  EscapeTrigger: 0
   TestChangeCommand: 0
   TestChangeCommandTargetValue: 0
   triggerInitializeCollider: 0
@@ -4080,12 +4083,12 @@ PrefabInstance:
     - target: {fileID: 6932048180563746134, guid: 6faafac07bf123743a809e0a027d24cb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.637
+      value: 0.86
       objectReference: {fileID: 0}
     - target: {fileID: 6932048180563746134, guid: 6faafac07bf123743a809e0a027d24cb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.209
+      value: 3.078
       objectReference: {fileID: 0}
     - target: {fileID: 6932048180563746134, guid: 6faafac07bf123743a809e0a027d24cb,
         type: 3}

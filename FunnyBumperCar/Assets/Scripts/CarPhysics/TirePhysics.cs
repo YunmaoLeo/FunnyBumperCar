@@ -94,7 +94,7 @@ public class TirePhysics : MonoBehaviour
 
     private float signedOverallBrakeForceOnTireGear;
     private float signedOverallForceOnTireGear;
-    
+
     float sideSlipSign;
     float peakSideFrictionForce;
     float sideForce;
@@ -143,9 +143,10 @@ public class TirePhysics : MonoBehaviour
      * Steer tire rotation according to the control signal;
      * we control the whole tire transform along with mesh collider and visual tire;
      */
-    public void SteerTireRotation(float controlSignal, Transform carFrame, float steerRotateTime, bool isAssistTire)
+    public void SteerTireRotation(float controlSignal, Transform carFrame, float steerRotateTime, bool isAssistTire,
+        bool reverse)
     {
-        var steerRotateAngle = steerAngle * (isAssistTire ? -assistSteerRatio : 1f);
+        var steerRotateAngle = steerAngle * (isAssistTire ? -assistSteerRatio : 1f) * (reverse ? -1f : 1f);
         if (controlSignal == 0)
         {
             Quaternion newQuaternion = carFrame.rotation;
@@ -166,8 +167,7 @@ public class TirePhysics : MonoBehaviour
         }
     }
 
-    [HideInInspector]
-    public float springOffset;
+    [HideInInspector] public float springOffset;
 
     /**
      * 1. Simulate Suspension Force and add on carRigidbody;
@@ -252,7 +252,7 @@ public class TirePhysics : MonoBehaviour
         float desiredAccel = expectedVelChange / Time.fixedDeltaTime;
 
         var steeringForce = steeringDirection * (tireMass * desiredAccel);
-        
+
         lateralFrictionForce += tireMass * desiredAccel;
 
         Debug.DrawLine(tireTransform, tireTransform + steeringForce / carRigidbody.mass, Color.red, 0f, false);
@@ -336,7 +336,8 @@ public class TirePhysics : MonoBehaviour
     public bool ColliderBasedRaycast(CarBody carBody, Transform tireConnectPoint, out float minRaycastDistance)
     {
         LayerMask rayCastLayerMask = ~LayerMask.GetMask("Ignore Raycast");
-;        bool raycastResult = false;
+        ;
+        bool raycastResult = false;
         minRaycastDistance = Single.MaxValue;
 
         var origin = tireConnectPoint.position + springMinLength * (-tireConnectPoint.up);
@@ -418,10 +419,11 @@ public class TirePhysics : MonoBehaviour
     }
 
     [SerializeField] private float ActiveBottomColliderMaxOffset = 0f;
+
     public bool DetectHitAboveHalfTire()
     {
         var startPosition = transform.position - (transform.up) * (ActiveBottomColliderMaxOffset * tireRadius);
-        return Vector3.Dot( startPosition- _currentHitPoint.raycastHit.point, transform.up) < 0;
+        return Vector3.Dot(startPosition - _currentHitPoint.raycastHit.point, transform.up) < 0;
     }
 
     [SerializeField] private float distanceToApplyFriction = 0.5f;
@@ -455,7 +457,6 @@ public class TirePhysics : MonoBehaviour
         CalculateAngularVelocity();
 
         CalculateTireSideFriction(carBody);
-
     }
 
     private void CalculateBrakeAndEngineTorques()
@@ -568,10 +569,12 @@ public class TirePhysics : MonoBehaviour
         {
             //max brake torque = torqueMakeWheelStop + motorTorque;
             float maxBrakeTorque =
-                Mathf.Abs(GetForceForDeltaAngularV(angularVelocity, inertia, Time.fixedDeltaTime) * tireRadius + motorTorque);
+                Mathf.Abs(GetForceForDeltaAngularV(angularVelocity, inertia, Time.fixedDeltaTime) * tireRadius +
+                          motorTorque);
             float tireTorque = Mathf.Clamp(overallBrakeTorqueOnAir, -maxBrakeTorque, maxBrakeTorque);
             angularVelocity +=
-                GetDeltaAngularVForForce((motorTorque - GetDirection(angularVelocity) * tireTorque) / tireRadius, inertia,
+                GetDeltaAngularVForForce((motorTorque - GetDirection(angularVelocity) * tireTorque) / tireRadius,
+                    inertia,
                     Time.fixedDeltaTime);
         }
 
@@ -585,6 +588,7 @@ public class TirePhysics : MonoBehaviour
         {
             return;
         }
+
         // 处理轮胎接触平面与自身产生横向相对滑动时的力
         float absLateralSpeed = Mathf.Abs(_currentHitPoint.hitPointLateralSpeed);
         float lateralForceMax = carMass * 0.25f * absLateralSpeed / Time.fixedDeltaTime;
@@ -602,7 +606,7 @@ public class TirePhysics : MonoBehaviour
         float wheelForwardVelocity = Vector3.Dot(wheelVelocity, transform.forward);
 
         float steeringVelocity = Vector3.Dot(wheelVelocity, steeringDirection);
-        
+
         tireGripFactor = !carBody.IsDrifting
             ? steeringCurve.Evaluate(Math.Abs(wheelForwardVelocity / carBody.MaxEngineVelocity))
             : driftingTireGripFactor;
@@ -612,7 +616,7 @@ public class TirePhysics : MonoBehaviour
         float desiredAccel = expectedVelChange / Time.fixedDeltaTime;
 
         lateralFrictionForce += tireMass * desiredAccel;
-        
+
         lateralFrictionForce = Mathf.Clamp(lateralFrictionForce, -peakSideFrictionForce, +peakSideFrictionForce);
     }
 

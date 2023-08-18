@@ -2162,7 +2162,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5277941746627302871}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.42, y: 1.4, z: 3.311}
+  m_LocalPosition: {x: -1.42, y: 1.4, z: 3.311}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2193,7 +2193,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5277941746784491580}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.42, y: 1.4, z: 3.3109994}
+  m_LocalPosition: {x: 1.42, y: 1.4, z: 3.3109994}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2224,7 +2224,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5277941747218710635}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.42, y: 1.4, z: -0.019000173}
+  m_LocalPosition: {x: -1.42, y: 1.4, z: -0.019000173}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2311,7 +2311,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5277941747607404475}
   serializedVersion: 2
-  m_Mass: 1000
+  m_Mass: 1400
   m_Drag: 0.02
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -2337,24 +2337,24 @@ MonoBehaviour:
   maxEngineVelocity: 0
   maxEngineVelocityCoefficient: 12
   engineMaxTorque: 700
-  tireDriveMode: 2
-  tireSteerMode: 2
+  tireDriveMode: 1
+  tireSteerMode: 0
   steerRotateTime: 0.2
   engineTorqueCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.16334534
-      value: 2.9292603
-      inSlope: -4.293557
-      outSlope: -4.293557
+      time: -0.17884827
+      value: 1.019989
+      inSlope: 3.304289
+      outSlope: 3.304289
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.2869138
-      value: 0.9960469
+      time: 0.20939916
+      value: 2.3028708
       inSlope: 0.12665266
       outSlope: 0.12665266
       tangentMode: 0
@@ -2362,8 +2362,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.5506206
     - serializedVersion: 3
-      time: 0.6814738
-      value: 0.99813366
+      time: 0.7357348
+      value: 1.3874002
       inSlope: 0.09533096
       outSlope: 0.09533096
       tangentMode: 0
@@ -2419,6 +2419,9 @@ MonoBehaviour:
   doorMaxCollideStrength: 10
   PlayerIndicatorUIPrefab: {fileID: -4741203564953807832, guid: 374218ebc5df31f449b279aed89495ee,
     type: 3}
+  escapeCD: 20
+  escapeForce: 100
+  EscapeTrigger: 0
   TestChangeCommand: 0
   TestChangeCommandTargetValue: 0
   triggerInitializeCollider: 0
@@ -2467,7 +2470,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5277941748154387141}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.42, y: 1.4, z: -0.019}
+  m_LocalPosition: {x: 1.42, y: 1.4, z: -0.019}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []

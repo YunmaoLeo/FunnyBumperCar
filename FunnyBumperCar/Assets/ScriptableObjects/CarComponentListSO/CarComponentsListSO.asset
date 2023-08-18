@@ -13,10 +13,6 @@ MonoBehaviour:
   m_Name: CarComponentsListSO
   m_EditorClassIdentifier: 
   CarBodysList:
-  - {fileID: 8649703101789954409, guid: 3b968a565ec4b50448e4cc8bb43ded26, type: 3}
-  - {fileID: 7162830859457003593, guid: 81a8d66e6b9a3224e8bc7fc4f2f52736, type: 3}
-  - {fileID: 1333309364210638688, guid: 28b1a8b4d2ef5164399d452e38f7e3ee, type: 3}
-  - {fileID: 4167622156774614021, guid: dfa66eb6079992d43a2592da50a1ae8f, type: 3}
   - {fileID: 6895525635193646519, guid: 3940fce1330307f4aa9b0acda382c7ee, type: 3}
   - {fileID: 912489831784948718, guid: 692b0e3ec14cf89479d5d4cb854f1815, type: 3}
   - {fileID: 212631455135164271, guid: 44f5f75119a39e141823429d34ca4bc9, type: 3}
@@ -24,63 +20,57 @@ MonoBehaviour:
   - {fileID: 2920703305261902202, guid: 5a99b4cd162e3d84f958ebd04aba8976, type: 3}
   - {fileID: 2065318851291162047, guid: 0208af77f8bd52e478c07d737f4fb256, type: 3}
   LeftTiresList:
-  - {fileID: 1416034816194826421, guid: bacb8f1addcd88441941e2458880bc24, type: 3}
-  - {fileID: 1416034816194826421, guid: ac4fee8c5d8c10d418b77b9281b13e13, type: 3}
-  - {fileID: 7071111501055012146, guid: 24d7a962e0b7e5c479af3608d920e33f, type: 3}
-  - {fileID: 7071111501055012146, guid: 9999561b9085fa444b83a697300e6486, type: 3}
-  - {fileID: 7071111501055012146, guid: af352e00e13df7a44b62d8edf73e12ab, type: 3}
+  - {fileID: 1416034816194826421, guid: 86a15b1baf1377544bff4367a17ff813, type: 3}
+  - {fileID: 1416034816194826421, guid: e2ab53bcd1b409349bfd67261f0e5829, type: 3}
+  - {fileID: 1416034816194826421, guid: 5878c97f87537c44ab517034056efac7, type: 3}
+  - {fileID: 1416034816194826421, guid: d09ab05a8aaa7a9418ee309d730d9745, type: 3}
+  - {fileID: 1416034816194826421, guid: 67994ab5a55289c4e87b55d7698a4de3, type: 3}
+  - {fileID: 1416034816194826421, guid: d3ae3646ac72c8745bbd4283575e8e26, type: 3}
   - {fileID: 1416034816194826421, guid: 1725f8178c26e4042af1f2a0bb417a65, type: 3}
-  - {fileID: 1416034816194826421, guid: 3f3ff09e39585d541820d5a596ab1633, type: 3}
   RightTiresList:
-  - {fileID: 1416034816194826421, guid: c01b86e690d804146b3f331c78a2d221, type: 3}
-  - {fileID: 1416034816194826421, guid: d915448245055ac42bc9d0a01ccf8ca6, type: 3}
-  - {fileID: 7071111501055012146, guid: 476f8811757c27d44a253be24d97e320, type: 3}
-  - {fileID: 7071111501055012146, guid: 3c8fdda4d5da2514897a5ec11310ef26, type: 3}
-  - {fileID: 7071111501055012146, guid: af352e00e13df7a44b62d8edf73e12ab, type: 3}
+  - {fileID: 1416034816194826421, guid: e97eb20a4bf226949bdec409f598fbfb, type: 3}
+  - {fileID: 1416034816194826421, guid: 589a4d74b65d135478108846b77ec718, type: 3}
+  - {fileID: 1416034816194826421, guid: 8b0d0a9f7b690ab4dbe3ae8dace7c470, type: 3}
+  - {fileID: 1416034816194826421, guid: d476e1f867107c740aff5592e6c7ea4f, type: 3}
+  - {fileID: 1416034816194826421, guid: 53a0bc79f819e2b4b8030e0544f5e614, type: 3}
+  - {fileID: 1416034816194826421, guid: d90a79e1a1f712d408e2c6c248734c4c, type: 3}
   - {fileID: 1416034816194826421, guid: 1725f8178c26e4042af1f2a0bb417a65, type: 3}
-  - {fileID: 1416034816194826421, guid: 3f3ff09e39585d541820d5a596ab1633, type: 3}
   AddonsList:
   - {fileID: 0}
   - {fileID: 3543289598363116449, guid: d5138ad908ae91e4780b3c4fe6e01d94, type: 3}
   - {fileID: 8695674709498889404, guid: b77941fbfd6136c4bb6e0583655c080f, type: 3}
   - {fileID: 3543289598363116449, guid: 31db16e50949f174d9dfe3ddadbc328f, type: 3}
-  - {fileID: 6981895399783706324, guid: bfb70a556d2142d4da282e6da4db1d2a, type: 3}
   - {fileID: 478803169245902050, guid: f92651877231ea347a87068a398422e8, type: 3}
   - {fileID: 6525164953091217941, guid: 74a307c1c047a50469ac15dddcbac517, type: 3}
   - {fileID: 6979112074168644737, guid: 878752f151d11ab4e955793b203b282e, type: 3}
   CarBodysSprites:
-  - {fileID: 21300000, guid: 1b20a8c417aa25145be7daff40e2f0d7, type: 3}
-  - {fileID: 21300000, guid: 8a9ea63cb6a0bca4795d4ec6f717890e, type: 3}
-  - {fileID: 21300000, guid: d1a8c3e6b02b288498dcb687b8ca0304, type: 3}
-  - {fileID: 21300000, guid: a5f264e95b8cd094b9acd5b3c9d6604c, type: 3}
-  - {fileID: 21300000, guid: a5f264e95b8cd094b9acd5b3c9d6604c, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: aaeca284cd1c3404d8a546fd9ca803c4, type: 3}
+  - {fileID: 21300000, guid: a74178d8101619e4b8c5df692e789edc, type: 3}
+  - {fileID: 21300000, guid: 2e07cd11930059341aa5dc2faa36e2f7, type: 3}
+  - {fileID: 21300000, guid: 6b3307c1df929d14fb821dac72d15f16, type: 3}
+  - {fileID: 21300000, guid: a83f77de81c7ddc4481b7af4fe1aeb27, type: 3}
+  - {fileID: 21300000, guid: 798c312691f4eee4e8b2b9abdcc0c8d8, type: 3}
   LeftTireSprites:
-  - {fileID: 21300000, guid: d38c601e94b481d4dbaefd7ea84b8ef6, type: 3}
-  - {fileID: 21300000, guid: 9b12f05b43283d040a536a32dcdc54ec, type: 3}
-  - {fileID: 21300000, guid: eae80f9024f962f4cafbe8f41b98a955, type: 3}
-  - {fileID: 21300000, guid: 08354f5a9d6a1904bbfc4e6406071e9a, type: 3}
-  - {fileID: 21300000, guid: 08354f5a9d6a1904bbfc4e6406071e9a, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 8de6815d4e99c5b41a1d29364784205c, type: 3}
+  - {fileID: 21300000, guid: 4c9277ed84eb61242859b49a8f979696, type: 3}
+  - {fileID: 21300000, guid: cf8408c1b8a3f2f4a9781484acd17f6c, type: 3}
+  - {fileID: 21300000, guid: 4fbc801840fe1fb4b9e12d5d76e07546, type: 3}
+  - {fileID: 21300000, guid: 6c8140f352afdeb4d8ba7006a82ac749, type: 3}
+  - {fileID: 21300000, guid: a0199ea6d379bc4409667d004d1e2057, type: 3}
+  - {fileID: 21300000, guid: 955bd9bb298676f44926eacb31cfd3f1, type: 3}
   RightTireSprites:
-  - {fileID: 21300000, guid: d38c601e94b481d4dbaefd7ea84b8ef6, type: 3}
-  - {fileID: 21300000, guid: 9b12f05b43283d040a536a32dcdc54ec, type: 3}
-  - {fileID: 21300000, guid: eae80f9024f962f4cafbe8f41b98a955, type: 3}
-  - {fileID: 21300000, guid: 08354f5a9d6a1904bbfc4e6406071e9a, type: 3}
-  - {fileID: 21300000, guid: 08354f5a9d6a1904bbfc4e6406071e9a, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 8de6815d4e99c5b41a1d29364784205c, type: 3}
+  - {fileID: 21300000, guid: 4c9277ed84eb61242859b49a8f979696, type: 3}
+  - {fileID: 21300000, guid: cf8408c1b8a3f2f4a9781484acd17f6c, type: 3}
+  - {fileID: 21300000, guid: 4fbc801840fe1fb4b9e12d5d76e07546, type: 3}
+  - {fileID: 21300000, guid: 6c8140f352afdeb4d8ba7006a82ac749, type: 3}
+  - {fileID: 21300000, guid: a0199ea6d379bc4409667d004d1e2057, type: 3}
+  - {fileID: 21300000, guid: 955bd9bb298676f44926eacb31cfd3f1, type: 3}
   AddonsSprites:
   - {fileID: 21300000, guid: ca4eeda666a83724e8955c73497ff06b, type: 3}
   - {fileID: 21300000, guid: 6c5f402d2d8946446bfb5d53c93b1b75, type: 3}
   - {fileID: 21300000, guid: f86f61f0c378afa46bf1273d6f567ca4, type: 3}
   - {fileID: 21300000, guid: 0c132cf803a37e740a1decf04907088f, type: 3}
-  - {fileID: 21300000, guid: 289f3319573c632419321e717f9c5c18, type: 3}
   - {fileID: 21300000, guid: c191f903425b6c9408b8896218c9ce2e, type: 3}
-  - {fileID: 21300000, guid: ca4eeda666a83724e8955c73497ff06b, type: 3}
-  - {fileID: 21300000, guid: ca4eeda666a83724e8955c73497ff06b, type: 3}
+  - {fileID: 21300000, guid: d246e507c514b3348b08ed149408c7e0, type: 3}
+  - {fileID: 21300000, guid: e92dc2e40bda9c94589e709c9a59bd10, type: 3}

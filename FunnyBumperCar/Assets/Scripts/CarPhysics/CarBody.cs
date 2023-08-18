@@ -353,7 +353,6 @@ public class CarBody : MonoBehaviour, ICanBeExploded
                 Escape();
             }
         }
-
         escapeCDTimer += Time.fixedDeltaTime;
         if (TestChangeCommand)
         {
@@ -399,7 +398,11 @@ public class CarBody : MonoBehaviour, ICanBeExploded
             var ableToDrive = tiresAbleToDriveMap[tireLocation];
             var ableToSteer = tiresAbleToSteerMap[tireLocation];
 
-            bool isAssistSteerTire = tireLocation == TireLocation.BackLeft || tireLocation == TireLocation.BackRight;
+            bool isAssistSteerTire = false;
+            if (tireSteerMode == TireSteerMode.FourSteer)
+            {
+                isAssistSteerTire = tireLocation == TireLocation.BackLeft || tireLocation == TireLocation.BackRight;
+            }
 
 
             bool isOnGround = tirePhysics.ColliderBasedRaycast(this, tireConnectPoint, out float minRaycastDistance);
@@ -429,13 +432,14 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
             if (ableToSteer)
             {
-                tirePhysics.SteerTireRotation(TireRotateSignal, transform, steerRotateTime, isAssistSteerTire);
+                tirePhysics.SteerTireRotation(TireRotateSignal, transform, steerRotateTime, isAssistSteerTire, tireSteerMode == TireSteerMode.RearSteer);
             }
 
             tirePhysics.StoreHitInfo(this);
 
             // set current engine Torque
-            tirePhysics.motorTorque = ableToDrive ? CarDriveSignal * engineMaxTorque : 0f;
+            tirePhysics.motorTorque = (tireDriveMode == TireDriveMode.FourDrive ? 1f : 2f) *
+                                      (ableToDrive ? CarDriveSignal * engineMaxTorque : 0f);
             tirePhysics.IsBraking = isBraking;
 
             tirePhysics.SimulateFriction(this);
