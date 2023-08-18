@@ -24,6 +24,8 @@ public class CarAssembleManager : MonoBehaviour
     {
         Instance = this;
         playerInputManager = FindObjectOfType<PlayerInputManager>();
+        playerInputManager.enabled = false;
+        playerInputManager.enabled = true;
         DontDestroyOnLoad(playerInputManager);
     }
 
@@ -37,6 +39,7 @@ public class CarAssembleManager : MonoBehaviour
         playerAssembleDoneList[playerIndex] = !playerAssembleDoneList[playerIndex];
         readyCarList.Add(car);
         selectionMaps.Add(selectionMap);
+        selectionMap.Disable();
 
         bool isAllDone = true;
         if (readyCarList.Count < 2)

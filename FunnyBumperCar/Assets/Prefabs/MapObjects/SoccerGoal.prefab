@@ -659,6 +659,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FX_Confetti_Shot_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1544843790154516, guid: 3a9926addcd9ce44cad6e6fe7b978792, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4099075151687550, guid: 3a9926addcd9ce44cad6e6fe7b978792, type: 3}
       propertyPath: m_RootOrder
       value: 0

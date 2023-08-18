@@ -24,12 +24,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1191459612070868234}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 0.084, y: 0, z: 0}
   m_LocalScale: {x: 1.0511299, y: 0.81391996, z: 0.81391996}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1416034816194826421}
+  m_Father: {fileID: 6642359410987335112}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!64 &9189821770781373467
@@ -330,6 +330,11 @@ PrefabInstance:
       propertyPath: steeringCurve.m_Curve.Array.data[3].outSlope
       value: -0.07220291
       objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871266, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
+      propertyPath: isWheelRotate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871267, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: m_RootOrder
@@ -477,9 +482,9 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!4 &1416034816194826421 stripped
+--- !u!4 &6642359410987335112 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 3579344537826871267, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+  m_CorrespondingSourceObject: {fileID: 9089601587341978270, guid: 21b911a1bb57ccf4b8b1c902c98626be,
     type: 3}
   m_PrefabInstance: {fileID: 2452956347143493462}
   m_PrefabAsset: {fileID: 0}

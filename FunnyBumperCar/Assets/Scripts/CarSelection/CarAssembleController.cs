@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -144,6 +145,10 @@ public class CarAssembleController : MonoBehaviour
         selectorListUI.ComponentsListSO = componentsListSO;
         selectorListUI.assembleController = this;
         player.BindSelectionInputActions(selectorListUI);
+    }
+
+    private void OnDestroy()
+    {
     }
 
     private void InitializeCar()

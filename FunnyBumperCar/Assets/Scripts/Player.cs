@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -19,9 +18,11 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-       playerInput = GetComponent<PlayerInput>();
+        playerInput = GetComponent<PlayerInput>();
         player = playerInput.actions.FindActionMap("Player");
-        selection = playerInput.actions.FindActionMap("Selection");
+        player.Disable();
+        selection = playerInput.actions.FindActionMap("Selection"); 
+        selection.Enable();
         playerIndex = playerInput.playerIndex;
     }
 
@@ -32,18 +33,42 @@ public class Player : MonoBehaviour
         assembleController.carSpawnTransform = CarAssembleManager.Instance.GetAssemblePositionForCar(playerIndex);
         presentPlarform = assembleController.carSpawnTransform.GetComponentInParent<CarPresentPlatform>();
         assembleController.player = this;
-        
+
         CarAssembleManager.Instance.InitializePlayer(playerInput);
     }
 
     public void BindSelectionInputActions(SelectorListUI listUI)
     {
-        selection.FindAction("MoveUp").performed += context => { listUI.OnCursorUp(); };
-        selection.FindAction("MoveDown").performed += context => { listUI.OnCursorDown(); };
-        selection.FindAction("MoveRight").performed += context => { listUI.OnCursorRight(); };
-        selection.FindAction("MoveLeft").performed += context => { listUI.OnCursorLeft(); };
-        selection.FindAction("Select").performed += context => { listUI.OnSelect(); };
-        selection.FindAction("SelectDone").performed += context => { OnAssembleDone(); };
+        selection.FindAction("MoveUp").performed += context =>
+        {
+            if (listUI == null) return;
+            listUI.OnCursorUp();
+        };
+        selection.FindAction("MoveDown").performed += context =>
+        {
+            if (listUI == null) return;
+            listUI.OnCursorDown();
+        };
+        selection.FindAction("MoveRight").performed += context =>
+        {
+            if (listUI == null) return;
+            listUI.OnCursorRight();
+        };
+        selection.FindAction("MoveLeft").performed += context =>
+        {
+            if (listUI == null) return;
+            listUI.OnCursorLeft();
+        };
+        selection.FindAction("Select").performed += context =>
+        {
+            if (listUI == null) return;
+            listUI.OnSelect();
+        };
+        selection.FindAction("SelectDone").performed += context =>
+        {
+            if (listUI == null) return;
+            OnAssembleDone();
+        };
     }
 
     private void OnAssembleDone()
@@ -55,22 +80,25 @@ public class Player : MonoBehaviour
         CarAssembleManager.Instance.OnCarAssembleStateChange(playerIndex, carTransform, selection);
     }
 
+    private void OnDestroy()
+    {
+        selection.Disable();
+        player.Disable();
+    }
+
     public void OnGameModeStart()
     {
         selection.Disable();
+        selection.RemoveAllBindingOverrides();
         player.Enable();
         isGamePlaying = true;
         carBody = carTransform.GetComponent<CarBody>();
         carBody.BindAddonInputActions(player);
         //initialize carManager;
+        player.FindAction("StopGame").performed += CarsAndCameraManager.Instance.PauseGame;
         CarsAndCameraManager.Instance.RegisterCar(carTransform, playerIndex);
         SceneManager.MoveGameObjectToScene(carBody.gameObject, SceneManager.GetActiveScene());
-    }
-
-    private void OnEnable()
-    {
-        player.Enable();
-        selection.Enable();
+        SceneManager.MoveGameObjectToScene(this.gameObject, SceneManager.GetActiveScene());
     }
 
     private void FixedUpdate()
@@ -80,6 +108,7 @@ public class Player : MonoBehaviour
             var rotateSignal = selection.FindAction("PlatformRotation").ReadValue<Vector2>();
             presentPlarform.RotateSignal = rotateSignal;
         }
+
         if (isGamePlaying)
         {
             var moveInputVector = player.FindAction("Move").ReadValue<Vector2>();

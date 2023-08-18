@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameModeFootball : GameModeBase
 {
@@ -24,6 +28,8 @@ public class GameModeFootball : GameModeBase
     [SerializeField] private float onSoccerInGoalWinShowTime = 3f;
 
     [SerializeField] private List<SoccerScoreBoard> scoreBoardList;
+    [SerializeField] private Button returnMainMenuButton;
+    [SerializeField] private Button returnMainMenuButton2;
     private Transform footBallInstance;
 
     private bool isGameOver = false;
@@ -40,7 +46,40 @@ public class GameModeFootball : GameModeBase
         SpawnFootball();
 
         PlayerInputManager.instance.splitScreen = true;
+        SceneManager.MoveGameObjectToScene(PlayerInputManager.instance.gameObject, SceneManager.GetActiveScene());
+
+        SceneManager.MoveGameObjectToScene(DOTween.instance.gameObject, SceneManager.GetActiveScene());
+        returnMainMenuButton.onClick.AddListener(
+            delegate
+            {
+                Time.timeScale = 1f;
+                SceneManager.LoadScene("StartScene");
+                
+                foreach (var player in players)
+                {
+                    Destroy(player);
+                }
+            });
+        
+        returnMainMenuButton2.onClick.AddListener(
+            delegate
+            {
+                Time.timeScale = 1f;
+                SceneManager.LoadScene("StartScene");
+                
+                foreach (var player in players)
+                {
+                    Destroy(player);
+                }
+            });
     }
+
+    private void OnDestroy()
+    {
+        returnMainMenuButton.onClick.RemoveAllListeners();
+        returnMainMenuButton2.onClick.RemoveAllListeners();
+    }
+
 
     private void SpawnFootball()
     {

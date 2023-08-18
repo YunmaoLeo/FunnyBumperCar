@@ -435,55 +435,9 @@ Transform:
   - {fileID: 1008025096109764318}
   - {fileID: 1017214956149589859}
   - {fileID: 2365402447847201181}
-  m_Father: {fileID: 1416034816194826421}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7190004962058986271
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 798742362954650177}
-  - component: {fileID: 6424227827164261259}
-  m_Layer: 2
-  m_Name: BottomHalfCollider (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &798742362954650177
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7190004962058986271}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 1416034816194826421}
+  m_Father: {fileID: 6642359410987335112}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &6424227827164261259
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7190004962058986271}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300068, guid: 1e079ea5c4787ca438362604af81f5c3, type: 3}
 --- !u!1 &7642641850402426441
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,7 +767,7 @@ PrefabInstance:
         type: 3}
       propertyPath: BottomHalfCollider
       value: 
-      objectReference: {fileID: 798742362954650177}
+      objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: springDefaultLength
@@ -858,6 +812,11 @@ PrefabInstance:
         type: 3}
       propertyPath: steeringCurve.m_Curve.Array.data[3].outSlope
       value: -0.07220291
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871266, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
+      propertyPath: isWheelRotate
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871267, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
@@ -966,9 +925,9 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!4 &1416034816194826421 stripped
+--- !u!4 &6642359410987335112 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 3579344537826871267, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+  m_CorrespondingSourceObject: {fileID: 9089601587341978270, guid: 21b911a1bb57ccf4b8b1c902c98626be,
     type: 3}
   m_PrefabInstance: {fileID: 2452956347143493462}
   m_PrefabAsset: {fileID: 0}

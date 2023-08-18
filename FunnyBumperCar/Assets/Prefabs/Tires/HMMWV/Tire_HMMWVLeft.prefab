@@ -230,6 +230,11 @@ PrefabInstance:
       propertyPath: steeringCurve.m_Curve.Array.data[3].outSlope
       value: -3.5798192
       objectReference: {fileID: 0}
+    - target: {fileID: 3579344537826871266, guid: 21b911a1bb57ccf4b8b1c902c98626be,
+        type: 3}
+      propertyPath: isWheelRotate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871267, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: m_RootOrder

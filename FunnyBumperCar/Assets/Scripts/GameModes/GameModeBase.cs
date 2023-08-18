@@ -63,4 +63,8 @@ public class GameModeBase : MonoBehaviour
         }
         return -1;
     }
+
+    public virtual void PauseGame(InputAction.CallbackContext obj)
+    {
+    }
 }

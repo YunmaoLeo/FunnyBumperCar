@@ -116,6 +116,15 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""StopGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""28679895-c596-4fb8-b2b0-8f6a24328584"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -424,6 +433,28 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea0098ec-eb84-4de7-bc69-5fe0050898f2"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""StopGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b89a98a-6cd1-4875-a122-98b0b6a58dc9"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""StopGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -785,6 +816,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         m_Player_Drifting = m_Player.FindAction("Drifting", throwIfNotFound: true);
         m_Player_Join = m_Player.FindAction("Join", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+        m_Player_StopGame = m_Player.FindAction("StopGame", throwIfNotFound: true);
         // Selection
         m_Selection = asset.FindActionMap("Selection", throwIfNotFound: true);
         m_Selection_MoveUp = m_Selection.FindAction("MoveUp", throwIfNotFound: true);
@@ -865,6 +897,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Drifting;
     private readonly InputAction m_Player_Join;
     private readonly InputAction m_Player_Look;
+    private readonly InputAction m_Player_StopGame;
     public struct PlayerActions
     {
         private @GameInputActions m_Wrapper;
@@ -879,6 +912,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         public InputAction @Drifting => m_Wrapper.m_Player_Drifting;
         public InputAction @Join => m_Wrapper.m_Player_Join;
         public InputAction @Look => m_Wrapper.m_Player_Look;
+        public InputAction @StopGame => m_Wrapper.m_Player_StopGame;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -918,6 +952,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @StopGame.started += instance.OnStopGame;
+            @StopGame.performed += instance.OnStopGame;
+            @StopGame.canceled += instance.OnStopGame;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -952,6 +989,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @StopGame.started -= instance.OnStopGame;
+            @StopGame.performed -= instance.OnStopGame;
+            @StopGame.canceled -= instance.OnStopGame;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1093,6 +1133,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         void OnDrifting(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnStopGame(InputAction.CallbackContext context);
     }
     public interface ISelectionActions
     {

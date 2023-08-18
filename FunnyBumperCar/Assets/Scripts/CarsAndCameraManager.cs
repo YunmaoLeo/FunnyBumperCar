@@ -1,6 +1,7 @@
 using System.Collections;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CarsAndCameraManager : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class CarsAndCameraManager : MonoBehaviour
 
     private Transform P1CarTransform;
     private Transform P2CarTransform;
+
+    private bool isPause = false;
+    [SerializeField] private Transform PauseGameUI;
 
     private void Awake()
     {
@@ -56,5 +60,21 @@ public class CarsAndCameraManager : MonoBehaviour
     public Transform GetHostileCar()
     {
         return Random.Range(0, 2) == 1 ? P1CarTransform : P2CarTransform;
+    }
+
+    public void PauseGame(InputAction.CallbackContext obj)
+    {
+        if (!isPause)
+        {
+            isPause = true;
+            Time.timeScale = 0f;
+            PauseGameUI.gameObject.SetActive(true);
+        }
+        else
+        {
+            isPause = false;
+            Time.timeScale = 1f;
+            PauseGameUI.gameObject.SetActive(false);
+        }
     }
 }

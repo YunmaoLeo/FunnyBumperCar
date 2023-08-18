@@ -8,6 +8,6 @@
 
         public void SetWinnerText(int playerIndex)
         {
-            winnerText.text = "Winner: Player" + (playerIndex + 1);
+            winnerText.text = "胜利者: Player" + (playerIndex + 1);
         }
     }

@@ -8,13 +8,9 @@ public class TireVisual : MonoBehaviour
 {
     private float radius = 0.3f;
     private float worldVelocity;
-    private Transform wheelMeshTransform;
     [SerializeField] private bool isWheelRotate = true;
-
-    private void Awake()
-    {
-        wheelMeshTransform = transform.GetChild(0);
-    }
+    [SerializeField] private Transform wheelMeshTransform;
+    
 
     public float  WorldVelocity
     {

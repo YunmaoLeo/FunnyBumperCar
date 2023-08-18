@@ -9,6 +9,11 @@ public class SoccerGoal : MonoBehaviour
     public int PlayerIndex;
     public ParticleSystem OnGoalFX;
 
+    private void Start()
+    {
+        OnGoalFX.Stop();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         var soccer = other.GetComponentInParent<Soccer>();
