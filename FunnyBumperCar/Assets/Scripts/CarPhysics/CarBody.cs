@@ -71,13 +71,15 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     [SerializeField] private ConfigurableJoint rightDoorJoint;
     [SerializeField] private float doorMaxCollideStrength = 10f;
 
+    [SerializeField] private List<ConfigurableJoint> breakableJoints = new List<ConfigurableJoint>();
+    [SerializeField] private float maxJointBreakDetectDistance = 1f;
+    
     [SerializeField] private PlayerIndicator PlayerIndicatorUIPrefab;
     private PlayerIndicator PlayerIndicatorUI;
 
     private List<AddonSlot> slotLists = new List<AddonSlot>();
 
     private List<GameObject> colliderObjects;
-    private List<Collider> colliderList;
     private List<int> initColliderLayers;
 
     public float TireRotateSignal { get; set; }
@@ -623,21 +625,23 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         var collidePoint = collision.contacts[0].point;
 
         // handle door destroy
-        HandleDoorCollisionDestroy(collideStrength, collidePoint);
+        HandleJointCollisionDestroy(collideStrength, collidePoint);
     }
 
-    private void HandleDoorCollisionDestroy(float collideStrength, Vector3 collidePoint)
+    private void HandleJointCollisionDestroy(float collideStrength, Vector3 collidePoint)
     {
-        if (leftDoorJoint == null || rightDoorJoint == null)
+        if (collideStrength < doorMaxCollideStrength)
         {
             return;
         }
-
-        if (collideStrength > doorMaxCollideStrength)
+        foreach (var joint in breakableJoints)
         {
-            leftDoorJoint.angularXMotion = ConfigurableJointMotion.Limited;
-            rightDoorJoint.angularXMotion = ConfigurableJointMotion.Limited;
+            if (Vector3.Distance(collidePoint, joint.transform.position) < maxJointBreakDetectDistance)
+            {
+                joint.angularXMotion = ConfigurableJointMotion.Limited;
+            }
         }
+
     }
 
     private AddonSlot GetAddonSlot(AddonSlot.AddonSlotType type)
@@ -657,7 +661,6 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     {
         colliderObjects = new List<GameObject>();
         initColliderLayers = new List<int>();
-        colliderList = new List<Collider>();
 
         Collider[] colliders = GetComponentsInChildren<Collider>(true);
         foreach (var c in colliders)
