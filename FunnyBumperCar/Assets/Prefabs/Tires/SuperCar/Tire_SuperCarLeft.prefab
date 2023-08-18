@@ -194,7 +194,7 @@ PrefabInstance:
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: springMaxLength
-      value: 0.7
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
@@ -214,7 +214,7 @@ PrefabInstance:
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: springDefaultLength
-      value: 0.7
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}

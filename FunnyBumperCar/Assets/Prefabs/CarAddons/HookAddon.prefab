@@ -293,9 +293,9 @@ ConfigurableJoint:
     maximumForce: 3.4028233e+38
   m_ZDrive:
     serializedVersion: 3
-    positionSpring: 500
+    positionSpring: 1000
     positionDamper: 20
-    maximumForce: 2000
+    maximumForce: 5000
   m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_TargetAngularVelocity: {x: 0, y: 0, z: 0}
   m_RotationDriveMode: 0
@@ -321,7 +321,7 @@ ConfigurableJoint:
   m_SwapBodies: 0
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_EnableCollision: 1
+  m_EnableCollision: 0
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
@@ -333,7 +333,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 943773746101317609}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.4077232, y: 0.2627105, z: 0.46180263}
@@ -390,11 +390,11 @@ MonoBehaviour:
   AddonType: 0
   AddonName: Hook
   ConfigFloatSlideRangeCommandsList: []
-  maxStretchLength: 5
-  maxDuration: 4
+  maxStretchLength: 8
+  maxDuration: 8
   hookStretchSpeed: 10
   retrieveSpeed: 20
-  retrieveForce: 500
+  retrieveForce: 5000
   hookLine: {fileID: 943773746501763171}
   hookBase: {fileID: 943773746917286748}
   hookTransform: {fileID: 943773746101317608}
@@ -405,7 +405,7 @@ MonoBehaviour:
   hookConfigJoint: {fileID: 6962802704040881203}
   hookBaseRb: {fileID: 943773746203415186}
   ejectZDriveForce: 100
-  retrieveZDriveForce: 1000
+  retrieveZDriveForce: 1500
   hookBaseConnectTransform: {fileID: 7247660486607014620}
   hookConnectTransform: {fileID: 5085406150988396262}
 --- !u!54 &943773746203415186

@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/StartScene.unity
     guid: b12430cfb9e59f84795d7caf2d7057fc
   - enabled: 1
@@ -14,7 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LevelScenes/CarFootballLevel.unity
     guid: 425675fc7c9a241439254e6b825aea87
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/LevelScenes/CombatLevel.unity
     guid: 94cc7bd8c95206341888a23803639df6
+  - enabled: 0
+    path: Assets/Scenes/LevelScenes/CarPlayGroundLevel.unity
+    guid: 73a718e37e047fd45a5de829b569b88e
   m_configObjects: {}

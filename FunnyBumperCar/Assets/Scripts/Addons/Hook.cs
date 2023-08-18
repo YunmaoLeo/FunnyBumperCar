@@ -18,23 +18,41 @@ public class Hook : MonoBehaviour
     private FixedJoint fixedJoint;
     private Vector3 currentNormal;
     
-    private void OnCollisionEnter(Collision collision)
+    // private void OnCollisionEnter(Collision collision)
+    // {
+    //     if (!isActive || isAttaching)
+    //     {
+    //         return;
+    //     }
+    //
+    //     if (collision.transform.GetComponentInParent<CarBody>() == GetComponentInParent<CarBody>())
+    //     {
+    //         return;
+    //     }
+    //
+    //     attachedRb = collision.rigidbody;
+    //     isAttaching = true;
+    //     fixedJoint = transform.AddComponent<FixedJoint>();
+    //     fixedJoint.connectedBody = attachedRb;
+    //     // InsertOrDrawHookMesh(0.2f, collision.contacts[0].normal);
+    // }
+
+    private void OnTriggerEnter(Collider other)
     {
         if (!isActive || isAttaching)
         {
             return;
         }
 
-        if (collision.transform.GetComponentInParent<CarBody>() == GetComponentInParent<CarBody>())
+        if (other.transform.GetComponentInParent<CarBody>() == GetComponentInParent<CarBody>())
         {
             return;
         }
 
-        attachedRb = collision.rigidbody;
+        attachedRb = other.attachedRigidbody;
         isAttaching = true;
         fixedJoint = transform.AddComponent<FixedJoint>();
         fixedJoint.connectedBody = attachedRb;
-        InsertOrDrawHookMesh(0.2f, collision.contacts[0].normal);
     }
 
     private void InsertOrDrawHookMesh(float rate, Vector3 hitNormal)

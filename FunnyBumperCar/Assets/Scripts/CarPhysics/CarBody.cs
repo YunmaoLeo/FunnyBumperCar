@@ -69,10 +69,10 @@ public class CarBody : MonoBehaviour, ICanBeExploded
 
     [SerializeField] private ConfigurableJoint leftDoorJoint;
     [SerializeField] private ConfigurableJoint rightDoorJoint;
-    [SerializeField] private float doorMaxCollideStrength = 10f;
+    [SerializeField] private float doorMaxCollideStrength = 1f;
 
     [SerializeField] private List<ConfigurableJoint> breakableJoints = new List<ConfigurableJoint>();
-    [SerializeField] private float maxJointBreakDetectDistance = 1f;
+    [SerializeField] private float maxJointBreakDetectDistance = 5f;
     
     [SerializeField] private PlayerIndicator PlayerIndicatorUIPrefab;
     private PlayerIndicator PlayerIndicatorUI;
@@ -278,6 +278,7 @@ public class CarBody : MonoBehaviour, ICanBeExploded
     public void Escape()
     {
         CarRigidbody.AddForce(Vector3.up * escapeForce, ForceMode.Acceleration);
+        Debug.Log("ISescape");
     }
 
     public void BindAddonInputActions(InputActionMap playerActionMap)

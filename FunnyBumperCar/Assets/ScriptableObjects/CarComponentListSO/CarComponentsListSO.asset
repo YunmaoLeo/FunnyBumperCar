@@ -25,7 +25,6 @@ MonoBehaviour:
   - {fileID: 1416034816194826421, guid: 5878c97f87537c44ab517034056efac7, type: 3}
   - {fileID: 1416034816194826421, guid: d09ab05a8aaa7a9418ee309d730d9745, type: 3}
   - {fileID: 1416034816194826421, guid: 67994ab5a55289c4e87b55d7698a4de3, type: 3}
-  - {fileID: 1416034816194826421, guid: d3ae3646ac72c8745bbd4283575e8e26, type: 3}
   - {fileID: 1416034816194826421, guid: 1725f8178c26e4042af1f2a0bb417a65, type: 3}
   RightTiresList:
   - {fileID: 1416034816194826421, guid: e97eb20a4bf226949bdec409f598fbfb, type: 3}
@@ -33,7 +32,6 @@ MonoBehaviour:
   - {fileID: 1416034816194826421, guid: 8b0d0a9f7b690ab4dbe3ae8dace7c470, type: 3}
   - {fileID: 1416034816194826421, guid: d476e1f867107c740aff5592e6c7ea4f, type: 3}
   - {fileID: 1416034816194826421, guid: 53a0bc79f819e2b4b8030e0544f5e614, type: 3}
-  - {fileID: 1416034816194826421, guid: d90a79e1a1f712d408e2c6c248734c4c, type: 3}
   - {fileID: 1416034816194826421, guid: 1725f8178c26e4042af1f2a0bb417a65, type: 3}
   AddonsList:
   - {fileID: 0}
@@ -56,7 +54,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cf8408c1b8a3f2f4a9781484acd17f6c, type: 3}
   - {fileID: 21300000, guid: 4fbc801840fe1fb4b9e12d5d76e07546, type: 3}
   - {fileID: 21300000, guid: 6c8140f352afdeb4d8ba7006a82ac749, type: 3}
-  - {fileID: 21300000, guid: a0199ea6d379bc4409667d004d1e2057, type: 3}
   - {fileID: 21300000, guid: 955bd9bb298676f44926eacb31cfd3f1, type: 3}
   RightTireSprites:
   - {fileID: 21300000, guid: 8de6815d4e99c5b41a1d29364784205c, type: 3}
@@ -64,7 +61,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cf8408c1b8a3f2f4a9781484acd17f6c, type: 3}
   - {fileID: 21300000, guid: 4fbc801840fe1fb4b9e12d5d76e07546, type: 3}
   - {fileID: 21300000, guid: 6c8140f352afdeb4d8ba7006a82ac749, type: 3}
-  - {fileID: 21300000, guid: a0199ea6d379bc4409667d004d1e2057, type: 3}
   - {fileID: 21300000, guid: 955bd9bb298676f44926eacb31cfd3f1, type: 3}
   AddonsSprites:
   - {fileID: 21300000, guid: ca4eeda666a83724e8955c73497ff06b, type: 3}

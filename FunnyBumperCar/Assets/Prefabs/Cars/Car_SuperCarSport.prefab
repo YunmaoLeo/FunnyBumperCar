@@ -248,10 +248,12 @@ MonoBehaviour:
   leftDoorJoint: {fileID: 0}
   rightDoorJoint: {fileID: 0}
   doorMaxCollideStrength: 10
+  breakableJoints: []
+  maxJointBreakDetectDistance: 1
   PlayerIndicatorUIPrefab: {fileID: -4741203564953807832, guid: 374218ebc5df31f449b279aed89495ee,
     type: 3}
   escapeCD: 20
-  escapeForce: 10
+  escapeForce: 5000
   EscapeTrigger: 0
   TestChangeCommand: 0
   TestChangeCommandTargetValue: 0

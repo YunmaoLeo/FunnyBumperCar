@@ -8,8 +8,6 @@ using UnityEngine.SceneManagement;
 public class CarAssembleManager : MonoBehaviour
 {
     [SerializeField] private List<CarPresentPlatform> assemblePositionLists;
-    [SerializeField] private List<SceneAsset> GameScenes;
-
     private List<Transform> readyCarList = new List<Transform>();
     private PlayerInputManager playerInputManager;
     protected List<PlayerInput> playerInputs = new List<PlayerInput>();
@@ -71,10 +69,11 @@ public class CarAssembleManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private string nextSceneName;
+
     private void LoadNewScene()
     {
-        var scene = GameScenes[0];
-        SceneManager.LoadSceneAsync(scene.name);
+        SceneManager.LoadSceneAsync(nextSceneName);
     }
 
     public void InitializePlayer(PlayerInput playerInput)

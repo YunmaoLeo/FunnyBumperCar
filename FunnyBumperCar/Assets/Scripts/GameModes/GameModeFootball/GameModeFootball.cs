@@ -53,7 +53,7 @@ public class GameModeFootball : GameModeBase
             delegate
             {
                 Time.timeScale = 1f;
-                SceneManager.LoadScene("StartScene");
+                SceneManager.LoadScene("CarSelectionScene");
                 
                 foreach (var player in players)
                 {
@@ -65,7 +65,7 @@ public class GameModeFootball : GameModeBase
             delegate
             {
                 Time.timeScale = 1f;
-                SceneManager.LoadScene("StartScene");
+                SceneManager.LoadScene("CarSelectionScene");
                 
                 foreach (var player in players)
                 {
