@@ -114,10 +114,12 @@ public class Player : MonoBehaviour
             var moveInputVector = player.FindAction("Move").ReadValue<Vector2>();
             var isBraking = player.FindAction("CarBrake").ReadValue<float>() != 0;
             var isDrifting = player.FindAction("Drifting").ReadValue<float>() != 0;
+            var isEscape = player.FindAction("Escape").ReadValue<float>() != 0;
             carBody.TireRotateSignal = moveInputVector.x;
             carBody.CarDriveSignal = moveInputVector.y;
             carBody.IsBraking = isBraking;
             carBody.IsDrifting = isDrifting;
+            carBody.EscapeTrigger = isEscape;
         }
     }
 }

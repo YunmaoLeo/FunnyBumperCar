@@ -72,6 +72,8 @@ public class GameModeFootball : GameModeBase
                     Destroy(player);
                 }
             });
+        
+        CarsAndCameraManager.Instance.PauseGame();
     }
 
     private void OnDestroy()

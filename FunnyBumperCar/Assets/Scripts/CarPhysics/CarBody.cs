@@ -269,6 +269,15 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         return false;
     }
 
+    [SerializeField] private float escapeCD = 20f;
+    [SerializeField] private float escapeForce = 100f;
+    private float escapeCDTimer = 0f;
+    public bool EscapeTrigger = false;
+    public void Escape()
+    {
+        CarRigidbody.AddForce(Vector3.up * escapeForce, ForceMode.Acceleration);
+    }
+
     public void BindAddonInputActions(InputActionMap playerActionMap)
     {
         var addonsCount = CarsAddonsTransform.childCount;
@@ -335,6 +344,17 @@ public class CarBody : MonoBehaviour, ICanBeExploded
         Time.fixedDeltaTime = fixedDeltaTime;
         CarTireSimulation();
 
+        if (EscapeTrigger)
+        {
+            if (escapeCDTimer > escapeCD)
+            {
+                EscapeTrigger = false;
+                escapeCDTimer = 0f;
+                Escape();
+            }
+        }
+
+        escapeCDTimer += Time.fixedDeltaTime;
         if (TestChangeCommand)
         {
             TestChangeCommand = false;

@@ -125,6 +125,15 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""639f4154-c09e-4cb8-aba4-45607cffdab7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -455,6 +464,28 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""StopGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2a0c70a6-bd35-4256-8b32-6743c7a160c0"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""37803c06-33de-42f4-835c-c5c9b0641006"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -817,6 +848,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         m_Player_Join = m_Player.FindAction("Join", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_StopGame = m_Player.FindAction("StopGame", throwIfNotFound: true);
+        m_Player_Escape = m_Player.FindAction("Escape", throwIfNotFound: true);
         // Selection
         m_Selection = asset.FindActionMap("Selection", throwIfNotFound: true);
         m_Selection_MoveUp = m_Selection.FindAction("MoveUp", throwIfNotFound: true);
@@ -898,6 +930,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Join;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_StopGame;
+    private readonly InputAction m_Player_Escape;
     public struct PlayerActions
     {
         private @GameInputActions m_Wrapper;
@@ -913,6 +946,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         public InputAction @Join => m_Wrapper.m_Player_Join;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @StopGame => m_Wrapper.m_Player_StopGame;
+        public InputAction @Escape => m_Wrapper.m_Player_Escape;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -955,6 +989,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @StopGame.started += instance.OnStopGame;
             @StopGame.performed += instance.OnStopGame;
             @StopGame.canceled += instance.OnStopGame;
+            @Escape.started += instance.OnEscape;
+            @Escape.performed += instance.OnEscape;
+            @Escape.canceled += instance.OnEscape;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -992,6 +1029,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @StopGame.started -= instance.OnStopGame;
             @StopGame.performed -= instance.OnStopGame;
             @StopGame.canceled -= instance.OnStopGame;
+            @Escape.started -= instance.OnEscape;
+            @Escape.performed -= instance.OnEscape;
+            @Escape.canceled -= instance.OnEscape;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1134,6 +1174,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         void OnJoin(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnStopGame(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
     public interface ISelectionActions
     {

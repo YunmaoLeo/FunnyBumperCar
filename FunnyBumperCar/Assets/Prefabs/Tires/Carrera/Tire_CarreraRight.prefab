@@ -767,7 +767,7 @@ PrefabInstance:
         type: 3}
       propertyPath: BottomHalfCollider
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8540848416728609521}
     - target: {fileID: 3579344537826871265, guid: 21b911a1bb57ccf4b8b1c902c98626be,
         type: 3}
       propertyPath: springDefaultLength

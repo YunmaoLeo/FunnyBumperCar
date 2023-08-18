@@ -62,7 +62,7 @@ public class CarsAndCameraManager : MonoBehaviour
         return Random.Range(0, 2) == 1 ? P1CarTransform : P2CarTransform;
     }
 
-    public void PauseGame(InputAction.CallbackContext obj)
+    public void PauseGame()
     {
         if (!isPause)
         {
@@ -76,5 +76,10 @@ public class CarsAndCameraManager : MonoBehaviour
             Time.timeScale = 1f;
             PauseGameUI.gameObject.SetActive(false);
         }
+    }
+
+    public void PauseGame(InputAction.CallbackContext obj)
+    {
+        PauseGame();
     }
 }
